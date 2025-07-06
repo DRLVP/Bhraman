@@ -1,0 +1,143 @@
+'use client';
+
+import { useState, useEffect, use } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import BookingForm from '@/components/forms/BookingForm';
+import useAuth from '@/hooks/useUserAuth';
+
+// Empty package data structure
+const emptyPackage = {
+  _id: '',
+  title: '',
+  slug: '',
+  location: '',
+  duration: 0,
+  price: 0,
+  discountedPrice: 0,
+  maxGroupSize: 0,
+  images: [],
+};
+
+export default function BookPackagePage({ params }: { params: Promise<{ slug: string }> }) {
+  const router = useRouter();
+  const { isSignedIn, isLoaded } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [packageInfo, setPackageInfo] = useState<any>(null);
+  const { slug } = use(params); // Unwrap the params Promise with React.use()
+
+  // Check if user is authenticated
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      // Redirect to Clerk's sign-in page with return URL
+      router.push(`/sign-in?redirect_url=${encodeURIComponent(`/book/${slug}`)}`);
+    }
+  }, [isLoaded, isSignedIn, router, slug]);
+
+  useEffect(() => {
+    // Fetch the package data based on the slug
+    const fetchPackage = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/packages/${slug}`);
+        if (!response.ok) throw new Error('Package not found');
+        const data = await response.json();
+        // Make sure we're accessing the data property from the API response
+        setPackageInfo(data.data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPackage();
+  }, [slug]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error || !packageInfo) {
+    return (
+      <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <h1 className="text-2xl font-bold text-red-600 mb-4">Error</h1>
+        <p className="text-gray-600 mb-6">{error || 'Package not found'}</p>
+        <Link href="/packages">
+          <Button>Browse All Packages</Button>
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <main className="py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Breadcrumb */}
+        <div className="mb-6">
+          <Link href={`/packages/${packageInfo.slug}`} className="flex items-center text-primary hover:underline">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Package Details
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+          <div className="md:flex">
+            <div className="md:flex-shrink-0">
+              <img 
+                src={packageInfo.images && packageInfo.images.length > 0 ? packageInfo.images[0] : '/placeholder-image.jpg'} 
+                alt={packageInfo.title} 
+                className="h-48 w-full object-cover md:h-full md:w-48"
+              />
+            </div>
+            <div className="p-6">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                Book {packageInfo.title}
+              </h1>
+              <div className="flex flex-wrap gap-4 text-gray-600 mb-4">
+                <div>{packageInfo.location}</div>
+                <div>•</div>
+                <div>{packageInfo.duration}</div>
+                <div>•</div>
+                <div>Max {packageInfo.maxGroupSize} people</div>
+              </div>
+              <div className="mb-2">
+                <span className="text-gray-600">Price per person:</span>
+              </div>
+              <div className="flex items-center">
+                {packageInfo.discountedPrice ? (
+                  <>
+                    <span className="text-gray-400 line-through text-lg">₹{packageInfo.price ? packageInfo.price.toLocaleString() : '0'}</span>
+                    <span className="text-2xl font-bold text-gray-900 ml-2">₹{packageInfo.discountedPrice ? packageInfo.discountedPrice.toLocaleString() : '0'}</span>
+                    <span className="ml-2 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded">
+                      {Math.round(((packageInfo.price || 0) - (packageInfo.discountedPrice || 0)) / (packageInfo.price || 1) * 100)}% OFF
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-2xl font-bold text-gray-900">₹{packageInfo.price ? packageInfo.price.toLocaleString() : '0'}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Booking Information</h2>
+          <BookingForm 
+            packageId={packageInfo._id} 
+            packageName={packageInfo.title}
+            price={packageInfo.price}
+            discountedPrice={packageInfo.discountedPrice}
+            maxGroupSize={packageInfo.maxGroupSize}
+          />
+        </div>
+      </div>
+    </main>
+  );
+}
