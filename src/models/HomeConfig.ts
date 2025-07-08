@@ -58,6 +58,7 @@ interface IContactSection {
   email: string;
   phone: string;
   address: string;
+  workingHours?: string;
 }
 
 /**
@@ -209,6 +210,10 @@ const HomeConfigSchema = new Schema<IHomeConfig>(
       address: {
         type: String,
         required: true,
+      },
+      workingHours: {
+        type: String,
+        required: false,
       },
     },
     seo: {

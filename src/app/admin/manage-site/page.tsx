@@ -56,6 +56,7 @@ export default function ManageSitePage() {
     email: '',
     phone: '',
     address: '',
+    workingHours: '',
   });
 
   const [seo, setSeo] = useState({
@@ -384,6 +385,16 @@ export default function ManageSitePage() {
                     value={contactSection.address}
                     onChange={(e) => setContactSection({ ...contactSection, address: e.target.value })}
                     placeholder="Enter address"
+                    rows={3}
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Working Hours</label>
+                  <Textarea
+                    value={contactSection.workingHours}
+                    onChange={(e) => setContactSection({ ...contactSection, workingHours: e.target.value })}
+                    placeholder="Enter working hours (e.g. Monday - Friday: 9:00 AM - 6:00 PM)"
                     rows={3}
                   />
                 </div>

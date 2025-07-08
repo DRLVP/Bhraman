@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, MapPin, Calendar, Users, Star } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Users } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import usePackageStore from '@/store/usePackageStore';
@@ -28,7 +28,7 @@ export default function HomeClient() {
         <div 
           className="absolute inset-0 bg-cover bg-center" 
           style={{ 
-            backgroundImage: `url(${homeConfig?.heroSection?.backgroundImage || 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da'})`, 
+            backgroundImage: `url(${homeConfig?.heroSection?.backgroundImage || 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=80'})`, 
             filter: 'brightness(0.7)'
           }}
         />
@@ -41,12 +41,12 @@ export default function HomeClient() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={homeConfig?.heroSection?.ctaLink || '/packages'}>
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white cursor-pointer">
                 {homeConfig?.heroSection?.ctaText || 'Explore Packages'}
               </Button>
             </Link>
             <Link href="/contact">
-              <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/20">
+              <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/20 cursor-pointer">
                 Contact Us
               </Button>
             </Link>
@@ -125,12 +125,12 @@ export default function HomeClient() {
                     
                     <div className="flex gap-3">
                       <Link href={`/packages/${pkg.slug}`} className="flex-1">
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full cursor-pointer">
                           View Details
                         </Button>
                       </Link>
                       <Link href={`/book/${pkg.slug}`} className="flex-1">
-                        <Button className="w-full">
+                        <Button className="w-full cursor-pointer">
                           Book Now
                         </Button>
                       </Link>
@@ -147,7 +147,7 @@ export default function HomeClient() {
           
           <div className="text-center mt-12">
             <Link href="/packages">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 cursor-pointer">
                 View All Packages
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -185,7 +185,7 @@ export default function HomeClient() {
               </div>
               <div className="mt-8">
                 <Link href="/about">
-                  <Button variant="outline" className="flex items-center gap-2">
+                  <Button variant="outline" className="flex items-center gap-2 cursor-pointer">
                     Learn More <ArrowRight size={16} />
                   </Button>
                 </Link>
@@ -193,22 +193,12 @@ export default function HomeClient() {
             </div>
             <div className="relative">
               <Image 
-                src={homeConfig?.aboutSection?.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da"} 
+                src={homeConfig?.aboutSection?.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80"} 
                 alt="About Bhraman" 
                 className="rounded-lg shadow-xl w-full h-auto object-cover"
                 width={600}
                 height={400}
               />
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-6 max-w-xs">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-4xl font-bold text-primary">10+</div>
-                  <div className="text-4xl font-bold text-primary">5000+</div>
-                </div>
-                <div className="flex items-center justify-between text-gray-600">
-                  <div>Years of Experience</div>
-                  <div>Happy Travelers</div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -225,13 +215,13 @@ export default function HomeClient() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/packages">
-              <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-primary hover:bg-gray-100 cursor-pointer">
                 Explore Packages
               </Button>
             </Link>
             <Link href="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Contact Us
+              <Button size="lg" className="bg-white text-primary hover:bg-gray-100 cursor-pointer">
+                Contact us
               </Button>
             </Link>
           </div>

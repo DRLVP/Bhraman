@@ -222,6 +222,8 @@ export default function UsersPage() {
                               className="h-10 w-10 rounded-full object-cover"
                               src={user.profileImage}
                               alt={user.name}
+                              width={40}
+                              height={40}
                             />
                           ) : (
                             <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">

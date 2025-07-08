@@ -11,9 +11,9 @@ const nextConfig: NextConfig = {
     // Add any valid experimental options here if needed
   },
   
-  // Configure images to allow Cloudinary domains
+  // Configure images to allow Cloudinary and Unsplash domains
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'images.unsplash.com', 'via.placeholder.com', 'img.clerk.com'],
   },
   
   // Add webpack configuration to handle Node.js modules

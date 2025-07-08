@@ -56,6 +56,7 @@ interface ContactSection {
   email: string;
   phone: string;
   address: string;
+  workingHours?: string;
 }
 
 // SEO interface

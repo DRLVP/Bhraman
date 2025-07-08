@@ -81,6 +81,8 @@ export default function BookPackagePage({ params }: { params: Promise<{ slug: st
                 src={packageInfo.images && packageInfo.images.length > 0 ? packageInfo.images[0] : '/placeholder-image.jpg'} 
                 alt={packageInfo.title} 
                 className="h-48 w-full object-cover md:h-full md:w-48"
+                width={300}
+                height={300}
               />
             </div>
             <div className="p-6">

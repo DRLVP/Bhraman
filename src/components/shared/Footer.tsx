@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 /**
  * Footer component
@@ -97,31 +97,6 @@ const Footer = () => {
                 <Link href="/packages?location=arunachal-pradesh" className="text-gray-400 hover:text-white transition-colors">
                   Arunachal Pradesh
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact information */}
-          <div className="col-span-1">
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <MapPin className="mr-2 h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400">
-                  123 Travel Street, Guwahati, Assam, India
-                </span>
-              </li>
-              <li className="flex items-center">
-                <Phone className="mr-2 h-5 w-5 text-gray-400" />
-                <a href="tel:+919876543210" className="text-gray-400 hover:text-white transition-colors">
-                  +91 98765 43210
-                </a>
-              </li>
-              <li className="flex items-center">
-                <Mail className="mr-2 h-5 w-5 text-gray-400" />
-                <a href="mailto:info@budhbhraman.com" className="text-gray-400 hover:text-white transition-colors">
-                  info@budhbhraman.com
-                </a>
               </li>
             </ul>
           </div>

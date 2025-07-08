@@ -70,7 +70,8 @@ export default function PackageDetailPage() {
   // Destructure package data for easier access
   const packageData = currentPackage;
 
-  // Loading, error, and not found states are handled above
+  console.log("package data in single package page::", packageData);
+  
 
   return (
     <main className="py-12 px-4 sm:px-6 lg:px-8">
@@ -100,17 +101,6 @@ export default function PackageDetailPage() {
               <Users className="h-5 w-5 mr-1 text-primary" />
               Max {packageData.maxGroupSize} people
             </div>
-            <div className="flex items-center text-yellow-500">
-              {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i} 
-                  className={`h-5 w-5 ${i < Math.floor(packageData.rating) ? 'fill-current' : 'stroke-current fill-none'}`} 
-                />
-              ))}
-              <span className="text-gray-600 ml-2">
-                {packageData.rating} ({packageData.reviewCount} reviews)
-              </span>
-            </div>
           </div>
         </div>
 
@@ -126,6 +116,8 @@ export default function PackageDetailPage() {
                 alt={`${packageData.title} - Image ${index + 1}`} 
                 className="w-full h-full object-cover"
                 style={{ height: index === 0 ? '400px' : '200px' }}
+                width={index === 0 ? 600 : 300}
+                height={index === 0 ? 400 : 200}
               />
             </div>
           ))}
@@ -172,18 +164,6 @@ export default function PackageDetailPage() {
                     Day {day.day}: {day.title}
                   </h3>
                   <p className="text-gray-600 mb-4">{day.description}</p>
-                  {day.activities && (
-                    <div className="flex flex-wrap gap-2">
-                      {day.activities.map((activity, index) => (
-                        <span 
-                          key={index} 
-                          className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full"
-                        >
-                          {activity}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
@@ -216,24 +196,11 @@ export default function PackageDetailPage() {
           </div>
         </div>
 
-        {/* FAQs */}
-        {packageData.faqs && packageData.faqs.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
-            <div className="space-y-4">
-              {packageData.faqs.map((faq, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{faq.question}</h3>
-                  <p className="text-gray-600">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        
 
         {/* Call to Action */}
         <div className="bg-primary text-white p-8 rounded-lg text-center">
-          <h2 className="text-2xl font-bold mb-4">Ready to Explore Sikkim?</h2>
+          <h2 className="text-2xl font-bold mb-4">Ready to Explore {packageData.title}</h2>
           <p className="text-lg mb-6">Book your adventure today and create memories that will last a lifetime.</p>
           <Link href={`/book/${packageData.slug}`}>
             <Button size="lg" className="bg-white text-primary hover:bg-gray-100">

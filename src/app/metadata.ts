@@ -5,7 +5,9 @@ import axios from 'axios';
 export async function generateMetadata(): Promise<Metadata> {
   try {
     // Fetch home config from API
-    const { data: responseData } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/home-config`, {
+    // Using absolute URL to avoid TypeError: Invalid URL
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const { data: responseData } = await axios.get(`${baseUrl}/api/home-config`, {
       headers: { 'Cache-Control': 'max-age=3600' } // Revalidate every hour
     });
     

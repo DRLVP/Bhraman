@@ -54,7 +54,8 @@ export async function GET() {
           subheading: 'Get in touch with our team',
           email: 'contact@example.com',
           phone: '+91 1234567890',
-          address: 'New Delhi, India'
+          address: 'New Delhi, India',
+          workingHours: 'Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nSunday: Closed'
         },
         seo: {
           title: 'Bhraman - Explore India',

@@ -3,21 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Users, Star, Search } from 'lucide-react';
+import { MapPin, Calendar, Users, Search } from 'lucide-react';
 import usePackageStore from '@/store/usePackageStore';
 import Image from 'next/image';
 
 // Filter options
-const locations = ['All Locations', 'Sikkim', 'Kerala', 'Rajasthan', 'Goa', 'Himachal Pradesh', 'Andaman'];
 const durations = ['Any Duration', '1-3 days', '4-7 days', '8+ days'];
 const priceRanges = ['Any Price', 'Under ₹20,000', '₹20,000 - ₹30,000', '₹30,000 - ₹40,000', 'Above ₹40,000'];
-const sortOptions = [
-  { value: 'popular', label: 'Most Popular' },
-  { value: 'price-low', label: 'Price: Low to High' },
-  { value: 'price-high', label: 'Price: High to Low' },
-  { value: 'duration-low', label: 'Duration: Short to Long' },
-  { value: 'duration-high', label: 'Duration: Long to Short' }
-];
 
 export default function PackagesPage() {
   const { 
@@ -46,13 +38,14 @@ export default function PackagesPage() {
   }, [filters, fetchPackages]);
   
   // Handle filter changes
-  const handleFilterChange = (filterName, value) => {
+  const handleFilterChange = (filterName:string, value:string) => {
     setFilters({ [filterName]: value });
     setCurrentPage(1); // Reset to first page when filters change
   };
+
   
   // Handle pagination
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber:number) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -91,18 +84,6 @@ export default function PackagesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-              <select 
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                value={filters.location || 'All Locations'}
-                onChange={(e) => handleFilterChange('location', e.target.value)}
-              >
-                {locations.map((location) => (
-                  <option key={location} value={location}>{location}</option>
-                ))}
-              </select>
-            </div>
-            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
               <select 
                 className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -123,18 +104,6 @@ export default function PackagesPage() {
               >
                 {priceRanges.map((range) => (
                   <option key={range} value={range}>{range}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
-              <select 
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                value={filters.sortBy || 'popular'}
-                onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-              >
-                {sortOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
               </select>
             </div>
@@ -181,9 +150,11 @@ export default function PackagesPage() {
               <div key={pkg._id || pkg.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <div className="relative h-60">
                   <Image 
-                    src={pkg.image || pkg.images?.[0]} 
+                    src={pkg.images?.[0]} 
                     alt={pkg.title} 
                     className="w-full h-full object-cover"
+                    width={600}
+                    height={300}
                   />
                   {pkg.discountedPrice && pkg.discountedPrice < pkg.price && (
                     <div className="absolute top-4 right-4 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded">
@@ -198,18 +169,6 @@ export default function PackagesPage() {
                 </div>
                 
                 <div className="p-6">
-                  <div className="flex items-center text-yellow-500 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`h-4 w-4 ${i < Math.floor(pkg.rating || 4.5) ? 'fill-current' : 'stroke-current fill-none'}`} 
-                      />
-                    ))}
-                    <span className="text-gray-600 text-sm ml-2">
-                      {pkg.rating || 4.5} ({pkg.reviewCount || 0} reviews)
-                    </span>
-                  </div>
-                  
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{pkg.title}</h3>
                   
                   <div className="flex items-center text-gray-600 mb-2">
