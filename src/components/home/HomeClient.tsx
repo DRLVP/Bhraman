@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, MapPin, Calendar, Users, Star } from 'lucide-react';
 import Navbar from '@/components/shared/Navbar';
@@ -75,10 +76,12 @@ export default function HomeClient() {
               {featuredPackages.map((pkg) => (
                 <div key={pkg.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                   <div className="relative h-60">
-                    <img 
+                    <Image 
                       src={pkg.images && pkg.images.length > 0 ? pkg.images[0] : 'https://via.placeholder.com/400x300?text=No+Image'} 
                       alt={pkg.title} 
                       className="w-full h-full object-cover"
+                      width={400}
+                      height={300}
                     />
                     {pkg.discountedPrice && (
                       <div className="absolute top-4 right-4 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded">
@@ -189,10 +192,12 @@ export default function HomeClient() {
               </div>
             </div>
             <div className="relative">
-              <img 
+              <Image 
                 src={homeConfig?.aboutSection?.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da"} 
                 alt="About Bhraman" 
                 className="rounded-lg shadow-xl w-full h-auto object-cover"
+                width={600}
+                height={400}
               />
               <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-6 max-w-xs">
                 <div className="flex items-center justify-between mb-4">

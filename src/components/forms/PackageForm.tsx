@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { X, Plus, Upload, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useUpload from '@/hooks/useUpload';
@@ -477,7 +478,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
           <div className="flex flex-wrap gap-4 mb-4">
             {images.map((image, index) => (
               <div key={index} className="relative w-32 h-32 border rounded-md overflow-hidden group">
-                <img src={image} alt={`Package ${index + 1}`} className="w-full h-full object-cover" />
+                <Image src={image} alt={`Package ${index + 1}`} className="w-full h-full object-cover" width={128} height={128} />
                 <button
                   type="button"
                   onClick={() => removeImage(index)}
@@ -657,7 +658,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
                     <div className="flex items-center gap-2">
                       {item.image ? (
                         <div className="relative w-16 h-16 border rounded-md overflow-hidden group">
-                          <img src={item.image} alt={`Day ${item.day}`} className="w-full h-full object-cover" />
+                          <Image src={item.image} alt={`Day ${item.day}`} className="w-full h-full object-cover" width={128} height={128} />
                           <button
                             type="button"
                             onClick={() => handleItineraryChange(index, 'image', '')}

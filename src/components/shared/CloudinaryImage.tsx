@@ -1,6 +1,7 @@
 'use client';
 
 import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface CloudinaryImageProps {
@@ -37,7 +38,7 @@ export function CloudinaryImage({
   // If there's an error or no valid source, show the fallback image
   if (error || !src) {
     return (
-      <img
+      <Image
         src={fallbackSrc}
         alt={alt}
         width={width}
@@ -65,7 +66,7 @@ export function CloudinaryImage({
 
   // For other URLs, use a regular img tag
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
       width={width}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Trash2, Upload } from 'lucide-react';
 import { useUpload } from '@/hooks/useUpload';
@@ -86,10 +87,12 @@ export default function ImageUploader({
 
       {previewUrl ? (
         <div className="relative w-full max-w-md">
-          <img
+          <Image
             src={previewUrl}
             alt="Preview"
             className="w-full h-auto rounded-md object-cover"
+            width={400}
+            height={300}
           />
           <Button
             variant="destructive"
