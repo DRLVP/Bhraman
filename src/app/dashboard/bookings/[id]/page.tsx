@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
+import Image from 'next/image';
 
 // Define booking interface
 interface Booking {
@@ -53,7 +54,7 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
   const [booking, setBooking] = useState<Booking | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [, setShowCancelModal] = useState(false);
   
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -163,7 +164,7 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {booking.packageId.images.map((image, index) => (
               <div key={index} className={`${index === 0 ? 'md:col-span-2 row-span-2' : ''} overflow-hidden rounded-lg h-48 md:h-auto`}>
-                <img 
+                <Image
                   src={image.replace(/"/g, '').trim()} 
                   alt={`${booking.packageId.title} - Image ${index + 1}`} 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"

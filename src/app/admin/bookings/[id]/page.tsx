@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { 
@@ -17,12 +16,12 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  AlertCircle,
   CreditCard
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminBookings, PaymentStatus } from '@/hooks/useAdminBookings';
 import { useToast } from '@/components/ui/use-toast';
+import Image from 'next/image';
 
 interface BookingDetailProps {
   params: {
@@ -107,9 +106,12 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         } else {
           setError('Booking not found');
         }
-      } catch (err: any) {
+      } catch (err: Error | unknown) {
         console.error('Error fetching booking:', err);
-        setError(err.response?.data?.message || 'Failed to load booking details. Please try again.');
+        const errorMessage = err instanceof Error ? 
+          err.message : 
+          (err as any)?.response?.data?.message || 'Failed to load booking details. Please try again.';
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -140,7 +142,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           variant: "default",
         });
       }
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Error updating booking status:', error);
       toast({
         title: "Error",
@@ -163,7 +165,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         description: 'Confirmation email sent successfully',
         variant: "default",
       });
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Error sending confirmation email:', error);
       toast({
         title: "Error",
@@ -198,7 +200,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           variant: "default",
         });
       }
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error('Error updating payment status:', error);
       toast({
         title: "Error",
@@ -413,10 +415,12 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           
           <div className="flex mb-4">
             {booking.packageImage && (
-              <img 
+              <Image
                 src={booking.packageImage} 
                 alt={booking.packageName} 
                 className="h-20 w-20 rounded-md object-cover mr-4"
+                width={80}
+                height={80}
               />
             )}
             

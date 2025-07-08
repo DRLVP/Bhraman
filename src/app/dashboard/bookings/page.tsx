@@ -6,6 +6,7 @@ import { MapPin, Calendar, CreditCard, Clock, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
+import Image from 'next/image';
 
 // Define booking interface
 interface Booking {
@@ -110,7 +111,7 @@ export default function BookingsPage() {
               <div key={booking._id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="md:flex">
                   <div className="md:flex-shrink-0">
-                    <img 
+                    <Image
                       src={booking.packageId.images && booking.packageId.images.length > 0 
                         ? booking.packageId.images[0] 
                         : '/placeholder-image.jpg'} 
@@ -188,7 +189,7 @@ export default function BookingsPage() {
               <div key={booking._id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="md:flex">
                   <div className="md:flex-shrink-0">
-                    <img 
+                    <Image 
                       src={booking.packageId.images && booking.packageId.images.length > 0 
                         ? booking.packageId.images[0] 
                         : '/placeholder-image.jpg'} 

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PackageForm from '@/components/forms/PackageForm';
 import axios from 'axios';

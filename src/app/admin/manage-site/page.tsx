@@ -135,10 +135,10 @@ export default function ManageSitePage() {
         default:
           break;
       }
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       toast({
         title: "Update failed",
-        description: err.message || "An error occurred while saving changes.",
+        description: err instanceof Error ? err.message : "An error occurred while saving changes.",
         variant: "destructive",
       });
     }

@@ -10,7 +10,7 @@ export default function AboutPage() {
       <div className="text-center mb-16">
         <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">About Budh Bhraman</h1>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          Discover the story behind India's leading travel experience company and our passion for creating unforgettable journeys.
+          Discover the story behind India&apos;s leading travel experience company and our passion for creating unforgettable journeys.
         </p>
       </div>
 
@@ -19,13 +19,13 @@ export default function AboutPage() {
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
           <p className="text-gray-600 mb-4">
-            Founded in 2025, Bhraman (which means 'travel' in Sanskrit) began with a simple mission: to help people experience the incredible diversity and beauty of India through thoughtfully crafted travel experiences.
+            Founded in 2025, Bhraman (which means &apos;travel&apos; in Sanskrit) began with a simple mission: to help people experience the incredible diversity and beauty of India through thoughtfully crafted travel experiences.
           </p>
           <p className="text-gray-600 mb-4">
-            What started as a small team of passionate travelers has grown into one of India's most trusted travel companies, serving thousands of happy customers each year. Our founder, Rajesh Kumar, began the company after spending years exploring every corner of India and realizing the potential for creating authentic, immersive travel experiences that go beyond the typical tourist attractions.
+            What started as a small team of passionate travelers has grown into one of India&apos;s most trusted travel companies, serving thousands of happy customers each year. Our founder, Rajesh Kumar, began the company after spending years exploring every corner of India and realizing the potential for creating authentic, immersive travel experiences that go beyond the typical tourist attractions.
           </p>
           <p className="text-gray-600">
-            Today, we continue to be driven by our love for travel and our commitment to showcasing the best of India's landscapes, cultures, and traditions. We believe that travel has the power to transform lives, create connections, and foster understanding between different cultures.
+            Today, we continue to be driven by our love for travel and our commitment to showcasing the best of India&apos;s landscapes, cultures, and traditions. We believe that travel has the power to transform lives, create connections, and foster understanding between different cultures.
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function AboutPage() {
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Our Mission & Values</h2>
           <p className="text-gray-600 max-w-3xl mx-auto">
-            At Bhraman, we're guided by a set of core principles that shape everything we do.
+            At Bhraman, we&apos;re guided by a set of core principles that shape everything we do.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function AboutPage() {
             <div className="ml-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Expert Local Knowledge</h3>
               <p className="text-gray-600">
-                Our team consists of travel experts with deep knowledge of India's diverse regions, cultures, and hidden gems.
+                Our team consists of travel experts with deep knowledge of India&apos;s diverse regions, cultures, and hidden gems.
               </p>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function AboutPage() {
             <div className="ml-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Transparent Pricing</h3>
               <p className="text-gray-600">
-                No hidden fees or surprises. We provide clear, upfront pricing so you know exactly what you're paying for.
+                No hidden fees or surprises. We provide clear, upfront pricing so you know exactly what you&apos;re paying for.
               </p>
             </div>
           </div>

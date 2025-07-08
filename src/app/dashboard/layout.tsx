@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserCircle, Package, CreditCard, Settings, LogOut, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';

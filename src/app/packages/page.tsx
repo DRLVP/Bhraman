@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, Users, Star, Search } from 'lucide-react';
 import usePackageStore from '@/store/usePackageStore';
+import Image from 'next/image';
 
 // Filter options
 const locations = ['All Locations', 'Sikkim', 'Kerala', 'Rajasthan', 'Goa', 'Himachal Pradesh', 'Andaman'];
@@ -179,7 +180,7 @@ export default function PackagesPage() {
             {currentPackages.map((pkg) => (
               <div key={pkg._id || pkg.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <div className="relative h-60">
-                  <img 
+                  <Image 
                     src={pkg.image || pkg.images?.[0]} 
                     alt={pkg.title} 
                     className="w-full h-full object-cover"

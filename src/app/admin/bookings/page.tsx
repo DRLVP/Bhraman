@@ -35,11 +35,11 @@ export default function BookingsPage() {
   useEffect(() => {
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
     fetchBookings(currentPage, 10, status, undefined, searchQuery)
-      .catch((err: any) => {
+      .catch((err: Error | unknown) => {
         toast({
           variant: "destructive",
           title: "Error",
-          description: err.message || "Failed to fetch bookings"
+          description: err instanceof Error ? err.message : "Failed to fetch bookings"
         });
       });
   }, [fetchBookings, currentPage, statusFilter, toast, searchQuery]);
@@ -52,11 +52,11 @@ export default function BookingsPage() {
     setCurrentPage(1); // Reset to first page on new search
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
     fetchBookings(1, 10, status, undefined, searchQuery)
-      .catch((err: any) => {
+      .catch((err: Error | unknown) => {
         toast({
           variant: "destructive",
           title: "Error",
-          description: err.message || "Failed to fetch bookings"
+          description: err instanceof Error ? err.message : "Failed to fetch bookings"
         });
       });
   };

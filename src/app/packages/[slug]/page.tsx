@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Users, Clock, Check, X, Star, ArrowLeft } from 'lucide-react';
+import { MapPin, Calendar, Users, Check, X, Star, ArrowLeft } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import usePackageStore from '@/store/usePackageStore';
+import Image from 'next/image';
 
 
 export default function PackageDetailPage() {
@@ -120,7 +121,7 @@ export default function PackageDetailPage() {
               key={index} 
               className={`rounded-lg overflow-hidden ${index === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
             >
-              <img 
+              <Image
                 src={image} 
                 alt={`${packageData.title} - Image ${index + 1}`} 
                 className="w-full h-full object-cover"

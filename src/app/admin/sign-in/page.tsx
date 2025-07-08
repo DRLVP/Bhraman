@@ -68,9 +68,9 @@ export default function AdminSignInPage() {
         // Sign in failed
         setError('Invalid email or password');
       }
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       console.error('Error signing in:', err);
-      setError(err.message || 'An error occurred during sign in');
+      setError(err instanceof Error ? err.message : 'An error occurred during sign in');
     } finally {
       setLoading(false);
     }
@@ -102,9 +102,9 @@ export default function AdminSignInPage() {
       setShowVerification(true);
       setError('Please check your email for a verification code');
       setLoading(false);
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       console.error('Error during sign-up:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during sign-up');
+      setError(err instanceof Error ? err.message : (err as any)?.errors?.[0]?.message || 'An error occurred during sign-up');
       setLoading(false);
     }
   };
@@ -148,18 +148,18 @@ export default function AdminSignInPage() {
 
           // Redirect to admin dashboard
           router.push('/admin');
-        } catch (adminError: any) {
+        } catch (adminError: Error | unknown) {
           console.error('Error registering as admin:', adminError);
-          setError(adminError.message || 'Failed to register as admin. Please contact support.');
+          setError(adminError instanceof Error ? adminError.message : 'Failed to register as admin. Please contact support.');
           setLoading(false);
         }
       } else {
         setError('Verification failed. Please try again.');
         setLoading(false);
       }
-    } catch (err: any) {
+    } catch (err: Error | unknown) {
       console.error('Error during verification:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during verification');
+      setError(err instanceof Error ? err.message : (err as any)?.errors?.[0]?.message || 'An error occurred during verification');
       setLoading(false);
     }
   };

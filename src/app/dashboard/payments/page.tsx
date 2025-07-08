@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Download, CreditCard, Calendar, Package } from 'lucide-react';
+import { Download, CreditCard, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@clerk/nextjs';
 
@@ -42,7 +42,7 @@ const mockPayments = [
 ];
 
 export default function PaymentsPage() {
-  const [payments, setPayments] = useState(mockPayments);
+  const [payments] = useState(mockPayments);
   const { user, isLoaded } = useUser();
   
   // In a real application, you would fetch the user's payments from your database

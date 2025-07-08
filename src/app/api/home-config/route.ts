@@ -11,9 +11,7 @@ export async function GET() {
     await connectDB();
     
     // Get the home config (there should only be one)
-    let homeConfig = await HomeConfig.findOne();
-    console.log("here is the home configuration::", homeConfig);
-    
+    const homeConfig = await HomeConfig.findOne();
     
     // If no config exists, return a 404
     if (!homeConfig) {
