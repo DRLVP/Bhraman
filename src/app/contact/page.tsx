@@ -57,7 +57,8 @@ export default function ContactPage() {
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Have questions about our travel packages or need assistance planning your trip? 
-          We're here to help you create unforgettable travel experiences.
+          {`\n`}
+          We are here to help you create unforgettable travel experiences.
         </p>
       </div>
 

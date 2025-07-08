@@ -1,13 +1,9 @@
 'use client';
-
-import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PackageForm from '@/components/forms/PackageForm';
 
 export default function NewPackagePage() {
-  const router = useRouter();
   
   return (
     <div>

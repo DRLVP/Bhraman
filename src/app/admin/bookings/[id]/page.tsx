@@ -58,9 +58,8 @@ interface BookingDetail {
 }
 
 export default function BookingDetailPage({ params }: BookingDetailProps) {
-  const router = useRouter();
   const { id } = params;
-  const { getBooking, updateBooking } = useAdminBookings();
+  const { updateBooking } = useAdminBookings();
   const { toast } = useToast();
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -260,24 +259,6 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         return 'bg-red-100 text-red-800';
       default:
         return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusIcon = (status: string | null | undefined) => {
-    if (!status) return <AlertCircle className="h-5 w-5 text-gray-500" />;
-    
-    switch (status) {
-      case 'confirmed':
-      case 'completed':
-      case 'paid':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'cancelled':
-      case 'failed':
-        return <XCircle className="h-5 w-5 text-red-500" />;
-      case 'pending':
-      case 'refunded':
-      default:
-        return <AlertCircle className="h-5 w-5 text-yellow-500" />;
     }
   };
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { auth, clerkClient, createClerkClient } from '@clerk/nextjs/server';
+import { auth, createClerkClient } from '@clerk/nextjs/server';
 import { envConfig, serverEnvConfig } from '@/constants/envConfig';
 
 export async function POST() {

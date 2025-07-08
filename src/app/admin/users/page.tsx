@@ -7,6 +7,7 @@ import { useAdminUserManagement, User } from '@/hooks/useAdminUserManagement';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/components/ui/use-toast';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function UsersPage() {
   const { isAdmin, isLoading: authLoading } = useAdminAuth();
@@ -24,7 +25,7 @@ export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<string>('name');
+  const [sortBy, _] = useState<string>('name');
 
   useEffect(() => {
     // Load users when component mounts and isAdmin is available
@@ -217,7 +218,7 @@ export default function UsersPage() {
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           {user.profileImage ? (
-                            <img
+                            <Image
                               className="h-10 w-10 rounded-full object-cover"
                               src={user.profileImage}
                               alt={user.name}

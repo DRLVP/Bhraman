@@ -15,7 +15,6 @@ interface PackageEditPageProps {
 }
 
 export default function EditPackagePage({ params }: PackageEditPageProps) {
-  const router = useRouter();
   const { id } = use(params); // Unwrap the params Promise with React.use()
   const [packageData, setPackageData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

@@ -17,32 +17,8 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useAdminPackages } from '@/hooks/useAdminPackages';
+import Image from 'next/image';
 
-// Using the Package interface from the hook
-interface Package {
-  _id: string;
-  title: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-  duration: number;
-  location: string;
-  price: number;
-  discountedPrice?: number;
-  images: string[];
-  inclusions: string[];
-  exclusions: string[];
-  itinerary: {
-    day: number;
-    title: string;
-    description: string;
-    image?: string;
-  }[];
-  featured: boolean;
-  maxGroupSize: number;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export default function PackagesPage() {
   const router = useRouter();
@@ -251,7 +227,7 @@ export default function PackagesPage() {
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0 mr-3">
                           {pkg.images && pkg.images.length > 0 ? (
-                            <img 
+                            <Image
                               src={pkg.images[0]} 
                               alt={pkg.title} 
                               className="h-10 w-10 rounded-md object-cover"

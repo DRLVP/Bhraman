@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
+import Image from 'next/image';
 
 interface UserDetailProps {
   params: {
@@ -166,7 +167,7 @@ export default function UserDetailPage({ params }: UserDetailProps) {
         <div className="flex flex-col md:flex-row md:items-center gap-6">
           <div className="h-24 w-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
             {user.profileImage ? (
-              <img 
+              <Image
                 src={user.profileImage} 
                 alt={user.name} 
                 className="h-full w-full object-cover"

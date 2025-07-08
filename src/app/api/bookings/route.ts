@@ -78,7 +78,7 @@ export async function POST(request: Request) {
 /**
  * Get all bookings for the current user
  */
-export async function GET(request: Request) {
+export async function GET() {
   try {
     // Check if the user is authenticated
     const { userId } = await auth();

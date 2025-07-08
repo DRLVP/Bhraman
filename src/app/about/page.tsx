@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -9,7 +8,7 @@ export default function AboutPage() {
     <div className="container mx-auto px-4 py-12">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">About Bhraman</h1>
+        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">About Budh Bhraman</h1>
         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
           Discover the story behind India's leading travel experience company and our passion for creating unforgettable journeys.
         </p>
@@ -20,7 +19,7 @@ export default function AboutPage() {
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
           <p className="text-gray-600 mb-4">
-            Founded in 2010, Bhraman (which means 'travel' in Sanskrit) began with a simple mission: to help people experience the incredible diversity and beauty of India through thoughtfully crafted travel experiences.
+            Founded in 2025, Bhraman (which means 'travel' in Sanskrit) began with a simple mission: to help people experience the incredible diversity and beauty of India through thoughtfully crafted travel experiences.
           </p>
           <p className="text-gray-600 mb-4">
             What started as a small team of passionate travelers has grown into one of India's most trusted travel companies, serving thousands of happy customers each year. Our founder, Rajesh Kumar, began the company after spending years exploring every corner of India and realizing the potential for creating authentic, immersive travel experiences that go beyond the typical tourist attractions.
@@ -28,12 +27,6 @@ export default function AboutPage() {
           <p className="text-gray-600">
             Today, we continue to be driven by our love for travel and our commitment to showcasing the best of India's landscapes, cultures, and traditions. We believe that travel has the power to transform lives, create connections, and foster understanding between different cultures.
           </p>
-        </div>
-        <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
-          {/* In a real application, you would use an actual image */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-medium">
-            Company Image Placeholder
-          </div>
         </div>
       </div>
 
@@ -124,7 +117,7 @@ export default function AboutPage() {
       {/* Why Choose Us Section */}
       <div className="mb-20">
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Why Choose Bhraman</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Why Choose Budh Bhraman</h2>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Discover what sets us apart and makes us the preferred choice for travelers exploring India.
           </p>
@@ -192,130 +185,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-
-      {/* Our Journey Timeline */}
-      <div className="mb-20">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Our Journey</h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Key milestones in our company's history as we've grown to become a leading travel provider.
-          </p>
-        </div>
-
-        <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200"></div>
-          
-          <div className="space-y-12">
-            {milestones.map((milestone, index) => (
-              <div key={index} className={`relative flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                {/* Timeline Circle */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-blue-500 border-4 border-white z-10"></div>
-                
-                {/* Content */}
-                <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                  <div className="bg-white p-6 rounded-lg shadow-md">
-                    <span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-2">
-                      {milestone.year}
-                    </span>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">{milestone.title}</h3>
-                    <p className="text-gray-600">{milestone.description}</p>
-                  </div>
-                </div>
-                
-                {/* Empty space for the other side */}
-                <div className="w-5/12"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Our Team Section */}
-      <div className="mb-20">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            The passionate travel experts behind Bhraman who work tirelessly to create exceptional experiences.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="h-64 bg-gray-200 relative">
-                {/* In a real application, you would use actual team member images */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                  Team Member Image
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                <p className="text-blue-600 font-medium mb-3">{member.role}</p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="mb-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-8 md:p-12 text-white">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">What Our Travelers Say</h2>
-          <p className="max-w-3xl mx-auto opacity-90">
-            Don't just take our word for it. Here's what some of our happy customers have to say about their experiences with Bhraman.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 border border-white border-opacity-20">
-            <div className="flex items-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-blue-200 flex items-center justify-center text-blue-700 font-bold text-lg">
-                AS
-              </div>
-              <div className="ml-4">
-                <h4 className="font-bold">Ananya Singh</h4>
-                <p className="text-sm opacity-80">Kerala Backwaters Tour</p>
-              </div>
-            </div>
-            <p className="italic opacity-90">
-              "Our trip to Kerala was absolutely magical! The houseboat experience arranged by Bhraman was the highlight of our journey. Every detail was perfectly planned, and our guide was knowledgeable and friendly."
-            </p>
-          </div>
-
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 border border-white border-opacity-20">
-            <div className="flex items-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-purple-200 flex items-center justify-center text-purple-700 font-bold text-lg">
-                RJ
-              </div>
-              <div className="ml-4">
-                <h4 className="font-bold">Rahul Joshi</h4>
-                <p className="text-sm opacity-80">Rajasthan Heritage Tour</p>
-              </div>
-            </div>
-            <p className="italic opacity-90">
-              "The attention to detail was impressive. From luxury accommodations in heritage hotels to the carefully selected local experiences, Bhraman created a journey that exceeded our expectations in every way."
-            </p>
-          </div>
-
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-6 border border-white border-opacity-20">
-            <div className="flex items-center mb-4">
-              <div className="h-12 w-12 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-lg">
-                MP
-              </div>
-              <div className="ml-4">
-                <h4 className="font-bold">Meera Patel</h4>
-                <p className="text-sm opacity-80">Himalayan Adventure</p>
-              </div>
-            </div>
-            <p className="italic opacity-90">
-              "As a solo female traveler, safety was my primary concern. Bhraman not only ensured I felt secure throughout my journey but also created opportunities for me to connect with local communities in meaningful ways."
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* CTA Section */}
       <div className="text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to Start Your Journey?</h2>

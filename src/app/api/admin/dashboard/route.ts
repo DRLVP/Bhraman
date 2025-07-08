@@ -4,7 +4,6 @@ import connectDB from '@/lib/db';
 import Package from '@/models/Package';
 import Booking, { BookingStatus } from '@/models/Booking';
 import User from '@/models/User';
-import mongoose from 'mongoose';
 
 /**
  * Get dashboard statistics

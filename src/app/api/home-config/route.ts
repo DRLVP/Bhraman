@@ -12,6 +12,8 @@ export async function GET() {
     
     // Get the home config (there should only be one)
     let homeConfig = await HomeConfig.findOne();
+    console.log("here is the home configuration::", homeConfig);
+    
     
     // If no config exists, return a 404
     if (!homeConfig) {

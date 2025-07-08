@@ -60,7 +60,7 @@ export default function AdminSignInPage() {
           router.push(redirectUrl);
         } catch (adminError) {
           // User is not an admin
-          setError('You do not have admin privileges. Please contact the system administrator.');
+          setError(`You do not have admin privileges. Please contact the system administrator. ${adminError}` );
           // Sign out the user since they don't have admin access
           await signOut();
         }
@@ -90,7 +90,7 @@ export default function AdminSignInPage() {
 
     try {
       // Start the sign-up process with Clerk
-      const res = await signUp.create({
+      await signUp.create({
         emailAddress: email,
         password
       });
@@ -306,7 +306,7 @@ export default function AdminSignInPage() {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="text-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-800">Verify Your Email</h2>
-                <p className="text-gray-600 mt-1">We've sent a verification code to {email}</p>
+                <p className="text-gray-600 mt-1">We have sent a verification code to {email}</p>
               </div>
               
               <div>
@@ -333,7 +333,7 @@ export default function AdminSignInPage() {
               </button>
               
               <p className="text-center text-sm text-gray-600 mt-2">
-                Didn't receive the code?{' '}
+                Didn&#39t receive the code?{' '}
                 <button
                   type="button"
                   onClick={async () => {

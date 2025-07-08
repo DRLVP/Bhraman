@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle, Calendar, MapPin, Users, ArrowRight } from 'lucide-react';
+import { CheckCircle, Calendar, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import axios from 'axios';
 
 // Mock booking data
 const mockBookingData = {
@@ -26,7 +25,6 @@ const mockBookingData = {
 
 export default function BookingSuccessPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [bookingData, setBookingData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,20 +38,6 @@ export default function BookingSuccessPage() {
       setIsLoading(false);
       return;
     }
-
-    // In a real application, you would fetch the booking data based on the booking ID
-    // const fetchBookingDetails = async () => {
-    //   try {
-    //     setIsLoading(true);
-    //     const response = await axios.get(`/api/bookings/${bookingId}?payment_id=${paymentId || ''}`);
-    //     setBookingData(response.data);
-    //   } catch (err: any) {
-    //     setError(err.response?.data?.message || 'Booking not found');
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-    // fetchBookingDetails();
 
     // Using mock data for now
     setTimeout(() => {
@@ -182,7 +166,7 @@ export default function BookingSuccessPage() {
 
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
           <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-            <h2 className="text-lg font-medium text-gray-900">What's Next?</h2>
+            <h2 className="text-lg font-medium text-gray-900">What&#39s Next?</h2>
           </div>
           <div className="px-6 py-4">
             <ul className="space-y-4">

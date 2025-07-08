@@ -8,19 +8,7 @@ import { Button } from '@/components/ui/button';
 import BookingForm from '@/components/forms/BookingForm';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
-
-// Empty package data structure
-const emptyPackage = {
-  _id: '',
-  title: '',
-  slug: '',
-  location: '',
-  duration: 0,
-  price: 0,
-  discountedPrice: 0,
-  maxGroupSize: 0,
-  images: [],
-};
+import Image from 'next/image';
 
 export default function BookPackagePage({ params }: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
@@ -89,7 +77,7 @@ export default function BookPackagePage({ params }: { params: Promise<{ slug: st
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
           <div className="md:flex">
             <div className="md:flex-shrink-0">
-              <img 
+              <Image
                 src={packageInfo.images && packageInfo.images.length > 0 ? packageInfo.images[0] : '/placeholder-image.jpg'} 
                 alt={packageInfo.title} 
                 className="h-48 w-full object-cover md:h-full md:w-48"
