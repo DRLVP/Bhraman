@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignIn, useSignUp, useAuth } from '@clerk/nextjs';
 import axios from 'axios';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function AdminSignInPage() {
   const { isLoaded: isSignInLoaded, signIn, setActive: setSignInActive } = useSignIn();
@@ -12,6 +13,7 @@ export default function AdminSignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect_url') || '/admin';
+  const { toast } = useToast();
   
   // Toggle between sign-in and sign-up forms
   const [isSignIn, setIsSignIn] = useState(true);
@@ -341,7 +343,11 @@ export default function AdminSignInPage() {
                     }
                     try {
                       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
-                      alert('A new verification code has been sent to your email');
+                      toast({
+                        title: "Verification Code Sent",
+                        description: "A new verification code has been sent to your email",
+                        variant: "default",
+                      });
                     } catch (err) {
                       console.error('Error resending code:', err);
                       setError('Failed to resend verification code');

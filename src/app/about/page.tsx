@@ -2,52 +2,7 @@ import Image from 'next/image';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Mock team data
-const teamMembers = [
-  {
-    id: 1,
-    name: 'Rajesh Kumar',
-    role: 'Founder & CEO',
-    bio: 'Travel enthusiast with over 15 years of experience in the tourism industry. Passionate about showcasing the beauty of India to travelers from around the world.',
-    image: '/placeholder-team-1.jpg',
-  },
-  {
-    id: 2,
-    name: 'Priya Sharma',
-    role: 'Travel Experience Director',
-    bio: 'Expert in curating unique travel experiences. Priya ensures that every Bhraman package offers authentic and memorable moments for our customers.',
-    image: '/placeholder-team-2.jpg',
-  }
-];
 
-// Mock milestone data
-const milestones = [
-  {
-    year: '2010',
-    title: 'Company Founded',
-    description: 'Bhraman was established with a vision to showcase the diverse beauty of India to travelers.',
-  },
-  {
-    year: '2013',
-    title: 'Expanded to International Tours',
-    description: 'Started offering international travel packages while maintaining our focus on quality experiences.',
-  },
-  {
-    year: '2016',
-    title: 'Customer Milestone',
-    description: 'Celebrated serving our 10,000th happy customer and received the Tourism Excellence Award.',
-  },
-  {
-    year: '2019',
-    title: 'Digital Transformation',
-    description: 'Launched our online booking platform to make travel planning easier and more accessible.',
-  },
-  {
-    year: '2023',
-    title: 'Sustainability Initiative',
-    description: 'Introduced eco-friendly travel packages and committed to sustainable tourism practices.',
-  },
-];
 
 export default function AboutPage() {
   return (

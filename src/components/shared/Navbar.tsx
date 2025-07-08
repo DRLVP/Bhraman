@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton, SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
+import { useHomeConfig } from '@/hooks/useHomeConfig';
 
 /**
  * Navigation links configuration
@@ -25,6 +26,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const { isAdmin } = useAuth();
+  const { homeConfig } = useHomeConfig();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -35,7 +37,15 @@ const Navbar = () => {
           {/* Logo and brand */}
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-primary">Budh Bhraman</span>
+              {homeConfig?.siteSettings?.logo ? (
+                <img 
+                  src={homeConfig.siteSettings.logo} 
+                  alt="Budh Bhraman Logo" 
+                  className="h-8 w-auto"
+                />
+              ) : (
+                <span className="text-xl font-bold text-primary">Budh Bhraman</span>
+              )}
             </Link>
           </div>
 

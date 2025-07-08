@@ -70,9 +70,17 @@ interface ISEO {
 }
 
 /**
+ * Site settings interface
+ */
+interface ISiteSettings {
+  logo: string;
+}
+
+/**
  * HomeConfig document interface
  */
 export interface IHomeConfig extends Document {
+  siteSettings: ISiteSettings;
   heroSection: IHeroSection;
   featuredPackagesSection: IFeaturedPackagesSection;
   testimonialsSection: ITestimonialsSection;
@@ -88,6 +96,12 @@ export interface IHomeConfig extends Document {
  */
 const HomeConfigSchema = new Schema<IHomeConfig>(
   {
+    siteSettings: {
+      logo: {
+        type: String,
+        default: '',
+      },
+    },
     heroSection: {
       heading: {
         type: String,

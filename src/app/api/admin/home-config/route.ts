@@ -24,6 +24,9 @@ export async function GET() {
     // If no config exists, create a default one
     if (!homeConfig) {
       homeConfig = await HomeConfig.create({
+        siteSettings: {
+          logo: ''
+        },
         heroSection: {
           heading: 'Explore the Beauty of India',
           subheading: 'Discover amazing travel experiences',
@@ -100,6 +103,14 @@ export async function PATCH(request: Request) {
     } else {
       // Update the existing config
       // We use a deep merge approach to update nested objects
+      
+      // Update siteSettings if provided
+      if (body.siteSettings) {
+        homeConfig.siteSettings = {
+          ...homeConfig.siteSettings.toObject(),
+          ...body.siteSettings
+        };
+      }
       
       // Update heroSection if provided
       if (body.heroSection) {

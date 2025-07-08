@@ -26,12 +26,21 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return new NextResponse('User not found', { status: 404 });
     }
     
+    // Parse URL to check for allBookings parameter
+    const url = new URL(request.url);
+    const fetchAllBookings = url.searchParams.get('allBookings') === 'true';
+    
     // Get user's bookings
     const Booking = (await import('@/models/Booking')).default;
-    const bookings = await Booking.find({ userId: user._id })
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .populate('packageId', 'name');
+    let bookingsQuery = Booking.find({ userId: user._id }).sort({ createdAt: -1 });
+    
+    // If not fetching all bookings, limit to 5 recent ones
+    if (!fetchAllBookings) {
+      bookingsQuery = bookingsQuery.limit(5);
+    }
+    
+    const bookings = await bookingsQuery.populate('packageId', 'name');
+    
     
     // Count total bookings
     const bookingCount = await Booking.countDocuments({ userId: user._id });
@@ -41,7 +50,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
       ...user.toObject(),
       _id: user._id.toString(),
       bookingCount,
-      recentBookings: bookings.map((booking: any) => ({
+      bookings: bookings.map((booking: any) => ({
+        _id: booking._id.toString(),
+        packageName: booking.packageId?.title || 'Unknown Package',
+        startDate: booking.startDate,
+        status: booking.status,
+        totalAmount: booking.totalAmount,
+        createdAt: booking.createdAt
+      })),
+      // Keep recentBookings for backward compatibility
+      recentBookings: bookings.slice(0, 5).map((booking: any) => ({
         _id: booking._id.toString(),
         packageName: booking.packageId?.name || 'Unknown Package',
         startDate: booking.startDate,

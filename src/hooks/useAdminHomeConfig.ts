@@ -2,6 +2,13 @@
 
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
+import { useToast } from '@/components/ui/use-toast';
+import axios from 'axios';
+
+// Site settings interface
+interface SiteSettings {
+  logo: string;
+}
 
 // Hero section interface
 interface HeroSection {
@@ -61,6 +68,7 @@ interface SEO {
 // HomeConfig interface
 interface HomeConfig {
   _id: string;
+  siteSettings: SiteSettings;
   heroSection: HeroSection;
   featuredPackagesSection: FeaturedPackagesSection;
   testimonialsSection: TestimonialsSection;
@@ -71,12 +79,14 @@ interface HomeConfig {
   updatedAt: string;
 }
 
+// Return type for the hook
 interface UseAdminHomeConfigReturn {
   homeConfig: HomeConfig | null;
   isLoading: boolean;
   error: string | null;
   fetchHomeConfig: () => Promise<HomeConfig | null>;
   updateHomeConfig: (configData: Partial<HomeConfig>) => Promise<HomeConfig | null>;
+  updateSiteSettings: (siteSettingsData: Partial<SiteSettings>) => Promise<HomeConfig | null>;
   updateHeroSection: (heroData: Partial<HeroSection>) => Promise<HomeConfig | null>;
   updateFeaturedPackagesSection: (featuredData: Partial<FeaturedPackagesSection>) => Promise<HomeConfig | null>;
   updateTestimonialsSection: (testimonialsData: Partial<TestimonialsSection>) => Promise<HomeConfig | null>;
@@ -93,6 +103,7 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
   const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const fetchHomeConfig = useCallback(async (): Promise<HomeConfig | null> => {
     if (!isAdmin) {
@@ -104,27 +115,18 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin/home-config');
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch home configuration');
-      }
-
-      const { data } = await response.json();
-      setHomeConfig(data);
-      return data;
-    } catch (err) {
-      console.error('Error fetching home config:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      const response = await axios.get('/api/admin/home-config');
+      setHomeConfig(response.data.data);
+      return response.data.data;
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Failed to fetch home config');
       return null;
     } finally {
       setIsLoading(false);
     }
   }, [isAdmin]);
 
-  const updateHomeConfig = useCallback(async (
-    configData: Partial<HomeConfig>
-  ): Promise<HomeConfig | null> => {
+  const updateHomeConfig = useCallback(async (configData: Partial<HomeConfig>): Promise<HomeConfig | null> => {
     if (!isAdmin) {
       setError('Admin access required');
       return null;
@@ -134,118 +136,86 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin/home-config', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(configData),
+      const response = await axios.patch('/api/admin/home-config', configData);
+      setHomeConfig(response.data.data);
+      toast({
+        title: "Update successful",
+        description: "Home configuration has been updated successfully.",
+        variant: "default",
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update home configuration');
-      }
-
-      const { data } = await response.json();
-      setHomeConfig(data);
-      return data;
-    } catch (err) {
-      console.error('Error updating home config:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      return response.data.data;
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to update home config';
+      setError(errorMessage);
+      toast({
+        title: "Update failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
       return null;
     } finally {
       setIsLoading(false);
     }
-  }, [isAdmin]);
+  }, [isAdmin, toast]);
 
-  // Helper function to update a specific section
-  const updateSection = useCallback(async <T>(sectionName: string, sectionData: Partial<T>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ [sectionName]: sectionData } as Partial<HomeConfig>);
+  const updateSiteSettings = useCallback(async (siteSettingsData: Partial<SiteSettings>): Promise<HomeConfig | null> => {
+    return updateHomeConfig({ siteSettings: siteSettingsData });
   }, [updateHomeConfig]);
 
-  // Section-specific update functions
   const updateHeroSection = useCallback(async (heroData: Partial<HeroSection>): Promise<HomeConfig | null> => {
-    return updateSection<HeroSection>('heroSection', heroData);
-  }, [updateSection]);
+    return updateHomeConfig({ heroSection: heroData });
+  }, [updateHomeConfig]);
 
   const updateFeaturedPackagesSection = useCallback(async (featuredData: Partial<FeaturedPackagesSection>): Promise<HomeConfig | null> => {
-    return updateSection<FeaturedPackagesSection>('featuredPackagesSection', featuredData);
-  }, [updateSection]);
+    return updateHomeConfig({ featuredPackagesSection: featuredData });
+  }, [updateHomeConfig]);
 
   const updateTestimonialsSection = useCallback(async (testimonialsData: Partial<TestimonialsSection>): Promise<HomeConfig | null> => {
-    return updateSection<TestimonialsSection>('testimonialsSection', testimonialsData);
-  }, [updateSection]);
+    return updateHomeConfig({ testimonialsSection: testimonialsData });
+  }, [updateHomeConfig]);
 
   const updateAboutSection = useCallback(async (aboutData: Partial<AboutSection>): Promise<HomeConfig | null> => {
-    return updateSection<AboutSection>('aboutSection', aboutData);
-  }, [updateSection]);
+    return updateHomeConfig({ aboutSection: aboutData });
+  }, [updateHomeConfig]);
 
   const updateContactSection = useCallback(async (contactData: Partial<ContactSection>): Promise<HomeConfig | null> => {
-    return updateSection<ContactSection>('contactSection', contactData);
-  }, [updateSection]);
+    return updateHomeConfig({ contactSection: contactData });
+  }, [updateHomeConfig]);
 
   const updateSEO = useCallback(async (seoData: Partial<SEO>): Promise<HomeConfig | null> => {
-    return updateSection<SEO>('seo', seoData);
-  }, [updateSection]);
+    return updateHomeConfig({ seo: seoData });
+  }, [updateHomeConfig]);
 
-  // Testimonial-specific functions
   const addTestimonial = useCallback(async (testimonial: Omit<Testimonial, 'id'>): Promise<HomeConfig | null> => {
     if (!homeConfig) {
-      await fetchHomeConfig();
-    }
-
-    if (!homeConfig) {
-      setError('Home configuration not loaded');
+      setError('Home config not loaded');
       return null;
     }
 
     const updatedTestimonials = [...homeConfig.testimonialsSection.testimonials, testimonial];
-    
-    return updateTestimonialsSection({
-      testimonials: updatedTestimonials
-    });
-  }, [homeConfig, fetchHomeConfig, updateTestimonialsSection]);
+    return updateTestimonialsSection({ testimonials: updatedTestimonials });
+  }, [homeConfig, updateTestimonialsSection]);
 
   const removeTestimonial = useCallback(async (index: number): Promise<HomeConfig | null> => {
     if (!homeConfig) {
-      setError('Home configuration not loaded');
-      return null;
-    }
-
-    if (index < 0 || index >= homeConfig.testimonialsSection.testimonials.length) {
-      setError('Invalid testimonial index');
+      setError('Home config not loaded');
       return null;
     }
 
     const updatedTestimonials = [...homeConfig.testimonialsSection.testimonials];
     updatedTestimonials.splice(index, 1);
-    
-    return updateTestimonialsSection({
-      testimonials: updatedTestimonials
-    });
+    return updateTestimonialsSection({ testimonials: updatedTestimonials });
   }, [homeConfig, updateTestimonialsSection]);
 
   const updateTestimonial = useCallback(async (index: number, testimonial: Partial<Testimonial>): Promise<HomeConfig | null> => {
     if (!homeConfig) {
-      setError('Home configuration not loaded');
-      return null;
-    }
-
-    if (index < 0 || index >= homeConfig.testimonialsSection.testimonials.length) {
-      setError('Invalid testimonial index');
+      setError('Home config not loaded');
       return null;
     }
 
     const updatedTestimonials = [...homeConfig.testimonialsSection.testimonials];
-    updatedTestimonials[index] = {
-      ...updatedTestimonials[index],
-      ...testimonial
-    };
-    
-    return updateTestimonialsSection({
-      testimonials: updatedTestimonials
-    });
+    updatedTestimonials[index] = { ...updatedTestimonials[index], ...testimonial };
+    return updateTestimonialsSection({ testimonials: updatedTestimonials });
   }, [homeConfig, updateTestimonialsSection]);
 
   return {
@@ -254,6 +224,7 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
     error,
     fetchHomeConfig,
     updateHomeConfig,
+    updateSiteSettings,
     updateHeroSection,
     updateFeaturedPackagesSection,
     updateTestimonialsSection,

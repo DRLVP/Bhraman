@@ -1,16 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Package, 
   Calendar, 
   Users, 
   TrendingUp, 
-  DollarSign,
-  Clock
+  IndianRupee,
+  Clock,
+  RefreshCw,
+  BarChart
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useUserAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useAdminDashboard } from '@/hooks/useAdminDashboard';
+import { Button } from '@/components/ui/button';
+import MonthlyStatsChart from '@/components/admin/MonthlyStatsChart';
 
 interface DashboardCardProps {
   title: string;
@@ -114,84 +118,23 @@ const RecentBooking = ({
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const { user } = useAuth();
-  const [stats, setStats] = useState({
-    totalPackages: 0,
-    totalBookings: 0,
-    totalUsers: 0,
-    totalRevenue: 0,
-    pendingBookings: 0,
-    recentBookings: [] as RecentBookingProps[]
-  });
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        // In a real app, this would be an API call
-        // const response = await fetch('/api/admin/dashboard');
-        // const data = await response.json();
-        // setStats(data);
-        
-        // For now, we'll use mock data
-        setStats({
-          totalPackages: 12,
-          totalBookings: 48,
-          totalUsers: 156,
-          totalRevenue: 245000,
-          pendingBookings: 5,
-          recentBookings: [
-            {
-              id: '1',
-              packageName: 'Sikkim Explorer',
-              customerName: 'Rahul Sharma',
-              date: '2023-06-15',
-              amount: '₹24,500',
-              status: 'confirmed'
-            },
-            {
-              id: '2',
-              packageName: 'Darjeeling Hills',
-              customerName: 'Priya Patel',
-              date: '2023-06-12',
-              amount: '₹18,900',
-              status: 'pending'
-            },
-            {
-              id: '3',
-              packageName: 'Gangtok Adventure',
-              customerName: 'Amit Kumar',
-              date: '2023-06-10',
-              amount: '₹32,000',
-              status: 'confirmed'
-            },
-            {
-              id: '4',
-              packageName: 'Pelling Retreat',
-              customerName: 'Sneha Gupta',
-              date: '2023-06-08',
-              amount: '₹15,750',
-              status: 'cancelled'
-            },
-            {
-              id: '5',
-              packageName: 'Lachung Winter',
-              customerName: 'Vikram Singh',
-              date: '2023-06-05',
-              amount: '₹28,300',
-              status: 'confirmed'
-            }
-          ]
-        });
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
+  const { adminData } = useAdminAuth();
+  const { stats, isLoading, error, refreshStats } = useAdminDashboard();
+  
+  // Format currency for display
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+  
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
 
   if (isLoading) {
     return (
@@ -200,12 +143,54 @@ export default function AdminDashboard() {
       </div>
     );
   }
+  
+  if (error) {
+    return (
+      <div className="bg-red-50 text-red-600 p-4 rounded-md">
+        {error}
+        <Button 
+          onClick={refreshStats} 
+          variant="outline" 
+          className="mt-4 flex items-center gap-2 cursor-pointer"
+        >
+          <RefreshCw className="h-4 w-4" />
+          Try Again
+        </Button>
+      </div>
+    );
+  }
+  
+  if (!stats) {
+    return (
+      <div className="bg-yellow-50 text-yellow-600 p-4 rounded-md">
+        No dashboard data available.
+        <Button 
+          onClick={refreshStats} 
+          variant="outline" 
+          className="mt-4 flex items-center gap-2 cursor-pointer"
+        >
+          <RefreshCw className="h-4 w-4" />
+          Refresh
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome back, {user?.firstName || 'Admin'}!</p>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-1">Welcome back, {adminData?.name || 'Admin'}!</p>
+        </div>
+        <Button 
+          onClick={refreshStats}
+          variant="outline"
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <RefreshCw className="h-4 w-4" />
+          Refresh Data
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -230,18 +215,28 @@ export default function AdminDashboard() {
         />
         <DashboardCard
           title="Total Revenue"
-          value={`₹${stats.totalRevenue.toLocaleString()}`}
-          icon={<DollarSign className="h-6 w-6 text-primary" />}
-          trend="up"
-          trendValue="12% from last month"
+          value={formatCurrency(stats.totalRevenue)}
+          icon={<IndianRupee className="h-6 w-6 text-primary" />}
+          // We could calculate trend if we had historical data
+          // trend="up"
+          // trendValue="12% from last month"
         />
         <DashboardCard
           title="Pending Bookings"
           value={stats.pendingBookings}
           icon={<Clock className="h-6 w-6 text-primary" />}
           description="Requires your attention"
-          onClick={() => router.push('/admin/bookings/pending')}
+          onClick={() => router.push('/admin/bookings?status=pending')}
         />
+      </div>
+
+      {/* Monthly Statistics Chart */}
+      <div className="mb-8">
+        <div className="flex items-center mb-4">
+          <BarChart className="h-5 w-5 text-primary mr-2" />
+          <h2 className="text-lg font-medium text-gray-900">Monthly Statistics</h2>
+        </div>
+        <MonthlyStatsChart monthlyStats={stats.monthlyStats} />
       </div>
 
       {/* Recent Bookings */}
@@ -272,7 +267,15 @@ export default function AdminDashboard() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {stats.recentBookings.map((booking) => (
-                <RecentBooking key={booking.id} {...booking} />
+                <RecentBooking 
+                  key={booking.id} 
+                  id={booking.id}
+                  packageName={booking.packageName}
+                  customerName={booking.customerName}
+                  date={formatDate(booking.date)}
+                  amount={formatCurrency(parseFloat(booking.amount))}
+                  status={booking.status as 'pending' | 'confirmed' | 'cancelled'}
+                />
               ))}
             </tbody>
           </table>
@@ -280,7 +283,7 @@ export default function AdminDashboard() {
         <div className="px-6 py-4 border-t border-gray-200">
           <button 
             onClick={() => router.push('/admin/bookings')}
-            className="text-primary hover:text-primary-dark font-medium text-sm"
+            className="text-primary hover:text-primary-dark font-medium text-sm cursor-pointer"
           >
             View all bookings
           </button>

@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import axios from 'axios';
 import { 
   ArrowLeft, 
   Calendar, 
   User, 
   MapPin, 
   Users, 
-  DollarSign,
+  IndianRupee,
   Mail,
   Phone,
   MessageSquare,
@@ -21,6 +22,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminBookings, PaymentStatus } from '@/hooks/useAdminBookings';
+import { useToast } from '@/components/ui/use-toast';
 
 interface BookingDetailProps {
   params: {
@@ -42,7 +44,7 @@ interface BookingDetail {
   numberOfPeople: number;
   totalAmount: number;
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
-  paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed';
+  paymentStatus: PaymentStatus;
   paymentId?: string;
   paymentMethod?: string;
   contactInfo: {
@@ -59,6 +61,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   const router = useRouter();
   const { id } = params;
   const { getBooking, updateBooking } = useAdminBookings();
+  const { toast } = useToast();
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -68,9 +71,13 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     const fetchBookingData = async () => {
       try {
         setIsLoading(true);
-        const bookingData = await getBooking(id);
-        console.log("bookingData in page", bookingData);
+        setError(null); // Reset error state before fetching
         
+        // Directly fetch from API instead of using the hook to ensure we get the latest data
+        const response = await axios.get(`/api/admin/bookings/${id}`);
+        
+        const { data: bookingData } = response.data;
+        console.log("bookingData in page", bookingData);
         
         if (bookingData) {
           // Transform the data to match our BookingDetail interface
@@ -90,7 +97,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             status: bookingData.status || 'pending',
             paymentStatus: bookingData.paymentStatus || 'pending',
             paymentId: bookingData.paymentId || '',
-            paymentMethod: 'Cash/Bank Transfer', // Default payment method since we don't have Razorpay
+            paymentMethod: 'Cash', // Default payment method since we don't have Razorpay
             contactInfo: bookingData.contactInfo || { name: '', email: '', phone: '' },
             specialRequests: bookingData.specialRequests || '',
             createdAt: bookingData.createdAt || new Date().toISOString(),
@@ -101,37 +108,46 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         } else {
           setError('Booking not found');
         }
-      } catch (error) {
-        console.error('Error fetching booking:', error);
-        setError('Failed to load booking details. Please try again.');
+      } catch (err: any) {
+        console.error('Error fetching booking:', err);
+        setError(err.response?.data?.message || 'Failed to load booking details. Please try again.');
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchBookingData();
-  }, [id, getBooking]);
+  }, [id]);
 
-  const updateBookingStatus = async (status: string) => {
+  const updateBookingStatus = async (status: 'pending' | 'confirmed' | 'cancelled' | 'completed') => {
     if (!booking) return;
     
     setIsUpdating(true);
     try {
-      const updatedBooking = await updateBooking(id, { status: status as any });
+      const updatedBooking = await updateBooking(id, { status });
       
       if (updatedBooking) {
         // Transform the updated booking data to match our BookingDetail interface
         const transformedBooking: BookingDetail = {
           ...booking,
-          status: status as any,
+          status,
           updatedAt: new Date().toISOString()
         };
         
         setBooking(transformedBooking);
-        alert(`Booking status updated to ${status}`);
+        toast({
+          title: "Success",
+          description: `Booking status updated to ${status}`,
+          variant: "default",
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating booking status:', error);
+      toast({
+        title: "Error",
+        description: 'Failed to update booking status. Please try again.',
+        variant: "destructive",
+      });
       setError('Failed to update booking status. Please try again.');
     } finally {
       setIsUpdating(false);
@@ -143,9 +159,18 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     try {
       // In a real app, this would be an API call to send an email
       // For now, we'll just show a success message
-      alert('Confirmation email sent successfully');
-    } catch (error) {
+      toast({
+        title: "Success",
+        description: 'Confirmation email sent successfully',
+        variant: "default",
+      });
+    } catch (error: any) {
       console.error('Error sending confirmation email:', error);
+      toast({
+        title: "Error",
+        description: 'Failed to send confirmation email. Please try again.',
+        variant: "destructive",
+      });
       setError('Failed to send confirmation email. Please try again.');
     } finally {
       setIsUpdating(false);
@@ -163,15 +188,24 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         // Transform the updated booking data to match our BookingDetail interface
         const transformedBooking: BookingDetail = {
           ...booking,
-          paymentStatus: PaymentStatus.COMPLETED as any,
+          paymentStatus: PaymentStatus.COMPLETED,
           updatedAt: new Date().toISOString()
         };
         
         setBooking(transformedBooking);
-        alert('Payment marked as completed');
+        toast({
+          title: "Success",
+          description: 'Payment marked as completed',
+          variant: "default",
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating payment status:', error);
+      toast({
+        title: "Error",
+        description: 'Failed to update payment status. Please try again.',
+        variant: "destructive",
+      });
       setError('Failed to update payment status. Please try again.');
     } finally {
       setIsUpdating(false);
@@ -183,7 +217,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     try {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error formatting date:', error);
       return 'Invalid date';
     }
@@ -200,7 +234,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         minute: '2-digit'
       };
       return new Date(dateString).toLocaleString('en-US', options);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error formatting date/time:', error);
       return 'Invalid date/time';
     }
@@ -276,7 +310,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
       <div className="flex items-center gap-2 mb-6">
         <Link 
           href="/admin/bookings"
-          className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
+          className="text-gray-500 hover:text-gray-700 flex items-center gap-1 cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to bookings
@@ -296,44 +330,44 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           {booking.status === 'pending' && (
             <>
               <Button
-                onClick={() => updateBookingStatus('confirmed')}
-                disabled={isUpdating}
-                className="flex items-center gap-1"
-              >
-                <CheckCircle className="h-4 w-4" />
-                Confirm Booking
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => updateBookingStatus('cancelled')}
-                disabled={isUpdating}
-                className="flex items-center gap-1 text-red-500 border-red-200 hover:bg-red-50"
-              >
-                <XCircle className="h-4 w-4" />
-                Cancel Booking
-              </Button>
+                  onClick={() => updateBookingStatus('confirmed')}
+                  disabled={isUpdating}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <CheckCircle className="h-4 w-4" />
+                  Confirm Booking
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => updateBookingStatus('cancelled')}
+                  disabled={isUpdating}
+                  className="flex items-center gap-1 text-red-500 border-red-200 hover:bg-red-50 cursor-pointer"
+                >
+                  <XCircle className="h-4 w-4" />
+                  Cancel Booking
+                </Button>
             </>
           )}
           
           {booking.status === 'confirmed' && (
             <>
               <Button
-                onClick={() => updateBookingStatus('completed')}
-                disabled={isUpdating}
-                className="flex items-center gap-1"
-              >
-                <CheckCircle className="h-4 w-4" />
-                Mark as Completed
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => sendConfirmationEmail()}
-                disabled={isUpdating}
-                className="flex items-center gap-1"
-              >
-                <Mail className="h-4 w-4" />
-                Resend Confirmation
-              </Button>
+                  onClick={() => updateBookingStatus('completed')}
+                  disabled={isUpdating}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <CheckCircle className="h-4 w-4" />
+                  Mark as Completed
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => sendConfirmationEmail()}
+                  disabled={isUpdating}
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <Mail className="h-4 w-4" />
+                  Resend Confirmation
+                </Button>
             </>
           )}
           
@@ -342,7 +376,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             <Button
               onClick={completePayment}
               disabled={isUpdating}
-              className="flex items-center gap-1 bg-green-600 hover:bg-green-700"
+              className="flex items-center gap-1 bg-green-600 hover:bg-green-700 cursor-pointer"
             >
               <CreditCard className="h-4 w-4" />
               Complete Payment
@@ -413,7 +447,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
               </div>
               <Link 
                 href={`/admin/packages/edit/${booking.packageId}`}
-                className="text-primary hover:underline text-sm mt-2 inline-block"
+                className="text-primary hover:underline text-sm mt-2 inline-block cursor-pointer"
               >
                 View Package
               </Link>
@@ -438,7 +472,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             </div>
             
             <div className="flex items-center">
-              <DollarSign className="h-5 w-5 text-gray-400 mr-2" />
+              <IndianRupee className="h-5 w-5 text-gray-400 mr-2" />
               <div>
                 <div className="text-sm font-medium">Total Amount</div>
                 <div className="text-gray-600">₹{booking.totalAmount.toLocaleString()}</div>
@@ -478,7 +512,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             
             <Link 
               href={`/admin/users/${booking.userId}`}
-              className="text-primary hover:underline text-sm mt-2 inline-block"
+              className="text-primary hover:underline text-sm mt-2 inline-block cursor-pointer"
             >
               View Customer Profile
             </Link>

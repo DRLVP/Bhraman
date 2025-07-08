@@ -38,21 +38,16 @@ export function useAdminAuth() {
         setIsLoading(true);
         setError(null);
         
-        console.log('Fetching admin data for user:', user.id);
         const response = await axios.get('/api/admin-auth/me');
-        console.log("API response for admin check:", JSON.stringify(response.data));
         
         // Ensure we have valid admin data with the correct role
         if (response.data && response.data.role === 'admin') {
-          console.log("Valid admin data received:", response.data);
           setAdminData(response.data);
         } else {
-          console.log("Invalid or non-admin data received:", response.data);
           setAdminData(null);
         }
         
       } catch (err: any) {
-        console.error('Error checking admin status:', err);
         setError(err.response?.data || 'Failed to verify admin status');
         setAdminData(null);
       } finally {
@@ -79,11 +74,11 @@ export function useAdminAuth() {
   // This is a critical check that determines admin access
   const isAdminUser = !!adminData && adminData.role === 'admin';
   
-  console.log('Final admin check results:');
-  console.log('- adminData exists:', !!adminData);
-  console.log('- adminData role:', adminData?.role);
-  console.log('- isAdminUser calculated value:', isAdminUser);
-  console.log('- isLoading:', isLoading);
+  // console.log('Final admin check results:');
+  // console.log('- adminData exists:', !!adminData);
+  // console.log('- adminData role:', adminData?.role);
+  // console.log('- isAdminUser calculated value:', isAdminUser);
+  // console.log('- isLoading:', isLoading);
   
   return {
     // This is the key property used by components to determine admin access

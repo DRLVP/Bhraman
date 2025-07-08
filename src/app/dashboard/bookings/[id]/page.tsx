@@ -7,6 +7,7 @@ import { ArrowLeft, MapPin, Calendar, Users, CreditCard, Clock, Download, Mail, 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import useAuth from '@/hooks/useUserAuth';
+import axios from 'axios';
 
 // Define booking interface
 interface Booking {
@@ -60,14 +61,10 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
       
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/bookings/${unwrappedParams.id}`);
-        console.log("response after fetching details::", response.body);
+        const response = await axios.get(`/api/bookings/${unwrappedParams.id}`);
+        console.log("response after fetching details::", response.data);
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch booking details');
-        }
-        
-        const data = await response.json();
+        const data = response.data;
         console.log("data is::", data);
         
         // Check if data is directly the booking object or nested in a data property
@@ -81,8 +78,8 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
           console.error('Invalid booking data structure:', data);
           throw new Error('Invalid booking data structure');
         }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred while fetching booking details');
+      } catch (err: any) {
+        setError(err.response?.data?.message || 'An error occurred while fetching booking details');
         console.error('Error fetching booking details:', err);
       } finally {
         setIsLoading(false);

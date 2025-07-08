@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 /**
  * Custom hook for uploading files to Cloudinary
@@ -27,22 +28,17 @@ export const useUpload = () => {
       formData.append('folder', folder);
 
       // Upload to our API endpoint
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to upload file');
-      }
-
-      const data = await response.json();
+      
       setProgress(100);
-      return data;
+      return response.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
-      setError(errorMessage);
+      console.error('Error uploading file:', err);
+      setError(err.response?.data?.message || 'Failed to upload file');
       return null;
     } finally {
       setIsUploading(false);
@@ -70,18 +66,13 @@ export const useUpload = () => {
         formData.append('file', file);
         formData.append('folder', folder);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
+        const response = await axios.post('/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || `Failed to upload file ${i + 1}`);
-        }
-
-        const data = await response.json();
-        results.push(data);
+        
+        results.push(response.data);
 
         // Update progress
         setProgress(Math.round(((i + 1) / totalFiles) * 100));
@@ -89,8 +80,8 @@ export const useUpload = () => {
 
       return results;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
-      setError(errorMessage);
+      console.error('Error uploading multiple files:', err);
+      setError(err.response?.data?.message || `Failed to upload files`);
       return results; // Return any successful uploads
     } finally {
       setIsUploading(false);

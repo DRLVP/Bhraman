@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BookingForm from '@/components/forms/BookingForm';
 import useAuth from '@/hooks/useUserAuth';
+import axios from 'axios';
 
 // Empty package data structure
 const emptyPackage = {
@@ -42,13 +43,11 @@ export default function BookPackagePage({ params }: { params: Promise<{ slug: st
     const fetchPackage = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/packages/${slug}`);
-        if (!response.ok) throw new Error('Package not found');
-        const data = await response.json();
+        const response = await axios.get(`/api/packages/${slug}`);
         // Make sure we're accessing the data property from the API response
-        setPackageInfo(data.data);
+        setPackageInfo(response.data.data);
       } catch (err: any) {
-        setError(err.message);
+        setError(err.response?.data?.message || err.message || 'Package not found');
       } finally {
         setIsLoading(false);
       }

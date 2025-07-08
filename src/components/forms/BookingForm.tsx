@@ -6,6 +6,7 @@ import { Calendar, Users, CreditCard, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useUserAuth';
 import { useToast } from '@/components/ui/use-toast';
+import axios from 'axios';
 
 /**
  * BookingForm props interface
@@ -51,21 +52,17 @@ const BookingForm = ({
       if (isSignedIn) {
         try {
           setIsLoading(true);
-          const response = await fetch('/api/users/me');
+          const { data: userData } = await axios.get('/api/users/me');
           
-          if (response.ok) {
-            const userData = await response.json();
-            
-            // Pre-fill form with user data
-            setFormData(prev => ({
-              ...prev,
-              name: userData.name || '',
-              email: userData.email || '',
-              phone: userData.phone || ''
-            }));
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
+          // Pre-fill form with user data
+          setFormData(prev => ({
+            ...prev,
+            name: userData.name || '',
+            email: userData.email || '',
+            phone: userData.phone || ''
+          }));
+        } catch (err) {
+          console.error('Error fetching user data:', err);
           // Don't show error to user, just log it
         } finally {
           setIsLoading(false);
@@ -155,31 +152,18 @@ const BookingForm = ({
 
     try {
       // Create booking
-      const response = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const { data } = await axios.post('/api/bookings', {
+        packageId,
+        startDate: formData.startDate,
+        numberOfPeople: formData.numberOfPeople,
+        totalAmount,
+        contactInfo: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
         },
-        body: JSON.stringify({
-          packageId,
-          startDate: formData.startDate,
-          numberOfPeople: formData.numberOfPeople,
-          totalAmount,
-          contactInfo: {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-          },
-          specialRequests: formData.specialRequests,
-        }),
+        specialRequests: formData.specialRequests,
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create booking');
-      }
-
-      const data = await response.json();
       
       // Show success toast with pending status information
       toast({
@@ -189,7 +173,7 @@ const BookingForm = ({
 
       // Redirect to booking success page
       router.push(`/dashboard/bookings/success?bookingId=${data.bookingId}`);
-    } catch (err) {
+    } catch (err: any) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred while booking';
       setError(errorMessage);
       toast({

@@ -13,11 +13,13 @@ import {
   MapPin,
   Clock
 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useAdminBookings, BookingStatus, PaymentStatus } from '@/hooks/useAdminBookings';
 
 export default function BookingsPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const {
     bookings,
     pagination,
@@ -32,8 +34,15 @@ export default function BookingsPage() {
 
   useEffect(() => {
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
-    fetchBookings(currentPage, 10, status, undefined, searchQuery);
-  }, [fetchBookings, currentPage, statusFilter]);
+    fetchBookings(currentPage, 10, status, undefined, searchQuery)
+      .catch((err: any) => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err.message || "Failed to fetch bookings"
+        });
+      });
+  }, [fetchBookings, currentPage, statusFilter, toast, searchQuery]);
 
   console.log("all booking in the booking pages::", bookings);
   
@@ -42,7 +51,14 @@ export default function BookingsPage() {
     e.preventDefault();
     setCurrentPage(1); // Reset to first page on new search
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
-    fetchBookings(1, 10, status, undefined, searchQuery);
+    fetchBookings(1, 10, status, undefined, searchQuery)
+      .catch((err: any) => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err.message || "Failed to fetch bookings"
+        });
+      });
   };
 
   const handleStatusFilterChange = (status: string) => {
@@ -117,7 +133,7 @@ export default function BookingsPage() {
                 className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
               />
             </div>
-            <Button type="submit">Search</Button>
+            <Button type="submit" className="cursor-pointer">Search</Button>
           </form>
 
           <div className="flex items-center gap-2">
@@ -127,7 +143,7 @@ export default function BookingsPage() {
               onChange={(e) => handleStatusFilterChange(e.target.value)}
               className="block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
             >
-              <option value="all">All Statuses</option>
+              <option value="all" className="cursor-pointer">All Statuses</option>
               <option value={BookingStatus.PENDING}>Pending</option>
               <option value={BookingStatus.CONFIRMED}>Confirmed</option>
               <option value={BookingStatus.CANCELLED}>Cancelled</option>
@@ -199,10 +215,10 @@ export default function BookingsPage() {
                   }
                   
                   return (
-                    <tr key={booking._id} className="hover:bg-gray-50">
+                    <tr key={booking._id} className="hover:bg-gray-50 cursor-pointer" onClick={() => router.push(`/admin/bookings/${booking._id}`)}>
                       <td className="px-6 py-4">
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-gray-900">{packageInfo.title}</span>
+                          <span className="text-sm font-medium text-gray-900 hover:text-primary">{packageInfo.title}</span>
                           <div className="flex items-center text-xs text-gray-500 mt-1">
                             <MapPin className="h-3 w-3 mr-1" />
                             {packageInfo.location}
@@ -217,7 +233,7 @@ export default function BookingsPage() {
                         <div className="flex flex-col">
                           <div className="flex items-center">
                             <User className="h-4 w-4 mr-1 text-gray-400" />
-                            <span className="text-sm font-medium text-gray-900">{userInfo.name}</span>
+                            <span className="text-sm font-medium text-gray-900 hover:text-primary">{userInfo.name}</span>
                           </div>
                           <span className="text-xs text-gray-500 mt-1">{userInfo.email}</span>
                           <span className="text-xs text-gray-500 mt-1">{booking.contactInfo?.phone || 'No phone'}</span>
@@ -249,8 +265,10 @@ export default function BookingsPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => router.push(`/admin/bookings/${booking._id}`)}
-                          className="inline-flex items-center"
+                          onClick={(e) => {e.stopPropagation(); // Prevent row click event from firing
+                            router.push(`/admin/bookings/${booking._id}`);
+                          }}
+                          className="inline-flex items-center cursor-pointer"
                         >
                           <Eye className="h-4 w-4 mr-1" />
                           View
@@ -270,7 +288,7 @@ export default function BookingsPage() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`flex items-center text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900'}`}
+              className={`flex items-center text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900 cursor-pointer'}`}
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
@@ -281,7 +299,7 @@ export default function BookingsPage() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === pagination.pages}
-              className={`flex items-center text-sm font-medium ${currentPage === pagination.pages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900'}`}
+              className={`flex items-center text-sm font-medium ${currentPage === pagination.pages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900 cursor-pointer'}`}
             >
               Next
               <ChevronRight className="h-4 w-4 ml-1" />

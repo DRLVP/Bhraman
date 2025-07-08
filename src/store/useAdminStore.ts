@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import axios from 'axios';
 
 interface AdminStats {
   totalPackages: number;
@@ -59,13 +60,8 @@ export const useAdminStore = create<AdminState>(
           try {
             set({ isLoading: true, error: null });
             
-            const response = await fetch('/api/admin/dashboard');
-            
-            if (!response.ok) {
-              throw new Error('Failed to fetch dashboard data');
-            }
-            
-            const { data } = await response.json();
+            const { data: responseData } = await axios.get('/api/admin/dashboard');
+            const { data } = responseData;
             
             set({
               stats: {
@@ -79,10 +75,10 @@ export const useAdminStore = create<AdminState>(
               monthlyStats: data.monthlyStats,
               isLoading: false,
             });
-          } catch (error) {
-            console.error('Error fetching dashboard data:', error);
+          } catch (err: any) {
+            console.error('Error fetching dashboard data:', err);
             set({
-              error: error instanceof Error ? error.message : 'An unknown error occurred',
+              error: err.response?.data?.message || 'Failed to fetch dashboard data',
               isLoading: false,
             });
           }

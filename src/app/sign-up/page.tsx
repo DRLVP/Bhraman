@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
 
 export default function SignUpPage() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -128,24 +129,14 @@ export default function SignUpPage() {
 
       // Save additional user data to our database
       try {
-        const response = await fetch('/api/users/update-profile', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            phone,
-          }),
+        await axios.post('/api/users/update-profile', {
+          firstName,
+          lastName,
+          email,
+          phone,
         });
-
-        if (!response.ok) {
-          console.error('Failed to update user profile in database');
-        }
-      } catch (err) {
-        console.error('Error updating user profile:', err);
+      } catch (err: any) {
+        console.error('Error updating user profile:', err.response?.data?.message || err);
       }
 
       toast({

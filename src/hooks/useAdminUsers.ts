@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
+import axios from 'axios';
 
 // Admin user interface
 export interface AdminUser {
@@ -81,19 +82,14 @@ export function useAdminUsers(): UseAdminUsersReturn {
       if (options?.limit) queryParams.append('limit', options.limit.toString());
       if (options?.search) queryParams.append('search', options.search);
 
-      const response = await fetch(`/api/admin?${queryParams.toString()}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch admin users');
-      }
-
-      const data: AdminUsersResponse = await response.json();
+      const response = await axios.get(`/api/admin?${queryParams.toString()}`);
+      const data: AdminUsersResponse = response.data;
       setAdmins(data.data);
       setPagination(data.pagination);
       return data;
     } catch (err) {
       console.error('Error fetching admin users:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to fetch admin users');
       return null;
     } finally {
       setIsLoading(false);
@@ -110,17 +106,12 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/${id}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch admin user');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.get(`/api/admin/${id}`);
+      const { data } = response.data;
       return data;
     } catch (err) {
       console.error(`Error fetching admin user ${id}:`, err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to fetch admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -140,20 +131,8 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, permissions }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create admin user');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.post('/api/admin', { email, permissions });
+      const { data } = response.data;
       
       // Update the local state with the new admin
       setAdmins(prevAdmins => [...prevAdmins, data]);
@@ -162,7 +141,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return data;
     } catch (err) {
       console.error('Error creating admin user:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to create admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -182,20 +161,8 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update admin user');
-      }
-
-      const { data: updatedAdmin } = await response.json();
+      const response = await axios.patch(`/api/admin/${id}`, data);
+      const { data: updatedAdmin } = response.data;
       
       // Update the local state with the updated admin
       setAdmins(prevAdmins => 
@@ -207,7 +174,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return updatedAdmin;
     } catch (err) {
       console.error(`Error updating admin user ${id}:`, err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to update admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -224,14 +191,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete admin user');
-      }
+      await axios.delete(`/api/admin/${id}`);
 
       // Update the local state by removing the deleted admin
       setAdmins(prevAdmins => prevAdmins.filter(admin => admin._id !== id));
@@ -240,7 +200,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return true;
     } catch (err) {
       console.error(`Error deleting admin user ${id}:`, err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to delete admin user');
       return false;
     } finally {
       setIsLoading(false);

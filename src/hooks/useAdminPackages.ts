@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import axios from 'axios';
 import { useAdminAuth } from './useAdminAuth';
 
 interface Package {
@@ -82,18 +83,12 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       if (search) params.append('search', search);
       if (featured !== undefined) params.append('featured', featured.toString());
 
-      const response = await fetch(`/api/admin/packages?${params.toString()}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch packages');
-      }
-
-      const data = await response.json();
-      setPackages(data.data);
-      setPagination(data.pagination);
-    } catch (err) {
+      const response = await axios.get(`/api/admin/packages?${params.toString()}`);
+      setPackages(response.data.data);
+      setPagination(response.data.pagination);
+    } catch (err: any) {
       console.error('Error fetching packages:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to fetch packages');
     } finally {
       setIsLoading(false);
     }
@@ -109,17 +104,11 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/packages/${id}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch package');
-      }
-
-      const { data } = await response.json();
-      return data;
-    } catch (err) {
+      const response = await axios.get(`/api/admin/packages/${id}`);
+      return response.data.data;
+    } catch (err: any) {
       console.error('Error fetching package:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to fetch package');
       return null;
     } finally {
       setIsLoading(false);
@@ -138,29 +127,17 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin/packages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(packageData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create package');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.post('/api/admin/packages', packageData);
+      const { data } = response.data;
       
       // Update the packages list with the new package
       setPackages(prev => [data, ...prev]);
       setPagination(prev => ({ ...prev, total: prev.total + 1 }));
       
       return data;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error creating package:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to create package');
       return null;
     } finally {
       setIsLoading(false);
@@ -180,20 +157,8 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/packages/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(packageData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update package');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.patch(`/api/admin/packages/${id}`, packageData);
+      const { data } = response.data;
       
       // Update the packages list with the updated package
       setPackages(prev => 
@@ -201,9 +166,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       );
       
       return data;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating package:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to update package');
       return null;
     } finally {
       setIsLoading(false);
@@ -220,23 +185,16 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/packages/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete package');
-      }
+      await axios.delete(`/api/admin/packages/${id}`);
 
       // Remove the deleted package from the list
       setPackages(prev => prev.filter(pkg => pkg._id !== id));
       setPagination(prev => ({ ...prev, total: prev.total - 1 }));
       
       return true;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error deleting package:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || 'Failed to delete package');
       return false;
     } finally {
       setIsLoading(false);

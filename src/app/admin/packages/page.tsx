@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useAdminPackages } from '@/hooks/useAdminPackages';
 
@@ -45,6 +46,7 @@ interface Package {
 
 export default function PackagesPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
@@ -67,17 +69,38 @@ export default function PackagesPage() {
   // Fetch packages is now handled by the useAdminPackages hook
   useEffect(() => {
     // The hook will handle the API call and state management
-    fetchPackages(currentPage, limit, searchQuery);
-  }, [currentPage, limit, searchQuery, fetchPackages]);
+    fetchPackages(currentPage, limit, searchQuery)
+      .catch(err => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err.message || "Failed to fetch packages"
+        });
+      });
+  }, [currentPage, limit, searchQuery, fetchPackages, toast]);
 
   useEffect(() => {
-    fetchPackages(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+    fetchPackages(currentPage, limit, searchQuery)
+      .catch(err => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err.message || "Failed to fetch packages"
+        });
+      });
+  }, [currentPage, searchQuery, limit, fetchPackages, toast]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(1); // Reset to first page on new search
-    fetchPackages(1, searchQuery);
+    fetchPackages(1, limit, searchQuery)
+      .catch(err => {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: err.message || "Failed to fetch packages"
+        });
+      });
   };
 
   const handlePageChange = (page: number) => {
@@ -89,28 +112,58 @@ export default function PackagesPage() {
       // Use the updatePackage method from the hook
       await updatePackage(id, { featured: !featured });
       // The hook will update the packages state automatically
+      toast({
+        title: "Success",
+        description: `Package ${featured ? 'removed from' : 'marked as'} featured successfully`,
+      });
     } catch (error) {
       console.error('Error toggling featured status:', error);
-      // Error is handled by the hook
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update featured status"
+      });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this package? This action cannot be undone.')) {
-      return;
-    }
+    const packageToDelete = packages.find(pkg => pkg._id === id);
     
-    setIsDeleting(id);
-    try {
-      // Use the deletePackage method from the hook
-      await deletePackage(id);
-      // The hook will update the packages state automatically
-    } catch (error) {
-      console.error('Error deleting package:', error);
-      // Error is handled by the hook
-    } finally {
-      setIsDeleting(null);
-    }
+    // Use toast for confirmation instead of window.confirm
+    toast({
+      title: "Confirm deletion",
+      description: `Are you sure you want to delete ${packageToDelete?.title || 'this package'}? This action cannot be undone.`,
+      action: (
+        <Button 
+          variant="destructive" 
+          onClick={async () => {
+            setIsDeleting(id);
+            try {
+              // Use the deletePackage method from the hook
+              const success = await deletePackage(id);
+              if (success) {
+                toast({
+                  title: "Success",
+                  description: "Package deleted successfully",
+                });
+              }
+            } catch (error) {
+              console.error('Error deleting package:', error);
+              toast({
+                variant: "destructive",
+                title: "Error",
+                description: error instanceof Error ? error.message : "Failed to delete package"
+              });
+            } finally {
+              setIsDeleting(null);
+            }
+          }}
+          className="cursor-pointer"
+        >
+          Delete
+        </Button>
+      ),
+    });
   };
 
   if (isLoading && packages.length === 0) {
@@ -127,7 +180,7 @@ export default function PackagesPage() {
         <h1 className="text-2xl font-bold text-gray-900">Packages</h1>
         <Button 
           onClick={() => router.push('/admin/packages/new')}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 cursor-pointer"
         >
           <Plus className="h-4 w-4" /> Add New Package
         </Button>
@@ -154,7 +207,7 @@ export default function PackagesPage() {
               className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
             />
           </div>
-          <Button type="submit">Search</Button>
+          <Button type="submit" className="cursor-pointer">Search</Button>
         </form>
       </div>
 
@@ -230,7 +283,7 @@ export default function PackagesPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button 
                         onClick={() => toggleFeatured(pkg._id, pkg.featured)}
-                        className={`p-1 rounded-full ${pkg.featured ? 'text-yellow-500 hover:text-yellow-600' : 'text-gray-400 hover:text-gray-500'}`}
+                        className={`p-1 rounded-full cursor-pointer ${pkg.featured ? 'text-yellow-500 hover:text-yellow-600' : 'text-gray-400 hover:text-gray-500'}`}
                       >
                         {pkg.featured ? (
                           <Star className="h-5 w-5 fill-current" />
@@ -243,20 +296,20 @@ export default function PackagesPage() {
                       <div className="flex justify-end space-x-2">
                         <Link 
                           href={`/packages/${pkg.slug}`}
-                          className="text-gray-500 hover:text-gray-700"
+                          className="text-gray-500 hover:text-gray-700 cursor-pointer"
                           target="_blank"
                         >
                           <Eye className="h-5 w-5" />
                         </Link>
                         <button 
                           onClick={() => router.push(`/admin/packages/edit/${pkg._id}`)}
-                          className="text-blue-500 hover:text-blue-700"
+                          className="text-blue-500 hover:text-blue-700 cursor-pointer"
                         >
                           <Edit className="h-5 w-5" />
                         </button>
                         <button 
                           onClick={() => handleDelete(pkg._id)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 hover:text-red-700 cursor-pointer"
                           disabled={isDeleting === pkg._id}
                         >
                           <Trash2 className="h-5 w-5" />
@@ -276,7 +329,7 @@ export default function PackagesPage() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`flex items-center text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900'}`}
+              className={`flex items-center text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900 cursor-pointer'}`}
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
@@ -287,7 +340,7 @@ export default function PackagesPage() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`flex items-center text-sm font-medium ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900'}`}
+              className={`flex items-center text-sm font-medium ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-700 hover:text-gray-900 cursor-pointer'}`}
             >
               Next
               <ChevronRight className="h-4 w-4 ml-1" />

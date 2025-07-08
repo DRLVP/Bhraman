@@ -22,7 +22,7 @@ export const getCurrentAdmin = async () => {
     // Find user in our database and check if they have admin role
     const dbUser = await User.findOne({ 
       clerkId: userId,
-      role: { $in: ['admin'] }
+      role: 'admin'
     });
     console.log("getting user as admin::", dbUser);
     
@@ -64,7 +64,7 @@ export const isAdmin = async () => {
     await connectDB();
     const admin = await User.findOne({ 
       clerkId: userId,
-      role: { $in: ['admin'] }
+      role: 'admin'
     });
     console.log("checking admin after data::", admin);
     
@@ -234,7 +234,7 @@ export function getBookingStatusColor(status: BookingStatus): string {
  */
 export function getPaymentStatusColor(status: PaymentStatus): string {
   switch (status) {
-    case PaymentStatus.PAID:
+    case PaymentStatus.COMPLETED:
       return 'text-green-600 bg-green-100';
     case PaymentStatus.PENDING:
       return 'text-yellow-600 bg-yellow-100';

@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Calendar, MapPin, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import axios from 'axios';
 
 // Mock booking data
 const mockBookingData = {
@@ -44,12 +45,10 @@ export default function BookingSuccessPage() {
     // const fetchBookingDetails = async () => {
     //   try {
     //     setIsLoading(true);
-    //     const response = await fetch(`/api/bookings/${bookingId}?payment_id=${paymentId || ''}`);
-    //     if (!response.ok) throw new Error('Booking not found');
-    //     const data = await response.json();
-    //     setBookingData(data);
+    //     const response = await axios.get(`/api/bookings/${bookingId}?payment_id=${paymentId || ''}`);
+    //     setBookingData(response.data);
     //   } catch (err: any) {
-    //     setError(err.message);
+    //     setError(err.response?.data?.message || 'Booking not found');
     //   } finally {
     //     setIsLoading(false);
     //   }

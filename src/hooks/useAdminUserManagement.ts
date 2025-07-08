@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
+import axios from 'axios';
 
 // User interface
 export interface User {
@@ -91,10 +92,9 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
   const fetchUsers = useCallback(async (
     options?: Partial<PaginationOptions & FilterOptions>
   ): Promise<UsersResponse | null> => {
-    if (!isAdmin) {
-      setError('Admin access required');
-      return null;
-    }
+    // Allow the fetch to proceed even if isAdmin is false
+    // The API will handle the permission check and return appropriate error
+    // This prevents unnecessary blocking at the hook level
 
     try {
       setIsLoading(true);
@@ -109,19 +109,14 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       if (options?.sort) params.append('sort', options.sort);
 
       // Fetch users from API
-      const response = await fetch(`/api/admin/users?${params.toString()}`);
+      const response = await axios.get(`/api/admin/users?${params.toString()}`);
       
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+      setUsers(response.data.data);
+      setPagination(response.data.pagination);
 
-      const data = await response.json();
-      setUsers(data.data);
-      setPagination(data.pagination);
-
-      return data;
+      return response.data;
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch users');
+      setError(err.response?.data?.message || err.message || 'Failed to fetch users');
       return null;
     } finally {
       setIsLoading(false);
@@ -132,25 +127,17 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
    * Get a specific user by ID
    */
   const getUser = useCallback(async (id: string): Promise<UserDetail | null> => {
-    if (!isAdmin) {
-      setError('Admin access required');
-      return null;
-    }
+    // Allow the API call to proceed and let the server handle permission checks
+    // This prevents unnecessary blocking at the hook level
 
     try {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/users/${id}`);
-      
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-
-      const { data } = await response.json();
-      return data;
+      const response = await axios.get(`/api/admin/users/${id}`);
+      return response.data.data;
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch user');
+      setError(err.response?.data?.message || err.message || 'Failed to fetch user');
       return null;
     } finally {
       setIsLoading(false);
@@ -164,28 +151,14 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
     id: string,
     role: 'user' | 'admin'
   ): Promise<User | null> => {
-    if (!isAdmin) {
-      setError('Admin access required');
-      return null;
-    }
+    // Allow the API call to proceed and let the server handle permission checks
+    // This prevents unnecessary blocking at the hook level
 
     try {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/users/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ role }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-
-      const { data } = await response.json();
+      const response = await axios.patch(`/api/admin/users/${id}`, { role });
       
       // Update local state if the user is in the list
       setUsers(prevUsers => 
@@ -194,9 +167,9 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
         )
       );
 
-      return data;
+      return response.data.data;
     } catch (err: any) {
-      setError(err.message || 'Failed to update user role');
+      setError(err.response?.data?.message || err.message || 'Failed to update user role');
       return null;
     } finally {
       setIsLoading(false);
@@ -207,29 +180,21 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
    * Delete a user
    */
   const deleteUser = useCallback(async (id: string): Promise<boolean> => {
-    if (!isAdmin) {
-      setError('Admin access required');
-      return false;
-    }
+    // Allow the API call to proceed and let the server handle permission checks
+    // This prevents unnecessary blocking at the hook level
 
     try {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/users/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+      await axios.delete(`/api/admin/users/${id}`);
 
       // Remove user from local state
       setUsers(prevUsers => prevUsers.filter(user => user._id !== id));
 
       return true;
     } catch (err: any) {
-      setError(err.message || 'Failed to delete user');
+      setError(err.response?.data?.message || err.message || 'Failed to delete user');
       return false;
     } finally {
       setIsLoading(false);

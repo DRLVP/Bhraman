@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { MapPin, Calendar, CreditCard, Clock, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
+import axios from 'axios';
 
 // Define booking interface
 interface Booking {
@@ -46,16 +47,10 @@ export default function BookingsPage() {
       
       try {
         setIsLoading(true);
-        const response = await fetch('/api/bookings');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch bookings');
-        }
-        
-        const data = await response.json();
-        setBookings(data.data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred while fetching bookings');
+        const response = await axios.get('/api/bookings');
+        setBookings(response.data.data);
+      } catch (err: any) {
+        setError(err.response?.data?.message || err.message || 'Failed to fetch bookings');
         console.error('Error fetching bookings:', err);
       } finally {
         setIsLoading(false);

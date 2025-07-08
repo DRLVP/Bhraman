@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
+import axios from 'axios';
 
 // Booking status enum (must match the backend enum)
 export enum BookingStatus {
@@ -109,18 +110,12 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       if (paymentStatus) params.append('paymentStatus', paymentStatus);
       if (search) params.append('search', search);
 
-      const response = await fetch(`/api/admin/bookings?${params.toString()}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch bookings');
-      }
-
-      const data = await response.json();
-      setBookings(data.data);
-      setPagination(data.pagination);
-    } catch (err) {
+      const response = await axios.get(`/api/admin/bookings?${params.toString()}`);
+      setBookings(response.data.data);
+      setPagination(response.data.pagination);
+    } catch (err: any) {
       console.error('Error fetching bookings:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || err.message || 'Failed to fetch bookings');
     } finally {
       setIsLoading(false);
     }
@@ -136,17 +131,11 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/bookings/${id}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch booking');
-      }
-
-      const { data } = await response.json();
-      return data;
-    } catch (err) {
+      const response = await axios.get(`/api/admin/bookings/${id}`);
+      return response.data.data;
+    } catch (err: any) {
       console.error('Error fetching booking:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || err.message || 'Failed to fetch booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -165,29 +154,17 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('/api/admin/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create booking');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.post('/api/admin/bookings', bookingData);
+      const data = response.data.data;
       
       // Update the bookings list with the new booking
       setBookings(prev => [data, ...prev]);
       setPagination(prev => ({ ...prev, total: prev.total + 1 }));
       
       return data;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error creating booking:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || err.message || 'Failed to create booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -207,20 +184,8 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/bookings/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update booking');
-      }
-
-      const { data } = await response.json();
+      const response = await axios.patch(`/api/admin/bookings/${id}`, bookingData);
+      const data = response.data.data;
       
       // Update the bookings list with the updated booking
       setBookings(prev => 
@@ -228,9 +193,9 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       );
       
       return data;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating booking:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || err.message || 'Failed to update booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -247,23 +212,16 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`/api/admin/bookings/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete booking');
-      }
+      await axios.delete(`/api/admin/bookings/${id}`);
 
       // Remove the deleted booking from the list
       setBookings(prev => prev.filter(booking => booking._id !== id));
       setPagination(prev => ({ ...prev, total: prev.total - 1 }));
       
       return true;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error deleting booking:', err);
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setError(err.response?.data?.message || err.message || 'Failed to delete booking');
       return false;
     } finally {
       setIsLoading(false);

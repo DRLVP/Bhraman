@@ -13,8 +13,7 @@ import {
   Menu,
   X,
   ChevronDown,
-  ChevronRight,
-  Shield
+  ChevronRight
 } from 'lucide-react';
 import { ClerkProvider, useAuth } from '@clerk/nextjs';
 import { envConfig } from '@/constants/envConfig';
@@ -91,7 +90,6 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [packagesOpen, setPackagesOpen] = useState(false);
   const [bookingsOpen, setBookingsOpen] = useState(false);
-  const [adminSettingsOpen, setAdminSettingsOpen] = useState(false);
 
   console.log("is admin in admin layout::", isAdmin);
   
@@ -99,7 +97,6 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (pathname.includes('/admin/packages')) setPackagesOpen(true);
     if (pathname.includes('/admin/bookings')) setBookingsOpen(true);
-    if (pathname.includes('/admin/settings')) setAdminSettingsOpen(true);
   }, [pathname]);
 
   const toggleMobileMenu = () => {
@@ -114,7 +111,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const handleSignOut = async () => {
     try {
       await signOut();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error signing out:', error);
     }
   };
@@ -247,40 +244,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               active={pathname === '/admin/users'}
             />
             <SidebarItem
-              icon={<Shield className="h-5 w-5" />}
-              label="Admin Settings"
-              href="#"
-              active={pathname.includes('/admin/settings')}
-              hasChildren={true}
-              isOpen={adminSettingsOpen}
-              onClick={() => setAdminSettingsOpen(!adminSettingsOpen)}
-            >
-              <Link
-                href="/admin/settings/permissions"
-                className={`block py-2 pl-2 text-sm ${
-                  pathname === '/admin/settings/permissions'
-                    ? 'text-primary font-medium'
-                    : 'text-gray-600 hover:text-primary'
-                }`}
-              >
-                Permissions
-              </Link>
-              <Link
-                href="/admin/settings/admins"
-                className={`block py-2 pl-2 text-sm ${
-                  pathname === '/admin/settings/admins'
-                    ? 'text-primary font-medium'
-                    : 'text-gray-600 hover:text-primary'
-                }`}
-              >
-                Manage Admins
-              </Link>
-            </SidebarItem>
-            <SidebarItem
               icon={<Settings className="h-5 w-5" />}
-              label="Site Settings"
-              href="/admin/settings"
-              active={pathname === '/admin/settings'}
+              label="Manage Site"
+              href="/admin/manage-site"
+              active={pathname === '/admin/manage-site'}
             />
           </nav>
           <div className="p-4 border-t border-gray-200">
@@ -405,9 +372,9 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
                 />
                 <SidebarItem
                   icon={<Settings className="h-5 w-5" />}
-                  label="Settings"
-                  href="/admin/settings"
-                  active={pathname === '/admin/settings'}
+                  label="Manage Site"
+                  href="/admin/manage-site"
+                  active={pathname === '/admin/manage-site'}
                 />
               </nav>
               <div className="p-4 border-t border-gray-200">
