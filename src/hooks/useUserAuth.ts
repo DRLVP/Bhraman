@@ -11,7 +11,10 @@ interface UserData {
   email: string;
   name: string;
   profileImage?: string;
+  phone?: string;
   role: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /**

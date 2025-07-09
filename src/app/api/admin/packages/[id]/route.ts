@@ -7,7 +7,7 @@ import { generateSlug } from '@/lib/server-utils';
 /**
  * Get a specific package by ID
  */
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -19,8 +19,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     // Connect to MongoDB
     await connectDB();
     
-    // Await params before accessing its properties
-    const { id } = await params;
+    const { id } = params;
     
     // Get the package by ID
     const packageData = await Package.findById(id);
@@ -39,7 +38,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 /**
  * Update a package
  */
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -54,8 +53,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     // Connect to MongoDB
     await connectDB();
     
-    // Await params before accessing its properties
-    const { id } = await params;
+    const { id } = params;
     
     // Find the package to update
     const packageToUpdate = await Package.findById(id);
@@ -98,7 +96,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 /**
  * Delete a package
  */
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -110,8 +108,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     // Connect to MongoDB
     await connectDB();
     
-    // Await params before accessing its properties
-    const { id } = await params;
+    const { id } = params;
     
     // Find the package to delete
     const packageToDelete = await Package.findById(id);

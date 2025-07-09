@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { 
@@ -57,7 +57,8 @@ interface BookingDetail {
 }
 
 export default function BookingDetailPage({ params }: BookingDetailProps) {
-  const { id } = params;
+  // Use React.use() to unwrap params object as recommended by Next.js
+  const { id } = use(params);
   const { updateBooking } = useAdminBookings();
   const { toast } = useToast();
   const [booking, setBooking] = useState<BookingDetail | null>(null);

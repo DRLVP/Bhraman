@@ -10,13 +10,14 @@ import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
 import Image from 'next/image';
 
-export default function BookPackagePage({ params }: { params: Promise<{ slug: string }> }) {
+export default function BookPackagePage({ params }: { params: { slug: string } }) {
+  // Use React.use() to unwrap params object as recommended by Next.js
+  const { slug } = use(params);
   const router = useRouter();
   const { isSignedIn, isLoaded } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [packageInfo, setPackageInfo] = useState<any>(null);
-  const { slug } = use(params); // Unwrap the params Promise with React.use()
 
   // Check if user is authenticated
   useEffect(() => {

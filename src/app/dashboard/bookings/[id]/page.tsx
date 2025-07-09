@@ -168,6 +168,8 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
                   src={image.replace(/"/g, '').trim()} 
                   alt={`${booking.packageId.title} - Image ${index + 1}`} 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  width={100}
+                  height={100}
                 />
               </div>
             ))}

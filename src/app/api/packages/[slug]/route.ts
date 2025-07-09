@@ -5,13 +5,12 @@ import Package from '@/models/Package';
 /**
  * Get a specific package by slug
  */
-export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
   try {
     // Connect to MongoDB
     await connectDB();
     
-    // Await params before accessing its properties
-    const { slug } = await params;
+    const { slug } = params;
     
     // Get the package by slug
     const packageData = await Package.findOne({ slug });

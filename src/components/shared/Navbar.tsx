@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { UserButton, SignedIn, SignedOut } from '@clerk/nextjs';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import UserProfileMenu from '@/components/shared/UserProfileMenu';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
@@ -96,7 +97,7 @@ const Navbar = () => {
 
             <div className="flex items-center ml-4">
               <SignedIn>
-                <UserButton afterSignOutUrl="/" />
+                <UserProfileMenu afterSignOutUrl="/" />
               </SignedIn>
               <SignedOut>
                 <Link href="/sign-in">
@@ -112,7 +113,7 @@ const Navbar = () => {
           <div className="flex md:hidden items-center">
             <SignedIn>
               <div className="flex items-center mr-2">
-                <UserButton afterSignOutUrl="/" />
+                <UserProfileMenu afterSignOutUrl="/" />
               </div>
             </SignedIn>
             <button

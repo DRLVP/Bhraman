@@ -6,7 +6,7 @@ import User from '@/models/User';
 /**
  * Get a specific admin user by ID
  */
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -18,8 +18,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     // Connect to MongoDB
     await connectDB();
     
-    // Await params before accessing its properties
-    const { id } = await params;
+    const { id } = params;
     
     // Get the admin by ID
     const adminUser = await User.findOne({ _id: id, role: 'admin' })

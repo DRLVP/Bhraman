@@ -5,6 +5,11 @@ import Booking, { BookingStatus, PaymentStatus } from '@/models/Booking';
 import User from '@/models/User';
 import mongoose from 'mongoose';
 
+// Import Package model - make sure it's loaded before use
+import '@/models/Package';
+// Now get the model from mongoose models
+const Package = mongoose.models.Package;
+
 /**
  * Create a new booking
  */

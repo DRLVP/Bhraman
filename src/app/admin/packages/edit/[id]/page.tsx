@@ -8,9 +8,9 @@ import axios from 'axios';
 import { use } from 'react';
 
 interface PackageEditPageProps {
-  params: Promise<{
+  params: {
     id: string;
-  }>;
+  };
 }
 
 export default function EditPackagePage({ params }: PackageEditPageProps) {

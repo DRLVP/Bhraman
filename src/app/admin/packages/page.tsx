@@ -231,6 +231,8 @@ export default function PackagesPage() {
                               src={pkg.images[0]} 
                               alt={pkg.title} 
                               className="h-10 w-10 rounded-md object-cover"
+                              width={100}
+                              height={100}
                             />
                           ) : (
                             <div className="h-10 w-10 rounded-md bg-gray-200 flex items-center justify-center">
