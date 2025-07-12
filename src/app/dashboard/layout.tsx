@@ -12,7 +12,6 @@ const navigation = [
   { name: 'Profile', href: '/dashboard', icon: UserCircle },
   { name: 'My Bookings', href: '/dashboard/bookings', icon: Package },
   { name: 'Payment History', href: '/dashboard/payments', icon: CreditCard },
-  { name: 'Account Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
 export default function DashboardLayout({
@@ -63,7 +62,7 @@ export default function DashboardLayout({
           </button>
           <div className="ml-4 flex-1">
             <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">Bhraman</span>
+              <span className="text-xl font-bold text-primary">Budh Bhraman</span>
             </Link>
           </div>
         </div>
@@ -74,7 +73,7 @@ export default function DashboardLayout({
         >
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
             <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">Bhraman</span>
+              <span className="text-xl font-bold text-primary">Budh Bhraman</span>
             </Link>
             <button
               type="button"
