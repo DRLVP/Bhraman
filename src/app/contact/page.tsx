@@ -36,7 +36,7 @@ export default function ContactPage() {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-8 text-white">
             <h2 className="text-2xl font-bold mb-4">Get In Touch</h2>
-            <p>We'd love to hear from you. Contact us using the information below.</p>
+            <p>We&apos;d love to hear from you. Contact us using the information below.</p>
           </div>
           <div className="p-6 space-y-6">
             <div className="flex items-start">
@@ -181,7 +181,7 @@ export default function ContactPage() {
               <div className="p-6">
                 <h3 className="text-lg font-medium text-gray-900">How do I book a travel package?</h3>
                 <p className="mt-2 text-gray-600">
-                  You can book a travel package by browsing our packages, selecting the one you're interested in, 
+                  You can book a travel package by browsing our packages, selecting the one you&apos;re interested in, 
                   and clicking the "Book Now" button. Follow the steps to complete your booking, including providing 
                   traveler information and making payment.
                 </p>
@@ -203,7 +203,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-medium text-gray-900">Can I customize a travel package?</h3>
                 <p className="mt-2 text-gray-600">
                   Yes, we offer customization options for most of our travel packages. Please contact our customer 
-                  service team with your requirements, and we'll work with you to create a personalized travel experience.
+                  service team with your requirements, and we&apos;ll work with you to create a personalized travel experience.
                 </p>
               </div>
             </div>

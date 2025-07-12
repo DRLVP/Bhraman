@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -135,7 +135,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     if (isLoaded && !isSignedIn && !isLoading) {
       console.log('Redirecting to sign-in: User not signed in');
       router.push(`/admin/sign-in?redirect_url=${encodeURIComponent(pathname)}`);
-      return;
+      return () => {};
     }
 
     // Only redirect to unauthorized if we're sure the user is not an admin

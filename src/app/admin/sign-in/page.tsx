@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignIn, useSignUp, useAuth } from '@clerk/nextjs';
 import axios from 'axios';

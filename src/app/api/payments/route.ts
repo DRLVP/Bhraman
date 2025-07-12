@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import connectDB from '@/lib/db';
-import Booking from '@/models/Booking';
+import Booking, { PaymentStatus } from '@/models/Booking';
 import User from '@/models/User';
 import Package from '@/models/Package';
-import { PaymentStatus } from '@/models/Booking';
 
 /**
  * Get all payments for the current user

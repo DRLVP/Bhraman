@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { use } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, MapPin, Calendar, Users, CreditCard, Clock, Download, Mail, Phone, MessageSquare, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -79,8 +78,11 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
           console.error('Invalid booking data structure:', data);
           throw new Error('Invalid booking data structure');
         }
-      } catch (err: any) {
-        setError(err.response?.data?.message || 'An error occurred while fetching booking details');
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error 
+          ? err.message 
+          : (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'An error occurred while fetching booking details';
+        setError(errorMessage);
         console.error('Error fetching booking details:', err);
       } finally {
         setIsLoading(false);
@@ -196,7 +198,7 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
                     <AlertCircle className="h-5 w-5 text-yellow-500 mr-2 mt-0.5" />
                     <div>
                       <p className="font-medium text-yellow-800">Booking Pending Confirmation</p>
-                      <p className="text-yellow-700 text-sm mt-1">Your booking is currently pending confirmation by our administrators. You will be notified once it's confirmed.</p>
+                      <p className="text-yellow-700 text-sm mt-1">Your booking is currently pending confirmation by our administrators. You will be notified once it&apos;s confirmed.</p>
                     </div>
                   </div>
                 </div>

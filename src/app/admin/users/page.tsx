@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Search, RefreshCw, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminUserManagement, User } from '@/hooks/useAdminUserManagement';
@@ -35,7 +35,7 @@ export default function UsersPage() {
   }, [authLoading, loadUsers]);
   console.log('users list in admin users page::', users);
   
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     // Don't show error toast during initial loading
     if (authLoading) {
       return;
@@ -49,6 +49,7 @@ export default function UsersPage() {
         description: 'Admin access is required to view this page',
         variant: 'destructive',
       });
+    }
       return;
     }
     

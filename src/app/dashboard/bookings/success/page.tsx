@@ -49,7 +49,7 @@ export default function BookingSuccessPage() {
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Booking Submitted!</h1>
         
         <p className="text-gray-600 mb-6">
-          Your booking has been successfully submitted and is pending confirmation by our administrators. You will be notified once it's confirmed. Thank you for choosing Bhraman for your travel needs.
+          Your booking has been successfully submitted and is pending confirmation by our administrators. You will be notified once it&apos;s confirmed. Thank you for choosing Bhraman for your travel needs.
         </p>
         
         <div className="bg-gray-50 p-4 rounded-md mb-6">

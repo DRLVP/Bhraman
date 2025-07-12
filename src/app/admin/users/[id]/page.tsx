@@ -75,12 +75,13 @@ export default function UserDetailPage({ params }: UserDetailProps) {
         }
         
         setUser(responseData.data);
-      } catch (error: any) {
+      } catch (error: Error | unknown) {
         console.error('Error fetching user:', error);
-        setError(error.message || 'Failed to load user details. Please try again.');
+        const errorMessage = error instanceof Error ? error.message : 'Failed to load user details. Please try again.';
+        setError(errorMessage);
         toast({
           title: 'Error',
-          description: error.message || 'Failed to load user details. Please try again.',
+          description: errorMessage,
           variant: 'destructive',
         });
       } finally {

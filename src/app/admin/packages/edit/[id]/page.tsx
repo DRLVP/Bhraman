@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import PackageForm from '@/components/forms/PackageForm';
 import axios from 'axios';
-import { use } from 'react';
 
 interface PackageEditPageProps {
   params: {

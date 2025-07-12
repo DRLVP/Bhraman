@@ -230,7 +230,7 @@ export default function BookingsPage() {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
-            <p className="text-gray-600 mb-4">You don't have any upcoming trips.</p>
+            <p className="text-gray-600 mb-4">You don&apos;t have any upcoming trips.</p>
             <Button asChild>
               <Link href="/packages">Browse Packages</Link>
             </Button>
@@ -305,7 +305,7 @@ export default function BookingsPage() {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
-            <p className="text-gray-600">You don't have any past trips.</p>
+            <p className="text-gray-600">You don&apos;t have any past trips.</p>
           </div>
         )}
       </div>
