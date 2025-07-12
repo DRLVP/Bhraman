@@ -68,9 +68,9 @@ const packageFormSchema = z.object({
       day: z.number(),
       title: z.string().min(1, { message: 'Day title is required' }),
       description: z.string().min(1, { message: 'Day description is required' }),
-      image: z.string().optional()
-    })
-  ).min(1, { message: 'At least one itinerary item is required' })
+      image: z.string().optional(),
+    }),
+  ).min(1, { message: 'At least one itinerary item is required' }),
 });
 
 type PackageFormValues = z.infer<typeof packageFormSchema>;
@@ -130,7 +130,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
   // Handle image upload
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files || files.length === 0) return;
+    if (!files || files.length === 0) {return;}
 
     try {
       const uploadedImages = await uploadMultipleFiles(Array.from(files), 'packages');
@@ -241,7 +241,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
   // Handle itinerary image upload
   const handleItineraryImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files || files.length === 0) return;
+    if (!files || files.length === 0) {return;}
 
     try {
       const result = await uploadFile(files[0], 'packages/itinerary');

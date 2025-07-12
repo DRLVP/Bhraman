@@ -67,11 +67,11 @@ const usePackageStore = create<PackageState>((set, get) => ({
       const { filters } = get();
       const params = new URLSearchParams();
       
-      if (filters.search) params.append('search', filters.search);
-      if (filters.location !== 'All Locations') params.append('location', filters.location);
-      if (filters.duration !== 'Any Duration') params.append('duration', filters.duration);
-      if (filters.priceRange !== 'Any Price') params.append('priceRange', filters.priceRange);
-      if (filters.sortBy) params.append('sortBy', filters.sortBy);
+      if (filters.search) {params.append('search', filters.search);}
+      if (filters.location !== 'All Locations') {params.append('location', filters.location);}
+      if (filters.duration !== 'Any Duration') {params.append('duration', filters.duration);}
+      if (filters.priceRange !== 'Any Price') {params.append('priceRange', filters.priceRange);}
+      if (filters.sortBy) {params.append('sortBy', filters.sortBy);}
       
       const response = await axios.get(`/api/packages?${params.toString()}`);
       set({ packages: response.data.data, isLoading: false });
@@ -79,7 +79,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
       console.error('Error fetching packages:', error);
       set({ 
         error: error instanceof Error ? error.message : 'Failed to fetch packages', 
-        isLoading: false 
+        isLoading: false, 
       });
     }
   },
@@ -94,7 +94,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
       console.error('Error fetching featured packages:', error);
       set({ 
         error: error instanceof Error ? error.message : 'Failed to fetch featured packages', 
-        isLoading: false 
+        isLoading: false, 
       });
     }
   },
@@ -112,7 +112,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
       console.error(`Error fetching package with slug ${slug}:`, error);
       set({ 
         packageError: error instanceof Error ? error.message : 'Failed to fetch package', 
-        isLoadingPackage: false 
+        isLoadingPackage: false, 
       });
       return null;
     }

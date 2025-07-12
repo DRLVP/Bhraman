@@ -58,14 +58,14 @@ export async function GET(request: Request) {
       users.map(async (user) => {
         // Count bookings for this user
         const bookingCount = await import('@/models/Booking')
-          .then(module => module.default.countDocuments({ userId: user._id }));
+          .then((module) => module.default.countDocuments({ userId: user._id }));
         
         return {
           ...user.toObject(),
           _id: user._id.toString(),
-          bookingCount
+          bookingCount,
         };
-      })
+      }),
     );
     
     // Calculate pagination info
@@ -77,8 +77,8 @@ export async function GET(request: Request) {
         total,
         page,
         limit,
-        pages
-      }
+        pages,
+      },
     });
   } catch (error) {
     console.error('Error getting users:', error);

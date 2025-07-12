@@ -29,7 +29,7 @@ export default function HomeClient() {
           className="absolute inset-0 bg-cover bg-center" 
           style={{ 
             backgroundImage: `url(${homeConfig?.heroSection?.backgroundImage || 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1920&q=80'})`, 
-            filter: 'brightness(0.7)'
+            filter: 'brightness(0.7)',
           }}
         />
         <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl">
@@ -180,7 +180,7 @@ export default function HomeClient() {
                   <p>
                     Whether you're looking for adventure, relaxation, cultural immersion, or a mix of experiences, 
                     Bhraman has the perfect package for you.
-                  </p>`
+                  </p>`,
                 }} />
               </div>
               <div className="mt-8">
@@ -193,7 +193,7 @@ export default function HomeClient() {
             </div>
             <div className="relative">
               <Image 
-                src={homeConfig?.aboutSection?.image || "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80"} 
+                src={homeConfig?.aboutSection?.image || 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80'} 
                 alt="About Bhraman" 
                 className="rounded-lg shadow-xl w-full h-auto object-cover"
                 width={600}

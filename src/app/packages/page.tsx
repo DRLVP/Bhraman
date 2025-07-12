@@ -19,7 +19,7 @@ export default function PackagesPage() {
     filters, 
     fetchPackages, 
     setFilters, 
-    resetFilters 
+    resetFilters, 
   } = usePackageStore();
   
   // State for pagination
@@ -240,7 +240,7 @@ export default function PackagesPage() {
                   pageNum = i + 1;
                 } else if (currentPage <= 3) {
                   pageNum = i + 1;
-                  if (i === 4) pageNum = totalPages;
+                  if (i === 4) {pageNum = totalPages;}
                 } else if (currentPage >= totalPages - 2) {
                   pageNum = totalPages - 4 + i;
                 } else {

@@ -14,7 +14,7 @@ export async function POST() {
     // Create a Clerk client
     const clerkClient = createClerkClient({
       publishableKey: envConfig.clerkPublishableKey,
-      secretKey: serverEnvConfig.clerkSecretKey
+      secretKey: serverEnvConfig.clerkSecretKey,
     });
     
     // Revoke the session using the Clerk client

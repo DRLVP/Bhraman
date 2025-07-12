@@ -86,14 +86,14 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     const updatedBooking = await Booking.findByIdAndUpdate(
       documentId,
       { $set: body },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     )
       .populate('userId', 'name email phone')
       .populate('packageId');
     
     return NextResponse.json({
       message: 'Booking updated successfully',
-      data: updatedBooking
+      data: updatedBooking,
     });
   } catch (error) {
     console.error('Error updating booking:', error);
@@ -129,7 +129,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     await Booking.findByIdAndDelete(id);
     
     return NextResponse.json({
-      message: 'Booking deleted successfully'
+      message: 'Booking deleted successfully',
     });
   } catch (error) {
     console.error('Error deleting booking:', error);

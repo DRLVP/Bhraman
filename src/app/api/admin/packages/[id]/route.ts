@@ -80,12 +80,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     const updatedPackage = await Package.findByIdAndUpdate(
       documentId,
       { $set: body },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     
     return NextResponse.json({
       message: 'Package updated successfully',
-      data: updatedPackage
+      data: updatedPackage,
     });
   } catch (error) {
     console.error('Error updating package:', error);
@@ -121,7 +121,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     await Package.findByIdAndDelete(id);
     
     return NextResponse.json({
-      message: 'Package deleted successfully'
+      message: 'Package deleted successfully',
     });
   } catch (error) {
     console.error('Error deleting package:', error);

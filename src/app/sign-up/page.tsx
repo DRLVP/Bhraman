@@ -96,7 +96,7 @@ export default function SignUpPage() {
       // Change UI to show verification code input
       setPendingVerification(true);
       toast({
-        title: "Verification needed",
+        title: 'Verification needed',
         description: "We've sent a verification code to your email",
       });
       setIsLoading(false);
@@ -140,8 +140,8 @@ export default function SignUpPage() {
       }
 
       toast({
-        title: "Success",
-        description: "Your account has been created successfully",
+        title: 'Success',
+        description: 'Your account has been created successfully',
       });
 
       // Redirect to dashboard
@@ -307,7 +307,7 @@ export default function SignUpPage() {
                       Creating account...
                     </>
                   ) : (
-                    "Sign up"
+                    'Sign up'
                   )}
                 </Button>
               </form>
@@ -338,7 +338,7 @@ export default function SignUpPage() {
                       Verifying...
                     </>
                   ) : (
-                    "Verify Email"
+                    'Verify Email'
                   )}
                 </Button>
               </form>

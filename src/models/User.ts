@@ -45,22 +45,22 @@ const UserSchema = new Schema<IUser>(
       type: String,
       trim: true,
       unique: true,
-      sparse: true // Allows multiple documents to have no value for this field
+      sparse: true, // Allows multiple documents to have no value for this field
     },
     role: {
       type: String,
       enum: ['user', 'admin'],
-      default: 'user'
+      default: 'user',
     },
     permissions: {
       type: [String],
-      default: []
+      default: [],
     },
     lastLogin: {
-      type: Date
-    }
+      type: Date,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Check if model exists before creating a new one (for Next.js hot reloading)

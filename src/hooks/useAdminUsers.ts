@@ -66,7 +66,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
   }>({ total: 0, page: 1, limit: 10, pages: 0 });
 
   const fetchAdmins = useCallback(async (
-    options?: Partial<PaginationOptions & { search?: string }>
+    options?: Partial<PaginationOptions & { search?: string }>,
   ): Promise<AdminUsersResponse | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -78,9 +78,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setError(null);
 
       const queryParams = new URLSearchParams();
-      if (options?.page) queryParams.append('page', options.page.toString());
-      if (options?.limit) queryParams.append('limit', options.limit.toString());
-      if (options?.search) queryParams.append('search', options.search);
+      if (options?.page) {queryParams.append('page', options.page.toString());}
+      if (options?.limit) {queryParams.append('limit', options.limit.toString());}
+      if (options?.search) {queryParams.append('search', options.search);}
 
       const response = await axios.get(`/api/admin?${queryParams.toString()}`);
       const data: AdminUsersResponse = response.data;
@@ -120,7 +120,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
 
   const createAdmin = useCallback(async (
     email: string,
-    permissions: string[] = []
+    permissions: string[] = [],
   ): Promise<AdminUser | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -135,8 +135,8 @@ export function useAdminUsers(): UseAdminUsersReturn {
       const { data } = response.data;
       
       // Update the local state with the new admin
-      setAdmins(prevAdmins => [...prevAdmins, data]);
-      setPagination(prev => ({ ...prev, total: prev.total + 1 }));
+      setAdmins((prevAdmins) => [...prevAdmins, data]);
+      setPagination((prev) => ({ ...prev, total: prev.total + 1 }));
       
       return data;
     } catch (err) {
@@ -150,7 +150,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
 
   const updateAdmin = useCallback(async (
     id: string,
-    data: Partial<AdminUser>
+    data: Partial<AdminUser>,
   ): Promise<AdminUser | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -165,10 +165,10 @@ export function useAdminUsers(): UseAdminUsersReturn {
       const { data: updatedAdmin } = response.data;
       
       // Update the local state with the updated admin
-      setAdmins(prevAdmins => 
-        prevAdmins.map(admin => 
-          admin._id === id ? updatedAdmin : admin
-        )
+      setAdmins((prevAdmins) => 
+        prevAdmins.map((admin) => 
+          admin._id === id ? updatedAdmin : admin,
+        ),
       );
       
       return updatedAdmin;
@@ -194,8 +194,8 @@ export function useAdminUsers(): UseAdminUsersReturn {
       await axios.delete(`/api/admin/${id}`);
 
       // Update the local state by removing the deleted admin
-      setAdmins(prevAdmins => prevAdmins.filter(admin => admin._id !== id));
-      setPagination(prev => ({ ...prev, total: prev.total - 1 }));
+      setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin._id !== id));
+      setPagination((prev) => ({ ...prev, total: prev.total - 1 }));
       
       return true;
     } catch (err) {

@@ -9,7 +9,7 @@ import {
   IndianRupee,
   Clock,
   RefreshCw,
-  BarChart
+  BarChart,
 } from 'lucide-react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useAdminDashboard } from '@/hooks/useAdminDashboard';
@@ -33,7 +33,7 @@ const DashboardCard = ({
   description, 
   trend, 
   trendValue,
-  onClick 
+  onClick, 
 }: DashboardCardProps) => {
   return (
     <div 
@@ -88,14 +88,14 @@ const RecentBooking = ({
   customerName, 
   date, 
   amount, 
-  status 
+  status, 
 }: RecentBookingProps) => {
   const router = useRouter();
   
   const statusColors = {
     pending: 'bg-yellow-100 text-yellow-800',
     confirmed: 'bg-green-100 text-green-800',
-    cancelled: 'bg-red-100 text-red-800'
+    cancelled: 'bg-red-100 text-red-800',
   };
   
   return (
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(amount);
   };
   

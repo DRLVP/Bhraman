@@ -102,7 +102,7 @@ const BookingSchema = new Schema<IBooking>(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Check if model exists before creating a new one (for Next.js hot reloading)

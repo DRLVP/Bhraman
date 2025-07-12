@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       query.$or = [
         { 'contactInfo.name': { $regex: search, $options: 'i' } },
         { 'contactInfo.email': { $regex: search, $options: 'i' } },
-        { 'contactInfo.phone': { $regex: search, $options: 'i' } }
+        { 'contactInfo.phone': { $regex: search, $options: 'i' } },
       ];
     }
     
@@ -65,8 +65,8 @@ export async function GET(request: Request) {
         total,
         page,
         limit,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     console.error('Error getting bookings:', error);
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     const newBooking = await Booking.create({
       ...body,
       status: body.status || BookingStatus.PENDING,
-      paymentStatus: body.paymentStatus || PaymentStatus.PENDING
+      paymentStatus: body.paymentStatus || PaymentStatus.PENDING,
     });
     
     // Populate related data
@@ -121,7 +121,7 @@ export async function POST(request: Request) {
     
     return NextResponse.json({
       message: 'Booking created successfully',
-      data: newBooking
+      data: newBooking,
     }, { status: 201 });
   } catch (error) {
     console.error('Error creating booking:', error);

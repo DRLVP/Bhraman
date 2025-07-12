@@ -58,15 +58,15 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
   
   useEffect(() => {
     const fetchBookingDetails = async () => {
-      if (!isLoaded || !isSignedIn) return;
+      if (!isLoaded || !isSignedIn) {return;}
       
       try {
         setIsLoading(true);
         const response = await axios.get(`/api/bookings/${unwrappedParams.id}`);
-        console.log("response after fetching details::", response.data);
+        console.log('response after fetching details::', response.data);
         
         const data = response.data;
-        console.log("data is::", data);
+        console.log('data is::', data);
         
         // Check if data is directly the booking object or nested in a data property
         if (data && data._id) {

@@ -65,7 +65,7 @@ export async function POST(request: Request) {
         
         return NextResponse.json({
           message: 'User promoted to admin successfully',
-          data: existingUser
+          data: existingUser,
         });
       }
       
@@ -78,12 +78,12 @@ export async function POST(request: Request) {
       name: body.name,
       phone: body.phone,
       role: 'admin',
-      permissions: body.permissions || []
+      permissions: body.permissions || [],
     });
     
     return NextResponse.json({
       message: 'Admin created successfully',
-      data: newAdmin
+      data: newAdmin,
     }, { status: 201 });
   } catch (error) {
     console.error('Error creating admin:', error);

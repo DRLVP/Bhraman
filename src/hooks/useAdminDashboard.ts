@@ -68,6 +68,6 @@ export function useAdminDashboard() {
     stats,
     isLoading,
     error,
-    refreshStats: fetchDashboardStats
+    refreshStats: fetchDashboardStats,
   };
 }

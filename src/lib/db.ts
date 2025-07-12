@@ -26,7 +26,7 @@ if (!cached) {
     promise: null,
     isConnecting: false,
     connectionAttempts: 0,
-    lastErrorTime: null
+    lastErrorTime: null,
   };
 }
 

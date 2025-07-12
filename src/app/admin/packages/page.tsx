@@ -12,7 +12,7 @@ import {
   Star, 
   StarOff,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -36,7 +36,7 @@ export default function PackagesPage() {
     error,
     fetchPackages,
     deletePackage,
-    updatePackage
+    updatePackage,
   } = useAdminPackages();
   
   // Calculate total pages from pagination
@@ -46,22 +46,22 @@ export default function PackagesPage() {
   useEffect(() => {
     // The hook will handle the API call and state management
     fetchPackages(currentPage, limit, searchQuery)
-      .catch(err => {
+      .catch((err) => {
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: err.message || "Failed to fetch packages"
+          variant: 'destructive',
+          title: 'Error',
+          description: err.message || 'Failed to fetch packages',
         });
       });
   }, [currentPage, limit, searchQuery, fetchPackages, toast]);
 
   useEffect(() => {
     fetchPackages(currentPage, limit, searchQuery)
-      .catch(err => {
+      .catch((err) => {
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: err.message || "Failed to fetch packages"
+          variant: 'destructive',
+          title: 'Error',
+          description: err.message || 'Failed to fetch packages',
         });
       });
   }, [currentPage, searchQuery, limit, fetchPackages, toast]);
@@ -70,11 +70,11 @@ export default function PackagesPage() {
     e.preventDefault();
     setCurrentPage(1); // Reset to first page on new search
     fetchPackages(1, limit, searchQuery)
-      .catch(err => {
+      .catch((err) => {
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: err.message || "Failed to fetch packages"
+          variant: 'destructive',
+          title: 'Error',
+          description: err.message || 'Failed to fetch packages',
         });
       });
   };
@@ -89,25 +89,25 @@ export default function PackagesPage() {
       await updatePackage(id, { featured: !featured });
       // The hook will update the packages state automatically
       toast({
-        title: "Success",
+        title: 'Success',
         description: `Package ${featured ? 'removed from' : 'marked as'} featured successfully`,
       });
     } catch (error) {
       console.error('Error toggling featured status:', error);
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update featured status"
+        variant: 'destructive',
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to update featured status',
       });
     }
   };
 
   const handleDelete = async (id: string) => {
-    const packageToDelete = packages.find(pkg => pkg._id === id);
+    const packageToDelete = packages.find((pkg) => pkg._id === id);
     
     // Use toast for confirmation instead of window.confirm
     toast({
-      title: "Confirm deletion",
+      title: 'Confirm deletion',
       description: `Are you sure you want to delete ${packageToDelete?.title || 'this package'}? This action cannot be undone.`,
       action: (
         <Button 
@@ -119,16 +119,16 @@ export default function PackagesPage() {
               const success = await deletePackage(id);
               if (success) {
                 toast({
-                  title: "Success",
-                  description: "Package deleted successfully",
+                  title: 'Success',
+                  description: 'Package deleted successfully',
                 });
               }
             } catch (error) {
               console.error('Error deleting package:', error);
               toast({
-                variant: "destructive",
-                title: "Error",
-                description: error instanceof Error ? error.message : "Failed to delete package"
+                variant: 'destructive',
+                title: 'Error',
+                description: error instanceof Error ? error.message : 'Failed to delete package',
               });
             } finally {
               setIsDeleting(null);

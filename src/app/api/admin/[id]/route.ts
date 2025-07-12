@@ -69,16 +69,16 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
     
     // Update the admin
-    if (body.name) adminToUpdate.name = body.name;
-    if (body.email) adminToUpdate.email = body.email;
-    if (body.phone) adminToUpdate.phone = body.phone;
-    if (body.permissions) adminToUpdate.permissions = body.permissions;
+    if (body.name) {adminToUpdate.name = body.name;}
+    if (body.email) {adminToUpdate.email = body.email;}
+    if (body.phone) {adminToUpdate.phone = body.phone;}
+    if (body.permissions) {adminToUpdate.permissions = body.permissions;}
     
     await adminToUpdate.save();
     
     return NextResponse.json({
       message: 'Admin updated successfully',
-      data: adminToUpdate
+      data: adminToUpdate,
     });
   } catch (error) {
     console.error('Error updating admin:', error);
@@ -122,7 +122,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await adminToDelete.save();
     
     return NextResponse.json({
-      message: 'Admin removed successfully'
+      message: 'Admin removed successfully',
     });
   } catch (error) {
     console.error('Error removing admin:', error);

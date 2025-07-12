@@ -55,11 +55,11 @@ const BookingForm = ({
           const { data: userData } = await axios.get('/api/users/me');
           
           // Pre-fill form with user data
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
             name: userData.name || '',
             email: userData.email || '',
-            phone: userData.phone || ''
+            phone: userData.phone || '',
           }));
         } catch (err) {
           console.error('Error fetching user data:', err);
@@ -107,9 +107,9 @@ const BookingForm = ({
     if (!formData.phone || formData.phone.trim() === '') {
       setPhoneError('Phone number is required');
       toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Phone number is required",
+        variant: 'destructive',
+        title: 'Validation Error',
+        description: 'Phone number is required',
       });
       return;
     }
@@ -118,9 +118,9 @@ const BookingForm = ({
     if (formData.phone.replace(/\D/g, '').length < 10) {
       setPhoneError('Phone number must have at least 10 digits');
       toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Phone number must have at least 10 digits",
+        variant: 'destructive',
+        title: 'Validation Error',
+        description: 'Phone number must have at least 10 digits',
       });
       return;
     }
@@ -130,9 +130,9 @@ const BookingForm = ({
     if (!isSignedIn) {
       setError('Please sign in to book a package');
       toast({
-        variant: "destructive",
-        title: "Authentication Error",
-        description: "Please sign in to book a package",
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: 'Please sign in to book a package',
       });
       setIsLoading(false);
       return;
@@ -142,9 +142,9 @@ const BookingForm = ({
     if (!isUser) {
       setError('Only users can book packages. Please contact support if you believe this is an error.');
       toast({
-        variant: "destructive",
-        title: "Authorization Error",
-        description: "Only users can book packages. Please contact support if you believe this is an error.",
+        variant: 'destructive',
+        title: 'Authorization Error',
+        description: 'Only users can book packages. Please contact support if you believe this is an error.',
       });
       setIsLoading(false);
       return;
@@ -167,7 +167,7 @@ const BookingForm = ({
       
       // Show success toast with pending status information
       toast({
-        title: "Booking Submitted Successfully",
+        title: 'Booking Submitted Successfully',
         description: `Your booking for ${packageName} has been submitted! It will be pending until confirmed by an administrator. You'll be notified once it's confirmed.`,
       });
 
@@ -177,8 +177,8 @@ const BookingForm = ({
       const errorMessage = err instanceof Error ? err.message : 'An error occurred while booking';
       setError(errorMessage);
       toast({
-        variant: "destructive",
-        title: "Booking Failed",
+        variant: 'destructive',
+        title: 'Booking Failed',
         description: errorMessage,
       });
     } finally {
@@ -216,9 +216,9 @@ const BookingForm = ({
                 value={formData.startDate instanceof Date ? formData.startDate.toISOString().split('T')[0] : ''}
                 onChange={(e) => {
                   const date = e.target.value ? new Date(e.target.value) : new Date();
-                  setFormData(prev => ({
+                  setFormData((prev) => ({
                     ...prev,
-                    startDate: date
+                    startDate: date,
                   }));
                 }}
                 className="pl-10 block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"

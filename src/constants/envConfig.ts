@@ -19,8 +19,8 @@ export const envConfig = {
   
   // Admin routes - static values, safe for client
   adminSignInUrl: '/sign-in',
-  adminDashboardUrl: '/admin'
-}
+  adminDashboardUrl: '/admin',
+};
 
 // Server-side environment variables (only use in server components or API routes)
 // These will throw errors if accessed from client components
@@ -32,4 +32,4 @@ export const serverEnvConfig = {
   cloudinaryCloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
   cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-}
+};

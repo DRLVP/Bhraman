@@ -27,7 +27,7 @@ const useUserStore = create<UserState>((set, get) => ({
   
   clearUser: () => set({ user: null }),
   
-  setLoading: (isLoading) => set({ isLoading })
+  setLoading: (isLoading) => set({ isLoading }),
 }));
 
 export default useUserStore;

@@ -16,7 +16,7 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  CreditCard
+  CreditCard,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminBookings, PaymentStatus } from '@/hooks/useAdminBookings';
@@ -76,7 +76,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         const response = await axios.get(`/api/admin/bookings/${id}`);
         
         const { data: bookingData } = response.data;
-        console.log("bookingData in page", bookingData);
+        console.log('bookingData in page', bookingData);
         
         if (bookingData) {
           // Transform the data to match our BookingDetail interface
@@ -100,7 +100,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             contactInfo: bookingData.contactInfo || { name: '', email: '', phone: '' },
             specialRequests: bookingData.specialRequests || '',
             createdAt: bookingData.createdAt || new Date().toISOString(),
-            updatedAt: bookingData.updatedAt || new Date().toISOString()
+            updatedAt: bookingData.updatedAt || new Date().toISOString(),
           };
           
           setBooking(transformedBooking);
@@ -122,7 +122,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   }, [id]);
 
   const updateBookingStatus = async (status: 'pending' | 'confirmed' | 'cancelled' | 'completed') => {
-    if (!booking) return;
+    if (!booking) {return;}
     
     setIsUpdating(true);
     try {
@@ -133,22 +133,22 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         const transformedBooking: BookingDetail = {
           ...booking,
           status,
-          updatedAt: new Date().toISOString()
+          updatedAt: new Date().toISOString(),
         };
         
         setBooking(transformedBooking);
         toast({
-          title: "Success",
+          title: 'Success',
           description: `Booking status updated to ${status}`,
-          variant: "default",
+          variant: 'default',
         });
       }
     } catch (error: unknown) {
       console.error('Error updating booking status:', error);
       toast({
-        title: "Error",
+        title: 'Error',
         description: 'Failed to update booking status. Please try again.',
-        variant: "destructive",
+        variant: 'destructive',
       });
       setError('Failed to update booking status. Please try again.');
     } finally {
@@ -162,16 +162,16 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
       // In a real app, this would be an API call to send an email
       // For now, we'll just show a success message
       toast({
-        title: "Success",
+        title: 'Success',
         description: 'Confirmation email sent successfully',
-        variant: "default",
+        variant: 'default',
       });
     } catch (error: unknown) {
       console.error('Error sending confirmation email:', error);
       toast({
-        title: "Error",
+        title: 'Error',
         description: 'Failed to send confirmation email. Please try again.',
-        variant: "destructive",
+        variant: 'destructive',
       });
       setError('Failed to send confirmation email. Please try again.');
     } finally {
@@ -180,7 +180,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   };
   
   const completePayment = async () => {
-    if (!booking) return;
+    if (!booking) {return;}
     
     setIsUpdating(true);
     try {
@@ -191,22 +191,22 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         const transformedBooking: BookingDetail = {
           ...booking,
           paymentStatus: PaymentStatus.COMPLETED,
-          updatedAt: new Date().toISOString()
+          updatedAt: new Date().toISOString(),
         };
         
         setBooking(transformedBooking);
         toast({
-          title: "Success",
+          title: 'Success',
           description: 'Payment marked as completed',
-          variant: "default",
+          variant: 'default',
         });
       }
     } catch (error: unknown) {
       console.error('Error updating payment status:', error);
       toast({
-        title: "Error",
+        title: 'Error',
         description: 'Failed to update payment status. Please try again.',
-        variant: "destructive",
+        variant: 'destructive',
       });
       setError('Failed to update payment status. Please try again.');
     } finally {
@@ -215,7 +215,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   };
 
   const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return 'Unknown date';
+    if (!dateString) {return 'Unknown date';}
     try {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
@@ -226,14 +226,14 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   };
 
   const formatDateTime = (dateString: string | null | undefined) => {
-    if (!dateString) return 'Unknown date/time';
+    if (!dateString) {return 'Unknown date/time';}
     try {
       const options: Intl.DateTimeFormatOptions = { 
         year: 'numeric', 
         month: 'short', 
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       };
       return new Date(dateString).toLocaleString('en-US', options);
     } catch (error: unknown) {
@@ -243,7 +243,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
   };
 
   const getStatusColor = (status: string | null | undefined) => {
-    if (!status) return 'bg-gray-100 text-gray-800';
+    if (!status) {return 'bg-gray-100 text-gray-800';}
     
     switch (status) {
       case 'pending':

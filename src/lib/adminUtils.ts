@@ -22,9 +22,9 @@ export const getCurrentAdmin = async () => {
     // Find user in our database and check if they have admin role
     const dbUser = await User.findOne({ 
       clerkId: userId,
-      role: 'admin'
+      role: 'admin',
     });
-    console.log("getting user as admin::", dbUser);
+    console.log('getting user as admin::', dbUser);
     
     if (!dbUser) {
       return null;
@@ -64,9 +64,9 @@ export const isAdmin = async () => {
     await connectDB();
     const admin = await User.findOne({ 
       clerkId: userId,
-      role: 'admin'
+      role: 'admin',
     });
-    console.log("checking admin after data::", admin);
+    console.log('checking admin after data::', admin);
     
     return !!admin;
   } catch (error) {
@@ -97,7 +97,7 @@ export async function adminMiddleware(req: NextRequest) {
     // Check if user has admin role
     const hasAdminAccess = await isAdmin();
 
-    console.log("after checking is admin or not::", hasAdminAccess);
+    console.log('after checking is admin or not::', hasAdminAccess);
     
     
     // If not admin, redirect to unauthorized page
@@ -171,11 +171,11 @@ export const hasPermission = async (permission: string) => {
  * @returns Formatted date string
  */
 export function formatAdminDate(dateString: string | Date, includeTime: boolean = false): string {
-  if (!dateString) return 'N/A';
+  if (!dateString) {return 'N/A';}
   
   const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
   
-  if (isNaN(date.getTime())) return 'Invalid Date';
+  if (isNaN(date.getTime())) {return 'Invalid Date';}
   
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
@@ -198,7 +198,7 @@ export function formatAdminDate(dateString: string | Date, includeTime: boolean 
  * @returns Formatted currency string
  */
 export function formatAdminCurrency(amount: number, currency: string = 'INR'): string {
-  if (amount === undefined || amount === null) return 'N/A';
+  if (amount === undefined || amount === null) {return 'N/A';}
   
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -280,7 +280,7 @@ export function getBookingsByMonth(bookings: Array<{ createdAt: string }>, month
   }
 
   // Count bookings by month
-  bookings.forEach(booking => {
+  bookings.forEach((booking) => {
     const bookingDate = new Date(booking.createdAt);
     const monthLabel = bookingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     
@@ -290,7 +290,7 @@ export function getBookingsByMonth(bookings: Array<{ createdAt: string }>, month
   });
 
   // Convert to arrays for chart data
-  labels.forEach(month => {
+  labels.forEach((month) => {
     data.push(monthCounts[month]);
   });
 
@@ -305,9 +305,9 @@ export function getBookingsByMonth(bookings: Array<{ createdAt: string }>, month
  */
 export function filterBookingsByStatus<T extends { status: BookingStatus }>(
   bookings: T[],
-  status: BookingStatus
+  status: BookingStatus,
 ): T[] {
-  return bookings.filter(booking => booking.status === status);
+  return bookings.filter((booking) => booking.status === status);
 }
 
 /**
@@ -318,7 +318,7 @@ export function filterBookingsByStatus<T extends { status: BookingStatus }>(
  */
 export function getRecentBookings<T extends { createdAt: string }>(
   bookings: T[],
-  limit: number = 5
+  limit: number = 5,
 ): T[] {
   return [...bookings]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -332,7 +332,7 @@ export function getRecentBookings<T extends { createdAt: string }>(
  * @returns Truncated string with ellipsis if needed
  */
 export function truncateAdminString(str: string, length: number = 50): string {
-  if (!str) return '';
+  if (!str) {return '';}
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
@@ -361,7 +361,7 @@ export function getRandomChartColor(): string {
  * @returns Formatted phone number or N/A if not provided
  */
 export function formatAdminPhone(phone?: string): string {
-  if (!phone) return 'N/A';
+  if (!phone) {return 'N/A';}
   
   // Basic formatting for Indian phone numbers
   // Adjust as needed for your specific requirements
@@ -380,12 +380,12 @@ export function formatAdminPhone(phone?: string): string {
  */
 export function hasAdminPermission(
   userPermissions: string[] | undefined,
-  requiredPermission: string
+  requiredPermission: string,
 ): boolean {
-  if (!userPermissions || userPermissions.length === 0) return false;
+  if (!userPermissions || userPermissions.length === 0) {return false;}
   
   // Check for wildcard permission
-  if (userPermissions.includes('*')) return true;
+  if (userPermissions.includes('*')) {return true;}
   
   return userPermissions.includes(requiredPermission);
 }

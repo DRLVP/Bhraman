@@ -17,9 +17,9 @@ export default function UsersPage() {
     isLoading: apiLoading,
     error: apiError,
     pagination,
-    fetchUsers
+    fetchUsers,
   } = useAdminUserManagement();
-  console.log("is admin check in admin users page::", isAdmin);
+  console.log('is admin check in admin users page::', isAdmin);
   
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,7 +33,7 @@ export default function UsersPage() {
       loadUsers();
     }
   }, [authLoading, loadUsers]);
-  console.log("users list in admin users page::", users);
+  console.log('users list in admin users page::', users);
   
   const loadUsers = async () => {
     // Don't show error toast during initial loading
@@ -43,11 +43,11 @@ export default function UsersPage() {
     
     if (!isAdmin) {
       setError('Admin access required');
-      console.log("is admin in users page in::", isAdmin);
+      console.log('is admin in users page in::', isAdmin);
       toast({
-        title: "Access Denied",
-        description: "Admin access is required to view this page",
-        variant: "destructive",
+        title: 'Access Denied',
+        description: 'Admin access is required to view this page',
+        variant: 'destructive',
       });
       return;
     }
@@ -59,15 +59,15 @@ export default function UsersPage() {
         limit: pagination.limit,
         role: 'user',
         search: searchQuery,
-        sort: sortBy
+        sort: sortBy,
       });
     } catch (err: Error | unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch users';
       setError(errorMessage);
       toast({
-        title: "Error",
+        title: 'Error',
         description: errorMessage,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -91,7 +91,7 @@ export default function UsersPage() {
       limit: pagination.limit,
       role: 'user',
       search: searchQuery,
-      sort: sortBy
+      sort: sortBy,
     });
   };
 
@@ -101,7 +101,7 @@ export default function UsersPage() {
       limit: pagination.limit,
       role: 'user',
       search: searchQuery,
-      sort: sortBy
+      sort: sortBy,
     });
   };
 

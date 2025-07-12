@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartOptions
+  ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
@@ -21,7 +21,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface MonthlyStatsChartProps {
@@ -34,7 +34,7 @@ interface MonthlyStatsChartProps {
 
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
 export default function MonthlyStatsChart({ monthlyStats }: MonthlyStatsChartProps) {
@@ -47,7 +47,7 @@ export default function MonthlyStatsChart({ monthlyStats }: MonthlyStatsChartPro
   const bookingCounts = Array(12).fill(0);
   const revenueData = Array(12).fill(0);
   
-  monthlyStats.forEach(stat => {
+  monthlyStats.forEach((stat) => {
     const monthIndex = stat.month - 1; // Convert 1-based month to 0-based index
     if (monthIndex >= 0 && monthIndex < 12) {
       bookingCounts[monthIndex] = stat.count;

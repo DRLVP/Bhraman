@@ -17,7 +17,7 @@ export default function PackageDetailPage() {
     currentPackage, 
     isLoadingPackage, 
     packageError, 
-    fetchPackageBySlug 
+    fetchPackageBySlug, 
   } = usePackageStore();
   
   // Fetch package data on component mount
@@ -70,7 +70,7 @@ export default function PackageDetailPage() {
   // Destructure package data for easier access
   const packageData = currentPackage;
 
-  console.log("package data in single package page::", packageData);
+  console.log('package data in single package page::', packageData);
   
 
   return (

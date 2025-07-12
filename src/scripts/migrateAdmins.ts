@@ -43,7 +43,7 @@ async function migrateAdmins() {
           permissions: [], // All admins have full access by default
           lastLogin: admin.lastLogin || new Date(),
           createdAt: admin.createdAt,
-          updatedAt: admin.updatedAt
+          updatedAt: admin.updatedAt,
         });
       }
     }

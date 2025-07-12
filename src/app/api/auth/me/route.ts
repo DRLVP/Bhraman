@@ -42,7 +42,7 @@ export async function GET() {
       name: dbUser?.name || `${clerkUser.firstName} ${clerkUser.lastName}`,
       profileImage: dbUser?.profileImage || clerkUser.imageUrl,
       role: dbUser?.role || 'user', // Include user role in the response
-      phone: dbUser?.phone
+      phone: dbUser?.phone,
     });
   } catch (error) {
     console.error('Error getting current user:', error);

@@ -65,7 +65,7 @@ export function useAdminPackages(): UseAdminPackagesReturn {
     page: number = 1,
     limit: number = 10,
     search: string = '',
-    featured?: boolean
+    featured?: boolean,
   ) => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -81,8 +81,8 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       params.append('page', page.toString());
       params.append('limit', limit.toString());
       
-      if (search) params.append('search', search);
-      if (featured !== undefined) params.append('featured', featured.toString());
+      if (search) {params.append('search', search);}
+      if (featured !== undefined) {params.append('featured', featured.toString());}
 
       const response = await axios.get(`/api/admin/packages?${params.toString()}`);
       setPackages(response.data.data);
@@ -117,7 +117,7 @@ export function useAdminPackages(): UseAdminPackagesReturn {
   }, [isAdmin]);
 
   const createPackage = useCallback(async (
-    packageData: Omit<Package, '_id' | 'slug' | 'createdAt' | 'updatedAt'>
+    packageData: Omit<Package, '_id' | 'slug' | 'createdAt' | 'updatedAt'>,
   ): Promise<Package | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -132,8 +132,8 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       const { data } = response.data;
       
       // Update the packages list with the new package
-      setPackages(prev => [data, ...prev]);
-      setPagination(prev => ({ ...prev, total: prev.total + 1 }));
+      setPackages((prev) => [data, ...prev]);
+      setPagination((prev) => ({ ...prev, total: prev.total + 1 }));
       
       return data;
     } catch (err: unknown) {
@@ -147,7 +147,7 @@ export function useAdminPackages(): UseAdminPackagesReturn {
 
   const updatePackage = useCallback(async (
     id: string,
-    packageData: Partial<Package>
+    packageData: Partial<Package>,
   ): Promise<Package | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -162,8 +162,8 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       const { data } = response.data;
       
       // Update the packages list with the updated package
-      setPackages(prev => 
-        prev.map(pkg => pkg._id === id ? data : pkg)
+      setPackages((prev) => 
+        prev.map((pkg) => pkg._id === id ? data : pkg),
       );
       
       return data;
@@ -189,8 +189,8 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       await axios.delete(`/api/admin/packages/${id}`);
 
       // Remove the deleted package from the list
-      setPackages(prev => prev.filter(pkg => pkg._id !== id));
-      setPagination(prev => ({ ...prev, total: prev.total - 1 }));
+      setPackages((prev) => prev.filter((pkg) => pkg._id !== id));
+      setPagination((prev) => ({ ...prev, total: prev.total - 1 }));
       
       return true;
     } catch (err: unknown) {

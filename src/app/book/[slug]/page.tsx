@@ -39,7 +39,7 @@ export default function BookPackagePage({ params }: { params: { slug: string } }
       } catch (err: Error | unknown) {
         setError(
           (err as { response?: { data?: { message?: string } }; message?: string })?.response?.data?.message || 
-          (err instanceof Error ? err.message : 'Package not found')
+          (err instanceof Error ? err.message : 'Package not found'),
         );
       } finally {
         setIsLoading(false);

@@ -140,18 +140,18 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
       const response = await axios.patch('/api/admin/home-config', configData);
       setHomeConfig(response.data.data);
       toast({
-        title: "Update successful",
-        description: "Home configuration has been updated successfully.",
-        variant: "default",
+        title: 'Update successful',
+        description: 'Home configuration has been updated successfully.',
+        variant: 'default',
       });
       return response.data.data;
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to update home config';
       setError(errorMessage);
       toast({
-        title: "Update failed",
+        title: 'Update failed',
         description: errorMessage,
-        variant: "destructive",
+        variant: 'destructive',
       });
       return null;
     } finally {

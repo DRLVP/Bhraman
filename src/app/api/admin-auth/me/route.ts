@@ -8,7 +8,7 @@ export async function GET() {
   try {
     // Get the current admin using the unified authentication system
     const admin = await getCurrentAdmin();
-    console.log("got admin when In backend::", admin);
+    console.log('got admin when In backend::', admin);
     
     
     // If not authenticated or not an admin, return 403
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         profileImage: body.profileImage,
         role: 'admin',
         permissions: [], // All admins have all permissions by default
-        lastLogin: new Date()
+        lastLogin: new Date(),
       });
     } else {
       // Update existing user to have admin role
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       role: user.role,
       permissions: user.permissions,
       profileImage: user.profileImage,
-      isAdmin: true
+      isAdmin: true,
     });
   } catch (error) {
     console.error('Error registering admin:', error);

@@ -90,7 +90,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
     limit: number = 10,
     status?: BookingStatus,
     paymentStatus?: PaymentStatus,
-    search: string = ''
+    search: string = '',
   ) => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -106,9 +106,9 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       params.append('page', page.toString());
       params.append('limit', limit.toString());
       
-      if (status) params.append('status', status);
-      if (paymentStatus) params.append('paymentStatus', paymentStatus);
-      if (search) params.append('search', search);
+      if (status) {params.append('status', status);}
+      if (paymentStatus) {params.append('paymentStatus', paymentStatus);}
+      if (search) {params.append('search', search);}
 
       const response = await axios.get(`/api/admin/bookings?${params.toString()}`);
       setBookings(response.data.data);
@@ -143,7 +143,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
   }, [isAdmin]);
 
   const createBooking = useCallback(async (
-    bookingData: Omit<Booking, '_id' | 'createdAt' | 'updatedAt'>
+    bookingData: Omit<Booking, '_id' | 'createdAt' | 'updatedAt'>,
   ): Promise<Booking | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -158,8 +158,8 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       const data = response.data.data;
       
       // Update the bookings list with the new booking
-      setBookings(prev => [data, ...prev]);
-      setPagination(prev => ({ ...prev, total: prev.total + 1 }));
+      setBookings((prev) => [data, ...prev]);
+      setPagination((prev) => ({ ...prev, total: prev.total + 1 }));
       
       return data;
     } catch (err: any) {
@@ -173,7 +173,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
 
   const updateBooking = useCallback(async (
     id: string,
-    bookingData: Partial<Booking>
+    bookingData: Partial<Booking>,
   ): Promise<Booking | null> => {
     if (!isAdmin) {
       setError('Admin access required');
@@ -188,8 +188,8 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       const data = response.data.data;
       
       // Update the bookings list with the updated booking
-      setBookings(prev => 
-        prev.map(booking => booking._id === id ? data : booking)
+      setBookings((prev) => 
+        prev.map((booking) => booking._id === id ? data : booking),
       );
       
       return data;
@@ -215,8 +215,8 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       await axios.delete(`/api/admin/bookings/${id}`);
 
       // Remove the deleted booking from the list
-      setBookings(prev => prev.filter(booking => booking._id !== id));
-      setPagination(prev => ({ ...prev, total: prev.total - 1 }));
+      setBookings((prev) => prev.filter((booking) => booking._id !== id));
+      setPagination((prev) => ({ ...prev, total: prev.total - 1 }));
       
       return true;
     } catch (err: any) {

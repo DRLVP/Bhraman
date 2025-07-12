@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     } else {
       // Update existing user
       dbUser.name = `${firstName || clerkUser.firstName} ${lastName || clerkUser.lastName}`;
-      if (phone) dbUser.phone = phone;
+      if (phone) {dbUser.phone = phone;}
     }
     
     // Save the user
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         phone: dbUser.phone,
         profileImage: dbUser.profileImage,
         role: dbUser.role,
-      }
+      },
     });
   } catch (error) {
     console.error('Error updating user profile:', error);

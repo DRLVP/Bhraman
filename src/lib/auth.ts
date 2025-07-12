@@ -31,7 +31,7 @@ export const getCurrentUser = async () => {
         name: `${clerkUser.firstName} ${clerkUser.lastName}`,
         profileImage: clerkUser.imageUrl,
         role: 'user', // Default role
-        permissions: [] // No permissions by default
+        permissions: [], // No permissions by default
       });
     }
     
@@ -53,7 +53,7 @@ export const getCurrentUser = async () => {
       profileImage: dbUser?.profileImage || clerkUser.imageUrl,
       role: dbUser?.role || 'user',
       permissions: dbUser?.permissions || [],
-      isAdmin: dbUser?.role === 'admin'
+      isAdmin: dbUser?.role === 'admin',
     };
   } catch (error) {
     console.error('Error getting current user:', error);

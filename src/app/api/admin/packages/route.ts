@@ -33,7 +33,7 @@ export async function GET(request: Request) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
         { location: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
+        { description: { $regex: search, $options: 'i' } },
       ];
     }
     
@@ -61,8 +61,8 @@ export async function GET(request: Request) {
         total,
         page,
         limit,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     console.error('Error getting packages:', error);
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
     
     return NextResponse.json({
       message: 'Package created successfully',
-      data: newPackage
+      data: newPackage,
     }, { status: 201 });
   } catch (error) {
     console.error('Error creating package:', error);

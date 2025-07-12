@@ -54,7 +54,7 @@ export default function AdminSignInPage() {
         try {
           // Check if the user is an admin
           const adminResponse = await axios.get('/api/admin-auth/me');
-          console.log("response after sign in:::", adminResponse);
+          console.log('response after sign in:::', adminResponse);
           
           // User is an admin, redirect to admin dashboard or the requested URL
           router.push(redirectUrl);
@@ -92,7 +92,7 @@ export default function AdminSignInPage() {
       // Start the sign-up process with Clerk
       await signUp.create({
         emailAddress: email,
-        password
+        password,
       });
 
       // Prepare email verification (sends OTP to email)
@@ -125,14 +125,14 @@ export default function AdminSignInPage() {
       const result = await signUp.attemptEmailAddressVerification({
         code: verificationCode,
       });
-      console.log("result after verification", result);
+      console.log('result after verification', result);
       
       if (result.status === 'complete') {
         // Set the newly created session as active
         const createdSessionId = result.createdSessionId;
         if (createdSessionId && setSignUpActive) {
           await setSignUpActive({ session: createdSessionId });
-          router.push("/admin");
+          router.push('/admin');
         }
 
         try {
@@ -344,9 +344,9 @@ export default function AdminSignInPage() {
                     try {
                       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
                       toast({
-                        title: "Verification Code Sent",
-                        description: "A new verification code has been sent to your email",
-                        variant: "default",
+                        title: 'Verification Code Sent',
+                        description: 'A new verification code has been sent to your email',
+                        variant: 'default',
                       });
                     } catch (err) {
                       console.error('Error resending code:', err);

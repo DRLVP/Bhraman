@@ -233,7 +233,7 @@ const HomeConfigSchema = new Schema<IHomeConfig>(
       ],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Check if model exists before creating a new one (for Next.js hot reloading)

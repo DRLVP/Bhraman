@@ -110,7 +110,7 @@ const PackageSchema = new Schema<IPackage>(
       min: 1,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Check if model exists before creating a new one (for Next.js hot reloading)

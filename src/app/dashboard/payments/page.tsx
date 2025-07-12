@@ -124,15 +124,15 @@ export default function PaymentsPage() {
         [
           payment.packageName,
           payment.bookingId,
-          `₹${payment.amount.toLocaleString()}`
-        ]
+          `₹${payment.amount.toLocaleString()}`,
+        ],
       ],
       theme: 'grid',
       headStyles: {
         fillColor: [66, 66, 66],
         textColor: [255, 255, 255],
-        fontStyle: 'bold'
-      }
+        fontStyle: 'bold',
+      },
     });
     
     // Add total amount

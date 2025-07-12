@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -32,7 +32,7 @@ export function formatDate(dateString: string): string {
   const options: Intl.DateTimeFormatOptions = { 
     year: 'numeric', 
     month: 'long', 
-    day: 'numeric' 
+    day: 'numeric', 
   };
   return new Date(dateString).toLocaleDateString('en-IN', options);
 }
@@ -46,7 +46,7 @@ export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 
@@ -57,6 +57,6 @@ export function formatCurrency(amount: number): string {
  * @returns The truncated string
  */
 export function truncateString(str: string, length: number): string {
-  if (str.length <= length) return str;
+  if (str.length <= length) {return str;}
   return str.slice(0, length) + '...';
 }

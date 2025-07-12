@@ -56,7 +56,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
         startDate: booking.startDate,
         status: booking.status,
         totalAmount: booking.totalAmount,
-        createdAt: booking.createdAt
+        createdAt: booking.createdAt,
       })),
       // Keep recentBookings for backward compatibility
       recentBookings: bookings.slice(0, 5).map((booking) => ({
@@ -65,8 +65,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
         startDate: booking.startDate,
         status: booking.status,
         totalAmount: booking.totalAmount,
-        createdAt: booking.createdAt
-      }))
+        createdAt: booking.createdAt,
+      })),
     };
     
     return NextResponse.json({ data: userData });
@@ -104,7 +104,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     const updatedUser = await User.findByIdAndUpdate(
       params.id,
       { role },
-      { new: true }
+      { new: true },
     ).select('_id name email role');
     
     if (!updatedUser) {
@@ -113,7 +113,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     
     return NextResponse.json({
       message: `User role updated to ${role}`,
-      data: updatedUser
+      data: updatedUser,
     });
   } catch (error) {
     console.error('Error updating user:', error);
@@ -144,7 +144,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     }
     
     return NextResponse.json({
-      message: 'User deleted successfully'
+      message: 'User deleted successfully',
     });
   } catch (error) {
     console.error('Error deleting user:', error);

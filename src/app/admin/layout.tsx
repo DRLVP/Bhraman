@@ -13,7 +13,7 @@ import {
   Menu,
   X,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import { ClerkProvider, useAuth } from '@clerk/nextjs';
 import { envConfig } from '@/constants/envConfig';
@@ -39,7 +39,7 @@ const SidebarItem = ({
   hasChildren = false,
   isOpen = false,
   onClick,
-  children
+  children,
 }: SidebarItemProps) => {
   return (
     <div className={hasChildren ? 'flex flex-col' : undefined}>
@@ -91,12 +91,12 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const [packagesOpen, setPackagesOpen] = useState(false);
   const [bookingsOpen, setBookingsOpen] = useState(false);
 
-  console.log("is admin in admin layout::", isAdmin);
+  console.log('is admin in admin layout::', isAdmin);
   
   // Correct way to set state based on pathname
   useEffect(() => {
-    if (pathname.includes('/admin/packages')) setPackagesOpen(true);
-    if (pathname.includes('/admin/bookings')) setBookingsOpen(true);
+    if (pathname.includes('/admin/packages')) {setPackagesOpen(true);}
+    if (pathname.includes('/admin/bookings')) {setBookingsOpen(true);}
   }, [pathname]);
 
   const toggleMobileMenu = () => {
@@ -128,7 +128,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       isSignedIn,
       isLoading,
       isAdmin,
-      pathname
+      pathname,
     });
     
     // Redirect to sign-in if not authenticated

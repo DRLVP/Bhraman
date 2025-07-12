@@ -30,15 +30,15 @@ export async function GET() {
     const revenueResult = await Booking.aggregate([
       {
         $match: {
-          status: { $in: [BookingStatus.CONFIRMED, BookingStatus.COMPLETED] }
-        }
+          status: { $in: [BookingStatus.CONFIRMED, BookingStatus.COMPLETED] },
+        },
       },
       {
         $group: {
           _id: null,
-          totalRevenue: { $sum: '$totalAmount' }
-        }
-      }
+          totalRevenue: { $sum: '$totalAmount' },
+        },
+      },
     ]);
     
     const totalRevenue = revenueResult.length > 0 ? revenueResult[0].totalRevenue : 0;
@@ -51,13 +51,13 @@ export async function GET() {
       .limit(5);
     
     // Format recent bookings for the dashboard
-    const formattedRecentBookings = recentBookings.map(booking => ({
+    const formattedRecentBookings = recentBookings.map((booking) => ({
       id: booking._id.toString(),
       packageName: booking.packageId ? (booking.packageId as { title?: string })?.title || 'Unknown Package' : 'Unknown Package',
       customerName: booking.userId ? (booking.userId as { name?: string })?.name || booking.contactInfo.name : booking.contactInfo.name,
       date: booking.createdAt.toISOString(),
       amount: booking.totalAmount.toString(),
-      status: booking.status
+      status: booking.status,
     }));
     
     // Get monthly booking statistics for the current year
@@ -68,28 +68,28 @@ export async function GET() {
     const monthlyStats = await Booking.aggregate([
       {
         $match: {
-          createdAt: { $gte: startOfYear, $lte: endOfYear }
-        }
+          createdAt: { $gte: startOfYear, $lte: endOfYear },
+        },
       },
       {
         $group: {
           _id: { $month: '$createdAt' },
           count: { $sum: 1 },
-          revenue: { $sum: '$totalAmount' }
-        }
+          revenue: { $sum: '$totalAmount' },
+        },
       },
       {
-        $sort: { _id: 1 }
-      }
+        $sort: { _id: 1 },
+      },
     ]);
     
     // Format monthly stats (fill in missing months with zeros)
     const formattedMonthlyStats = Array.from({ length: 12 }, (_, i) => {
-      const monthData = monthlyStats.find(stat => stat._id === i + 1);
+      const monthData = monthlyStats.find((stat) => stat._id === i + 1);
       return {
         month: i + 1,
         count: monthData ? monthData.count : 0,
-        revenue: monthData ? monthData.revenue : 0
+        revenue: monthData ? monthData.revenue : 0,
       };
     });
     
@@ -101,8 +101,8 @@ export async function GET() {
         totalRevenue,
         pendingBookings,
         recentBookings: formattedRecentBookings,
-        monthlyStats: formattedMonthlyStats
-      }
+        monthlyStats: formattedMonthlyStats,
+      },
     });
   } catch (error) {
     console.error('Error getting dashboard stats:', error);

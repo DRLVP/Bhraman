@@ -40,26 +40,26 @@ export async function GET() {
       $or: [
         { paymentStatus: PaymentStatus.COMPLETED },
         { paymentStatus: PaymentStatus.REFUNDED },
-        { paymentId: { $exists: true, $ne: null } }
-      ]
+        { paymentId: { $exists: true, $ne: null } },
+      ],
     })
     .lean() // Use lean() to get plain JavaScript objects instead of Mongoose documents
     .sort({ createdAt: -1 });
     
     // Get all package IDs from bookings
-    const packageIds = bookings.map(booking => booking.packageId);
+    const packageIds = bookings.map((booking) => booking.packageId);
     
     // Fetch all packages in a single query
     const packages = await Package.find({ _id: { $in: packageIds } }).lean();
     
     // Create a map of package IDs to package titles for quick lookup
     const packageMap = {};
-    packages.forEach(pkg => {
+    packages.forEach((pkg) => {
       packageMap[pkg._id.toString()] = pkg.title;
     });
     
     // Transform bookings into payment records
-    const payments = bookings.map(booking => {
+    const payments = bookings.map((booking) => {
       // Get package name from the map, or use a default
       const packageId = booking.packageId.toString();
       const packageName = packageMap[packageId] || 'Package';

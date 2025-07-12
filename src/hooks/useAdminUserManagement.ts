@@ -90,7 +90,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
    * Fetch users with pagination and filtering
    */
   const fetchUsers = useCallback(async (
-    options?: Partial<PaginationOptions & FilterOptions>
+    options?: Partial<PaginationOptions & FilterOptions>,
   ): Promise<UsersResponse | null> => {
     // Allow the fetch to proceed even if isAdmin is false
     // The API will handle the permission check and return appropriate error
@@ -102,11 +102,11 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
 
       // Build query parameters
       const params = new URLSearchParams();
-      if (options?.page) params.append('page', options.page.toString());
-      if (options?.limit) params.append('limit', options.limit.toString());
-      if (options?.search) params.append('search', options.search);
-      if (options?.role) params.append('role', options.role);
-      if (options?.sort) params.append('sort', options.sort);
+      if (options?.page) {params.append('page', options.page.toString());}
+      if (options?.limit) {params.append('limit', options.limit.toString());}
+      if (options?.search) {params.append('search', options.search);}
+      if (options?.role) {params.append('role', options.role);}
+      if (options?.sort) {params.append('sort', options.sort);}
 
       // Fetch users from API
       const response = await axios.get(`/api/admin/users?${params.toString()}`);
@@ -149,7 +149,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
    */
   const updateUserRole = useCallback(async (
     id: string,
-    role: 'user' | 'admin'
+    role: 'user' | 'admin',
   ): Promise<User | null> => {
     // Allow the API call to proceed and let the server handle permission checks
     // This prevents unnecessary blocking at the hook level
@@ -161,10 +161,10 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       const response = await axios.patch(`/api/admin/users/${id}`, { role });
       
       // Update local state if the user is in the list
-      setUsers(prevUsers => 
-        prevUsers.map(user => 
-          user._id === id ? { ...user, role } : user
-        )
+      setUsers((prevUsers) => 
+        prevUsers.map((user) => 
+          user._id === id ? { ...user, role } : user,
+        ),
       );
 
       return response.data.data;
@@ -190,7 +190,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       await axios.delete(`/api/admin/users/${id}`);
 
       // Remove user from local state
-      setUsers(prevUsers => prevUsers.filter(user => user._id !== id));
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
 
       return true;
     } catch (err: any) {

@@ -27,19 +27,19 @@ export default function AdminProtected({
 
   useEffect(() => {
     // Wait for both user and admin status to load
-    if (!isUserLoaded || isAdminLoading) return;
+    if (!isUserLoaded || isAdminLoading) {return;}
 
-    console.log("AdminProtected component status:", {
+    console.log('AdminProtected component status:', {
       isUserLoaded,
       isSignedIn,
       isAdmin,
       isAdminLoading,
-      adminData: !!adminData
+      adminData: !!adminData,
     });
     
     // If not signed in, redirect to sign-in
     if (!isSignedIn) {
-      console.log("AdminProtected: Redirecting to sign-in - User not signed in");
+      console.log('AdminProtected: Redirecting to sign-in - User not signed in');
       router.push('/sign-in?redirect_url=/admin');
       return;
     }
@@ -47,7 +47,7 @@ export default function AdminProtected({
     // Only redirect to unauthorized if we're sure the user is not an admin
     // Add a small delay to ensure admin data is fully loaded
     if (isSignedIn && !isAdminLoading && isAdmin === false) {
-      console.log("AdminProtected: Redirecting to unauthorized - User is not an admin");
+      console.log('AdminProtected: Redirecting to unauthorized - User is not an admin');
       
       // Add a small delay to ensure all data is loaded
       const redirectTimer = setTimeout(() => {

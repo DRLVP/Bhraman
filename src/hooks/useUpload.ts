@@ -30,8 +30,8 @@ export const useUpload = () => {
       // Upload to our API endpoint
       const response = await axios.post('/api/upload', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
       
       setProgress(100);
@@ -68,8 +68,8 @@ export const useUpload = () => {
 
         const response = await axios.post('/api/upload', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         });
         
         results.push(response.data);
@@ -81,7 +81,7 @@ export const useUpload = () => {
       return results;
     } catch (err) {
       console.error('Error uploading multiple files:', err);
-      setError(err.response?.data?.message || `Failed to upload files`);
+      setError(err.response?.data?.message || 'Failed to upload files');
       return results; // Return any successful uploads
     } finally {
       setIsUploading(false);

@@ -52,8 +52,8 @@ export default function SignInPage() {
       if (result.createdSessionId) {
         await setActive({ session: result.createdSessionId });
         toast({
-          title: "Success",
-          description: "You have successfully signed in",
+          title: 'Success',
+          description: 'You have successfully signed in',
         });
         
         // Redirect to the specified URL or dashboard
@@ -145,7 +145,7 @@ export default function SignInPage() {
                     Signing in...
                   </>
                 ) : (
-                  "Sign in"
+                  'Sign in'
                 )}
               </Button>
             </form>

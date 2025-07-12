@@ -11,7 +11,7 @@ import {
   Phone, 
   Calendar, 
   Clock,
-  Package
+  Package,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
@@ -52,9 +52,9 @@ export default function UserDetailPage({ params }: UserDetailProps) {
       if (!authLoading && !isAdmin) {
         setError('Admin access required');
         toast({
-          title: "Access Denied",
-          description: "Admin access is required to view this page",
-          variant: "destructive",
+          title: 'Access Denied',
+          description: 'Admin access is required to view this page',
+          variant: 'destructive',
         });
         setIsLoading(false);
         return;
@@ -79,9 +79,9 @@ export default function UserDetailPage({ params }: UserDetailProps) {
         console.error('Error fetching user:', error);
         setError(error.message || 'Failed to load user details. Please try again.');
         toast({
-          title: "Error",
+          title: 'Error',
           description: error.message || 'Failed to load user details. Please try again.',
-          variant: "destructive",
+          variant: 'destructive',
         });
       } finally {
         setIsLoading(false);
@@ -103,7 +103,7 @@ export default function UserDetailPage({ params }: UserDetailProps) {
       month: 'short', 
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     };
     return new Date(dateString).toLocaleString('en-US', options);
   };

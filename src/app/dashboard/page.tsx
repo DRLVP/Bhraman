@@ -11,7 +11,7 @@ import useAuth from '@/hooks/useUserAuth';
 export default function DashboardPage() {
   // Get user data from our custom hook that fetches from backend
   const { userData, isLoading } = useAuth();
-  console.log("user data in dashboard page::", userData);
+  console.log('user data in dashboard page::', userData);
   
   
   // Format date

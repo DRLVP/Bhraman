@@ -27,7 +27,7 @@ export default function ImageUploader({
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {return;}
 
     // Create a preview URL
     const objectUrl = URL.createObjectURL(file);
@@ -40,16 +40,16 @@ export default function ImageUploader({
     if (result) {
       onImageUpload(result.url);
       toast({
-        title: "Image uploaded successfully",
-        description: "Your image has been uploaded to the server.",
-        variant: "default",
+        title: 'Image uploaded successfully',
+        description: 'Your image has been uploaded to the server.',
+        variant: 'default',
       });
     } else if (error) {
       // If there was an error, show it
       toast({
-        title: "Upload failed",
+        title: 'Upload failed',
         description: error,
-        variant: "destructive",
+        variant: 'destructive',
       });
       // Reset the preview
       setPreviewUrl(currentImage || null);
@@ -63,9 +63,9 @@ export default function ImageUploader({
       fileInputRef.current.value = '';
     }
     toast({
-      title: "Image removed",
-      description: "The image has been removed.",
-      variant: "default",
+      title: 'Image removed',
+      description: 'The image has been removed.',
+      variant: 'default',
     });
   };
 

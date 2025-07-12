@@ -41,13 +41,13 @@ const AdminSchema = new Schema<IAdmin>(
     },
     permissions: {
       type: [String],
-      default: [] // Empty array as all admins have full access by default
+      default: [], // Empty array as all admins have full access by default
     },
     lastLogin: {
-      type: Date
-    }
+      type: Date,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Check if model exists before creating a new one (for Next.js hot reloading)

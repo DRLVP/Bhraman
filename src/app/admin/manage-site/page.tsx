@@ -88,49 +88,49 @@ export default function ManageSitePage() {
         case 'siteSettings':
           await updateSiteSettings(siteSettings);
           toast({
-            title: "Site settings updated",
-            description: "Your site settings have been saved successfully.",
-            variant: "default",
+            title: 'Site settings updated',
+            description: 'Your site settings have been saved successfully.',
+            variant: 'default',
           });
           break;
         case 'heroSection':
           await updateHeroSection(heroSection);
           toast({
-            title: "Hero section updated",
-            description: "Your hero section has been saved successfully.",
-            variant: "default",
+            title: 'Hero section updated',
+            description: 'Your hero section has been saved successfully.',
+            variant: 'default',
           });
           break;
         case 'featuredPackagesSection':
           await updateFeaturedPackagesSection(featuredPackagesSection);
           toast({
-            title: "Featured packages section updated",
-            description: "Your featured packages section has been saved successfully.",
-            variant: "default",
+            title: 'Featured packages section updated',
+            description: 'Your featured packages section has been saved successfully.',
+            variant: 'default',
           });
           break;
         case 'aboutSection':
           await updateAboutSection(aboutSection);
           toast({
-            title: "About section updated",
-            description: "Your about section has been saved successfully.",
-            variant: "default",
+            title: 'About section updated',
+            description: 'Your about section has been saved successfully.',
+            variant: 'default',
           });
           break;
         case 'contactSection':
           await updateContactSection(contactSection);
           toast({
-            title: "Contact section updated",
-            description: "Your contact section has been saved successfully.",
-            variant: "default",
+            title: 'Contact section updated',
+            description: 'Your contact section has been saved successfully.',
+            variant: 'default',
           });
           break;
         case 'seo':
           await updateSEO(seo);
           toast({
-            title: "SEO settings updated",
-            description: "Your SEO settings have been saved successfully.",
-            variant: "default",
+            title: 'SEO settings updated',
+            description: 'Your SEO settings have been saved successfully.',
+            variant: 'default',
           });
           break;
         default:
@@ -138,17 +138,17 @@ export default function ManageSitePage() {
       }
     } catch (err: Error | unknown) {
       toast({
-        title: "Update failed",
-        description: err instanceof Error ? err.message : "An error occurred while saving changes.",
-        variant: "destructive",
+        title: 'Update failed',
+        description: err instanceof Error ? err.message : 'An error occurred while saving changes.',
+        variant: 'destructive',
       });
     }
   };
 
   const handleKeywordsChange = (value: string) => {
     // Split by commas and trim whitespace
-    const keywordsArray = value.split(',').map(keyword => keyword.trim());
-    setSeo(prev => ({ ...prev, keywords: keywordsArray }));
+    const keywordsArray = value.split(',').map((keyword) => keyword.trim());
+    setSeo((prev) => ({ ...prev, keywords: keywordsArray }));
   };
 
   if (isLoading) {

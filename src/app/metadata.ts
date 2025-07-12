@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
     // Using absolute URL to avoid TypeError: Invalid URL
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
     const { data: responseData } = await axios.get(`${baseUrl}/api/home-config`, {
-      headers: { 'Cache-Control': 'max-age=3600' } // Revalidate every hour
+      headers: { 'Cache-Control': 'max-age=3600' }, // Revalidate every hour
     });
     
     const { data } = responseData;

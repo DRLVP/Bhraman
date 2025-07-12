@@ -11,7 +11,7 @@ import {
   Calendar,
   User,
   MapPin,
-  Clock
+  Clock,
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -25,7 +25,7 @@ export default function BookingsPage() {
     pagination,
     isLoading,
     error,
-    fetchBookings
+    fetchBookings,
   } = useAdminBookings();
   
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,14 +37,14 @@ export default function BookingsPage() {
     fetchBookings(currentPage, 10, status, undefined, searchQuery)
       .catch((err: Error | unknown) => {
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: err instanceof Error ? err.message : "Failed to fetch bookings"
+          variant: 'destructive',
+          title: 'Error',
+          description: err instanceof Error ? err.message : 'Failed to fetch bookings',
         });
       });
   }, [fetchBookings, currentPage, statusFilter, toast, searchQuery]);
 
-  console.log("all booking in the booking pages::", bookings);
+  console.log('all booking in the booking pages::', bookings);
   
 
   const handleSearch = (e: React.FormEvent) => {
@@ -54,9 +54,9 @@ export default function BookingsPage() {
     fetchBookings(1, 10, status, undefined, searchQuery)
       .catch((err: Error | unknown) => {
         toast({
-          variant: "destructive",
-          title: "Error",
-          description: err instanceof Error ? err.message : "Failed to fetch bookings"
+          variant: 'destructive',
+          title: 'Error',
+          description: err instanceof Error ? err.message : 'Failed to fetch bookings',
         });
       });
   };
@@ -193,7 +193,7 @@ export default function BookingsPage() {
                   if (booking.packageId && typeof booking.packageId === 'object') {
                     packageInfo = { 
                       title: (booking.packageId as { title?: string })?.title || 'Unknown Package', 
-                      location: (booking.packageId as { location?: string })?.location || 'Unknown Location' 
+                      location: (booking.packageId as { location?: string })?.location || 'Unknown Location', 
                     };
                   }
                   
@@ -204,13 +204,13 @@ export default function BookingsPage() {
                     // Use userId object when it's populated
                     userInfo = { 
                       name: (booking.userId as { name?: string })?.name || 'Unknown', 
-                      email: (booking.userId as { email?: string })?.email || 'Unknown' 
+                      email: (booking.userId as { email?: string })?.email || 'Unknown', 
                     };
                   } else {
                     // Use contact info when userId is null or a string
                     userInfo = { 
                       name: booking.contactInfo?.name || 'Unknown', 
-                      email: booking.contactInfo?.email || 'Unknown' 
+                      email: booking.contactInfo?.email || 'Unknown', 
                     };
                   }
                   

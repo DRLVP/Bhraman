@@ -23,11 +23,11 @@ export default function ContactPage() {
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          {homeConfig?.contactSection?.heading || "Contact Us"}
+          {homeConfig?.contactSection?.heading || 'Contact Us'}
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           {homeConfig?.contactSection?.subheading || 
-            "Have questions about our travel packages or need assistance planning your trip? We are here to help you create unforgettable travel experiences."}
+            'Have questions about our travel packages or need assistance planning your trip? We are here to help you create unforgettable travel experiences.'}
         </p>
       </div>
 

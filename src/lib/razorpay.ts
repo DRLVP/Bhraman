@@ -38,7 +38,7 @@ export const createOrder = async (options: {
 export const verifyPaymentSignature = (
   orderId: string,
   paymentId: string,
-  signature: string
+  signature: string,
 ) => {
   const crypto = require('crypto');
   const generatedSignature = crypto

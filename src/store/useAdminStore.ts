@@ -94,7 +94,7 @@ export const useAdminStore = create<AdminState>(
           recentBookings: state.recentBookings,
           monthlyStats: state.monthlyStats,
         }),
-      }
-    )
-  )
+      },
+    ),
+  ),
 );

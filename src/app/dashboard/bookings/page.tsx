@@ -44,14 +44,14 @@ export default function BookingsPage() {
   // Fetch bookings from the API
   useEffect(() => {
     const fetchBookings = async () => {
-      if (!isLoaded || !isSignedIn) return;
+      if (!isLoaded || !isSignedIn) {return;}
       
       try {
         setIsLoading(true);
         // Try to fetch bookings from API
         try {
           const response = await axios.get('/api/bookings');
-          console.log("bookings in my booking page::", JSON.stringify(response.data));
+          console.log('bookings in my booking page::', JSON.stringify(response.data));
           setBookings(response.data.data);
         } catch (apiError) {
           console.error('API Error:', apiError);
@@ -65,7 +65,7 @@ export default function BookingsPage() {
                 slug: 'spiritual-varanasi-retreat',
                 location: 'Varanasi, Uttar Pradesh',
                 duration: 5,
-                images: ['/placeholder-image.jpg']
+                images: ['/placeholder-image.jpg'],
               },
               startDate: new Date().toISOString(),
               numberOfPeople: 2,
@@ -75,10 +75,10 @@ export default function BookingsPage() {
               contactInfo: {
                 name: 'John Doe',
                 email: 'john@example.com',
-                phone: '+91 9876543210'
+                phone: '+91 9876543210',
               },
               createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
+              updatedAt: new Date().toISOString(),
             },
             {
               _id: '2',
@@ -88,7 +88,7 @@ export default function BookingsPage() {
                 slug: 'himalayan-adventure',
                 location: 'Rishikesh, Uttarakhand',
                 duration: 7,
-                images: ['/placeholder-image.jpg']
+                images: ['/placeholder-image.jpg'],
               },
               startDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
               numberOfPeople: 1,
@@ -98,11 +98,11 @@ export default function BookingsPage() {
               contactInfo: {
                 name: 'John Doe',
                 email: 'john@example.com',
-                phone: '+91 9876543210'
+                phone: '+91 9876543210',
               },
               createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString()
-            }
+              updatedAt: new Date().toISOString(),
+            },
           ];
           setBookings(mockBookings);
         }
@@ -124,12 +124,12 @@ export default function BookingsPage() {
   };
 
   // Group bookings by status
-  const upcomingBookings = bookings.filter(booking => 
-    ['confirmed', 'pending'].includes(booking.status)
+  const upcomingBookings = bookings.filter((booking) => 
+    ['confirmed', 'pending'].includes(booking.status),
   );
   
-  const pastBookings = bookings.filter(booking => 
-    ['completed', 'cancelled'].includes(booking.status)
+  const pastBookings = bookings.filter((booking) => 
+    ['completed', 'cancelled'].includes(booking.status),
   );
   
   // Show loading state

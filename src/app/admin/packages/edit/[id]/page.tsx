@@ -30,7 +30,7 @@ export default function EditPackagePage({ params }: PackageEditPageProps) {
         const data = response.data.data;
         const packageWithId = {
           ...data,
-          id: data._id
+          id: data._id,
         };
         setPackageData(packageWithId);
       } catch (error) {

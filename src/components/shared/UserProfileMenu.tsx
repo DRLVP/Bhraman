@@ -59,13 +59,13 @@ const UserProfileMenu = ({ afterSignOutUrl = '/' }: UserProfileMenuProps) => {
     await signOut(() => router.push(afterSignOutUrl));
   };
 
-  if (!isSignedIn || !user) return null;
+  if (!isSignedIn || !user) {return null;}
 
   // Use userData if available, otherwise fall back to Clerk user data
   const displayName = userData?.name || user.fullName || 'User';
   const initials = displayName
     .split(' ')
-    .map(name => name[0])
+    .map((name) => name[0])
     .join('')
     .toUpperCase();
   const profileImage = userData?.profileImage || user.imageUrl;
