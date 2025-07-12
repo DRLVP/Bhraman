@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSignUp } from '@clerk/nextjs';
@@ -27,7 +27,7 @@ export default function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   // Captcha reference
-  const [captchaRef, setCaptchaRef] = useState<HTMLDivElement | null>(null);
+  const [, setCaptchaRef] = useState<HTMLDivElement | null>(null);
   
   // Verification state
   const [verifying, setVerifying] = useState(false);
@@ -314,7 +314,7 @@ export default function SignUpPage() {
             ) : (
               <form onSubmit={handleVerification} className="space-y-4">
                 <p className="text-center mb-4 text-sm text-muted-foreground">
-                  We've sent a verification code to <span className="font-medium text-foreground">{email}</span>.
+                  We&apos;ve sent a verification code to <span className="font-medium text-foreground">{email}</span>.
                   Please enter the code below to verify your email address.
                 </p>
                 

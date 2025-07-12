@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Users, Check, X, Star, ArrowLeft } from 'lucide-react';
+import { MapPin, Calendar, Users, Check, X, ArrowLeft } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import usePackageStore from '@/store/usePackageStore';
 import Image from 'next/image';

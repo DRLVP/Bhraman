@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useSignIn } from '@clerk/nextjs';
@@ -153,7 +153,7 @@ export default function SignInPage() {
           
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/sign-up" className="text-primary hover:underline">
                 Sign up
               </Link>

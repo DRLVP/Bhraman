@@ -23,7 +23,7 @@ export default function AdminProtected({
 }: AdminProtectedProps) {
   const router = useRouter();
   const { isLoaded: isUserLoaded, isSignedIn } = useUser();
-  const { isAdmin, isLoading: isAdminLoading, adminData, hasPermission } = useAdmin();
+  const { isAdmin, isLoading: isAdminLoading, adminData } = useAdmin();
 
   useEffect(() => {
     // Wait for both user and admin status to load
@@ -58,7 +58,7 @@ export default function AdminProtected({
     }
 
     // All admins have all permissions, no need to check specific permissions
-  }, [isUserLoaded, isSignedIn, isAdmin, isAdminLoading, requiredPermission, router]);
+  }, [isUserLoaded, isSignedIn, isAdmin, isAdminLoading, requiredPermission, router, adminData]);
 
   // Show fallback while loading or if not authorized
   if (!isUserLoaded || isAdminLoading || !isSignedIn || !isAdmin) {

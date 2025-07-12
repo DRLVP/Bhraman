@@ -62,7 +62,7 @@ export function useAdminDashboard() {
   // Fetch stats on mount
   useEffect(() => {
     fetchDashboardStats();
-  }, [isAdmin]);
+  }, [isAdmin, fetchDashboardStats]);
 
   return {
     stats,

@@ -63,7 +63,7 @@ export function useAdminAuth() {
    * @param permission - The permission to check
    * @returns Boolean indicating if the admin has the permission
    */
-  const hasPermission = (permission: string): boolean => {
+  const hasPermission = (): boolean => {
     if (!adminData) {return false;}
     
     // All admins have all permissions

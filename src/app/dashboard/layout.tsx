@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { UserCircle, Package, CreditCard, Settings, LogOut, Menu, X } from 'lucide-react';
+import { UserCircle, Package, CreditCard, LogOut, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@clerk/nextjs';
 

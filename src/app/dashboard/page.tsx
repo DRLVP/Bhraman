@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { User, Mail, Phone, Calendar } from 'lucide-react';
+import { User, Mail, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
 
@@ -12,13 +11,6 @@ export default function DashboardPage() {
   // Get user data from our custom hook that fetches from backend
   const { userData, isLoading } = useAuth();
   console.log('user data in dashboard page::', userData);
-  
-  
-  // Format date
-  const formatDate = (dateString: string) => {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-IN', options);
-  };
 
   return (
     <div>

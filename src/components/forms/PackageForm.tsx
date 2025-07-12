@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { X, Plus, Upload, Trash2 } from 'lucide-react';
@@ -141,7 +141,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
         form.setValue('images', newImages);
       }
     } catch (err) {
-      setError('Failed to upload images');
+      setError(err);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -249,7 +249,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
         handleItineraryChange(index, 'image', result.secure_url);
       }
     } catch (err) {
-      setError('Failed to upload itinerary image');
+      setError(`Failed to upload itinerary image:: ${err}`);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -279,7 +279,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
         ...(isEditing && initialData?.id ? { _id: initialData.id } : {}),
       };
 
-      const response = await axios({
+      await axios({
         method,
         url,
         data: formData,

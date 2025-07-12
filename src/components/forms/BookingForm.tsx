@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Calendar, Users, CreditCard, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ const BookingForm = ({
   maxGroupSize,
 }: BookingFormProps) => {
   const router = useRouter();
-  const { isSignedIn, user, isUser } = useAuth();
+  const { isSignedIn, isUser } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -19,7 +19,7 @@ interface UserState {
 /**
  * Zustand store for user state management
  */
-const useUserStore = create<UserState>((set, get) => ({
+const useUserStore = create<UserState>((set) => ({
   user: null,
   isLoading: true,
   

@@ -57,7 +57,7 @@ export default function PackagesPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Explore Our Packages</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our carefully curated travel packages designed to give you the best experience of India's diverse landscapes and cultures.
+            Discover our carefully curated travel packages designed to give you the best experience of India&apos;s diverse landscapes and cultures.
           </p>
         </div>
 

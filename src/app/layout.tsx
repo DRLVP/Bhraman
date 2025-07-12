@@ -6,6 +6,7 @@ import {
 } from '@clerk/nextjs';
 import { envConfig } from '@/constants/envConfig';
 import { Toaster } from '@/components/ui/toaster';
+import React from 'react';
 
 const geistSans = IBM_Plex_Sans({
   variable: '--font-geist-sans',

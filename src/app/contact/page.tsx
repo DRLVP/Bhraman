@@ -182,7 +182,7 @@ export default function ContactPage() {
                 <h3 className="text-lg font-medium text-gray-900">How do I book a travel package?</h3>
                 <p className="mt-2 text-gray-600">
                   You can book a travel package by browsing our packages, selecting the one you&apos;re interested in, 
-                  and clicking the "Book Now" button. Follow the steps to complete your booking, including providing 
+                  and clicking the &quot;Book Now&quot; button. Follow the steps to complete your booking, including providing 
                   traveler information and making payment.
                 </p>
               </div>
