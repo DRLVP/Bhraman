@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, RefreshCw, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useAdminUserManagement, User } from '@/hooks/useAdminUserManagement';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { Search, RefreshCw, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -27,14 +27,6 @@ export default function UsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [sortBy] = useState<string>('name');
 
-  useEffect(() => {
-    // Load users when component mounts and isAdmin is available
-    if (!authLoading) {
-      loadUsers();
-    }
-  }, [authLoading, loadUsers]);
-  console.log('users list in admin users page::', users);
-  
   const loadUsers = useCallback(async () => {
     // Don't show error toast during initial loading
     if (authLoading) {
@@ -49,7 +41,6 @@ export default function UsersPage() {
         description: 'Admin access is required to view this page',
         variant: 'destructive',
       });
-    }
       return;
     }
     
@@ -62,7 +53,7 @@ export default function UsersPage() {
         search: searchQuery,
         sort: sortBy,
       });
-    } catch (err: Error | unknown) {
+    } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch users';
       setError(errorMessage);
       toast({
@@ -71,7 +62,17 @@ export default function UsersPage() {
         variant: 'destructive',
       });
     }
-  };
+  }, [authLoading, isAdmin, fetchUsers, pagination, searchQuery, sortBy]);
+
+  useEffect(() => {
+    // Load users when component mounts and isAdmin is available
+    if (!authLoading) {
+      loadUsers();
+    }
+  }, [authLoading, loadUsers]);
+  console.log('users list in admin users page::', users);
+  
+  
 
   useEffect(() => {
     if (users) {
