@@ -104,7 +104,7 @@ export default function AdminSignInPage() {
       setLoading(false);
     } catch (err: Error | unknown) {
       console.error('Error during sign-up:', err);
-      setError(err instanceof Error ? err.message : (err as any)?.errors?.[0]?.message || 'An error occurred during sign-up');
+      setError(err instanceof Error ? err.message : (err as { errors?: Array<{ message: string }> })?.errors?.[0]?.message || 'An error occurred during sign-up');
       setLoading(false);
     }
   };
@@ -159,7 +159,7 @@ export default function AdminSignInPage() {
       }
     } catch (err: Error | unknown) {
       console.error('Error during verification:', err);
-      setError(err instanceof Error ? err.message : (err as any)?.errors?.[0]?.message || 'An error occurred during verification');
+      setError(err instanceof Error ? err.message : (err as { errors?: Array<{ message: string }> })?.errors?.[0]?.message || 'An error occurred during verification');
       setLoading(false);
     }
   };

@@ -2,7 +2,6 @@
 
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useHomeConfig } from '@/hooks/useHomeConfig';
-import { useState, useEffect } from 'react';
 
 export default function ContactPage() {
   const { homeConfig, isLoading } = useHomeConfig();

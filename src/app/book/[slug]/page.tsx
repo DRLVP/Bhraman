@@ -9,6 +9,7 @@ import BookingForm from '@/components/forms/BookingForm';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
 import Image from 'next/image';
+import { IPackage } from '@/models/Package';
 
 export default function BookPackagePage({ params }: { params: { slug: string } }) {
   // Use React.use() to unwrap params object as recommended by Next.js
@@ -17,7 +18,7 @@ export default function BookPackagePage({ params }: { params: { slug: string } }
   const { isSignedIn, isLoaded } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [packageInfo, setPackageInfo] = useState<any>(null);
+  const [packageInfo, setPackageInfo] = useState<IPackage | null>(null);
 
   // Check if user is authenticated
   useEffect(() => {
@@ -35,8 +36,11 @@ export default function BookPackagePage({ params }: { params: { slug: string } }
         const response = await axios.get(`/api/packages/${slug}`);
         // Make sure we're accessing the data property from the API response
         setPackageInfo(response.data.data);
-      } catch (err: any) {
-        setError(err.response?.data?.message || err.message || 'Package not found');
+      } catch (err: Error | unknown) {
+        setError(
+          (err as { response?: { data?: { message?: string } }; message?: string })?.response?.data?.message || 
+          (err instanceof Error ? err.message : 'Package not found')
+        );
       } finally {
         setIsLoading(false);
       }

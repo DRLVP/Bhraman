@@ -108,7 +108,7 @@ export async function PATCH(request: Request) {
       // Update siteSettings if provided
       if (body.siteSettings) {
         homeConfig.siteSettings = {
-          ...homeConfig.siteSettings.toObject(),
+          ...(homeConfig.siteSettings as unknown as Record<string, unknown>),
           ...body.siteSettings
         };
       }
@@ -116,7 +116,7 @@ export async function PATCH(request: Request) {
       // Update heroSection if provided
       if (body.heroSection) {
         homeConfig.heroSection = {
-          ...homeConfig.heroSection.toObject(),
+          ...(homeConfig.heroSection as unknown as Record<string, unknown>),
           ...body.heroSection
         };
       }
@@ -124,32 +124,23 @@ export async function PATCH(request: Request) {
       // Update featuredPackagesSection if provided
       if (body.featuredPackagesSection) {
         homeConfig.featuredPackagesSection = {
-          ...homeConfig.featuredPackagesSection.toObject(),
+          ...(homeConfig.featuredPackagesSection as unknown as Record<string, unknown>),
           ...body.featuredPackagesSection
         };
       }
       
       // Update testimonialsSection if provided
       if (body.testimonialsSection) {
-        // For testimonials array, replace the entire array if provided
-        if (body.testimonialsSection.testimonials) {
-          homeConfig.testimonialsSection.testimonials = body.testimonialsSection.testimonials;
-        }
-        
-        // Update other fields
-        if (body.testimonialsSection.heading) {
-          homeConfig.testimonialsSection.heading = body.testimonialsSection.heading;
-        }
-        
-        if (body.testimonialsSection.subheading) {
-          homeConfig.testimonialsSection.subheading = body.testimonialsSection.subheading;
-        }
+        homeConfig.testimonialsSection = {
+          ...(homeConfig.testimonialsSection as unknown as Record<string, unknown>),
+          ...body.testimonialsSection
+        };
       }
       
       // Update aboutSection if provided
       if (body.aboutSection) {
         homeConfig.aboutSection = {
-          ...homeConfig.aboutSection.toObject(),
+          ...(homeConfig.aboutSection as unknown as Record<string, unknown>),
           ...body.aboutSection
         };
       }
@@ -157,7 +148,7 @@ export async function PATCH(request: Request) {
       // Update contactSection if provided
       if (body.contactSection) {
         homeConfig.contactSection = {
-          ...homeConfig.contactSection.toObject(),
+          ...(homeConfig.contactSection as unknown as Record<string, unknown>),
           ...body.contactSection
         };
       }
@@ -165,11 +156,12 @@ export async function PATCH(request: Request) {
       // Update SEO if provided
       if (body.seo) {
         homeConfig.seo = {
-          ...homeConfig.seo.toObject(),
+          ...(homeConfig.seo as unknown as Record<string, unknown>),
           ...body.seo
         };
-        
-        // For keywords array, replace the entire array if provided
+      }
+      
+      // For keywords array, replace the entire array if provided
         if (body.seo.keywords) {
           homeConfig.seo.keywords = body.seo.keywords;
         }

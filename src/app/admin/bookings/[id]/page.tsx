@@ -111,7 +111,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         console.error('Error fetching booking:', err);
         const errorMessage = err instanceof Error ? 
           err.message : 
-          (err as any)?.response?.data?.message || 'Failed to load booking details. Please try again.';
+          (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to load booking details. Please try again.';
         setError(errorMessage);
       } finally {
         setIsLoading(false);

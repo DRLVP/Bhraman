@@ -6,6 +6,24 @@ import Link from 'next/link';
 import { CheckCircle, Calendar, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+// Custom interface for booking success page data
+interface BookingSuccessData {
+  id: string;
+  packageName: string;
+  packageSlug: string;
+  startDate: string;
+  endDate: string;
+  adults: number;
+  children: number;
+  totalAmount: number;
+  paymentStatus: string;
+  bookingStatus: string;
+  paymentId?: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+}
+
 // Mock booking data
 const mockBookingData = {
   id: 'BK12345',
@@ -25,7 +43,7 @@ const mockBookingData = {
 
 export default function BookingSuccessPage() {
   const searchParams = useSearchParams();
-  const [bookingData, setBookingData] = useState<any>(null);
+  const [bookingData, setBookingData] = useState<BookingSuccessData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

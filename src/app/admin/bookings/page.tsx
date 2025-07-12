@@ -192,8 +192,8 @@ export default function BookingsPage() {
                   // Only try to extract info if packageId is an object (not null or string)
                   if (booking.packageId && typeof booking.packageId === 'object') {
                     packageInfo = { 
-                      title: (booking.packageId as any)?.title || 'Unknown Package', 
-                      location: (booking.packageId as any)?.location || 'Unknown Location' 
+                      title: (booking.packageId as { title?: string })?.title || 'Unknown Package', 
+                      location: (booking.packageId as { location?: string })?.location || 'Unknown Location' 
                     };
                   }
                   
@@ -203,8 +203,8 @@ export default function BookingsPage() {
                   if (booking.userId && typeof booking.userId === 'object') {
                     // Use userId object when it's populated
                     userInfo = { 
-                      name: (booking.userId as any)?.name || 'Unknown', 
-                      email: (booking.userId as any)?.email || 'Unknown' 
+                      name: (booking.userId as { name?: string })?.name || 'Unknown', 
+                      email: (booking.userId as { email?: string })?.email || 'Unknown' 
                     };
                   } else {
                     // Use contact info when userId is null or a string

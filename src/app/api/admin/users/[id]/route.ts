@@ -50,7 +50,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       ...user.toObject(),
       _id: user._id.toString(),
       bookingCount,
-      bookings: bookings.map((booking: any) => ({
+      bookings: bookings.map((booking) => ({
         _id: booking._id.toString(),
         packageName: booking.packageId?.title || 'Unknown Package',
         startDate: booking.startDate,
@@ -59,7 +59,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
         createdAt: booking.createdAt
       })),
       // Keep recentBookings for backward compatibility
-      recentBookings: bookings.slice(0, 5).map((booking: any) => ({
+      recentBookings: bookings.slice(0, 5).map((booking) => ({
         _id: booking._id.toString(),
         packageName: booking.packageId?.name || 'Unknown Package',
         startDate: booking.startDate,

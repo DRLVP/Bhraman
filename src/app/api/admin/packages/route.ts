@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     const featured = searchParams.get('featured');
     
     // Build query
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     
     if (search) {
       query.$or = [

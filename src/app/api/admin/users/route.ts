@@ -28,7 +28,7 @@ export async function GET(request: Request) {
     await connectDB();
     
     // Build query
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     
     // Add search filter
     if (search) {

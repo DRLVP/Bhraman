@@ -25,14 +25,14 @@ export default function UsersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortBy, _] = useState<string>('name');
+  const [sortBy] = useState<string>('name');
 
   useEffect(() => {
     // Load users when component mounts and isAdmin is available
     if (!authLoading) {
       loadUsers();
     }
-  }, [authLoading]);
+  }, [authLoading, loadUsers]);
   console.log("users list in admin users page::", users);
   
   const loadUsers = async () => {
@@ -61,11 +61,12 @@ export default function UsersPage() {
         search: searchQuery,
         sort: sortBy
       });
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch users');
+    } catch (err: Error | unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch users';
+      setError(errorMessage);
       toast({
         title: "Error",
-        description: err.message || 'Failed to fetch users',
+        description: errorMessage,
         variant: "destructive",
       });
     }

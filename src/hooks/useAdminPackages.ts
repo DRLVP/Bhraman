@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useAdminAuth } from './useAdminAuth';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 interface Package {
   _id: string;
@@ -86,9 +87,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       const response = await axios.get(`/api/admin/packages?${params.toString()}`);
       setPackages(response.data.data);
       setPagination(response.data.pagination);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching packages:', err);
-      setError(err.response?.data?.message || 'Failed to fetch packages');
+      setError(getErrorMessage(err) || 'Failed to fetch packages');
     } finally {
       setIsLoading(false);
     }
@@ -106,9 +107,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
 
       const response = await axios.get(`/api/admin/packages/${id}`);
       return response.data.data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching package:', err);
-      setError(err.response?.data?.message || 'Failed to fetch package');
+      setError(getErrorMessage(err) || 'Failed to fetch package');
       return null;
     } finally {
       setIsLoading(false);
@@ -135,9 +136,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setPagination(prev => ({ ...prev, total: prev.total + 1 }));
       
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error creating package:', err);
-      setError(err.response?.data?.message || 'Failed to create package');
+      setError(getErrorMessage(err) || 'Failed to create package');
       return null;
     } finally {
       setIsLoading(false);
@@ -166,9 +167,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       );
       
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating package:', err);
-      setError(err.response?.data?.message || 'Failed to update package');
+      setError(getErrorMessage(err) || 'Failed to update package');
       return null;
     } finally {
       setIsLoading(false);
@@ -192,9 +193,9 @@ export function useAdminPackages(): UseAdminPackagesReturn {
       setPagination(prev => ({ ...prev, total: prev.total - 1 }));
       
       return true;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error deleting package:', err);
-      setError(err.response?.data?.message || 'Failed to delete package');
+      setError(getErrorMessage(err) || 'Failed to delete package');
       return false;
     } finally {
       setIsLoading(false);

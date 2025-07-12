@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     const search = searchParams.get('search') || '';
     
     // Build query
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     
     if (status && Object.values(BookingStatus).includes(status as BookingStatus)) {
       query.status = status;

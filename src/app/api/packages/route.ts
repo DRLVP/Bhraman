@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     const featured = searchParams.get('featured') || '';
     
     // Build query
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     
     // Add search filter (search in title and description)
     if (search) {

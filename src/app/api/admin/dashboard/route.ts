@@ -53,8 +53,8 @@ export async function GET() {
     // Format recent bookings for the dashboard
     const formattedRecentBookings = recentBookings.map(booking => ({
       id: booking._id.toString(),
-      packageName: booking.packageId ? (booking.packageId as any).title : 'Unknown Package',
-      customerName: booking.userId ? (booking.userId as any).name : booking.contactInfo.name,
+      packageName: booking.packageId ? (booking.packageId as { title?: string })?.title || 'Unknown Package' : 'Unknown Package',
+      customerName: booking.userId ? (booking.userId as { name?: string })?.name || booking.contactInfo.name : booking.contactInfo.name,
       date: booking.createdAt.toISOString(),
       amount: booking.totalAmount.toString(),
       status: booking.status
