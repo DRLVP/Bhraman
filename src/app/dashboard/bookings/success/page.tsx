@@ -18,7 +18,7 @@ export default function BookingSuccessPage() {
   useEffect(() => {
     if (!bookingId) {
       router.push('/dashboard/bookings');
-      return;
+      return undefined;
     }
     
     const timer = setInterval(() => {

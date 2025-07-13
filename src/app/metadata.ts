@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: data?.seo?.description || 'Discover amazing places and create unforgettable memories with our premium travel packages',
       keywords: data?.seo?.keywords || ['travel', 'india', 'packages', 'tours'],
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Error generating metadata:', err);
     return metadata; // Return default metadata on error
   }

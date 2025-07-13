@@ -117,7 +117,8 @@ export default function PaymentsPage() {
     doc.text('Package Details', 14, 100);
     
     // Create table for package details
-    (doc as any).autoTable({
+    // Using type assertion for jsPDF-AutoTable plugin
+    (doc as unknown as { autoTable: Function }).autoTable({
       startY: 105,
       head: [['Package', 'Booking ID', 'Amount']],
       body: [
@@ -136,7 +137,8 @@ export default function PaymentsPage() {
     });
     
     // Add total amount
-    const finalY = (doc as any).lastAutoTable.finalY || 130;
+    // Using type assertion for jsPDF-AutoTable plugin result
+    const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable?.finalY || 130;
     doc.setFontSize(12);
     doc.setTextColor(40, 40, 40);
     doc.text(`Total Amount: ₹${payment.amount.toLocaleString()}`, pageWidth - 14, finalY + 10, { align: 'right' });

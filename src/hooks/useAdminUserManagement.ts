@@ -115,8 +115,12 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       setPagination(response.data.pagination);
 
       return response.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch users');
+    } catch (err: unknown) {
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch users'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -136,8 +140,12 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
 
       const response = await axios.get(`/api/admin/users/${id}`);
       return response.data.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch user');
+    } catch (err: unknown) {
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch user'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -168,8 +176,12 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       );
 
       return response.data.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to update user role');
+    } catch (err: unknown) {
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to update user role'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -193,8 +205,12 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
 
       return true;
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to delete user');
+    } catch (err: unknown) {
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to delete user'
+      );
       return false;
     } finally {
       setIsLoading(false);

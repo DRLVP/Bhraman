@@ -106,8 +106,12 @@ export default function BookingsPage() {
           ];
           setBookings(mockBookings);
         }
-      } catch (err: any) {
-        setError(err.response?.data?.message || err.message || 'Failed to fetch bookings');
+      } catch (err: unknown) {
+        const errorMessage = 
+          (err as any)?.response?.data?.message || 
+          (err as Error)?.message || 
+          'Failed to fetch bookings';
+        setError(errorMessage);
         console.error('Error fetching bookings:', err);
       } finally {
         setIsLoading(false);

@@ -100,9 +100,11 @@ export default function SignUpPage() {
         description: "We've sent a verification code to your email",
       });
       setIsLoading(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error during sign-up:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during sign up');
+      // Type assertion for Clerk error structure
+      const clerkError = err as { errors?: Array<{ message: string }> };
+      setError(clerkError.errors?.[0]?.message || 'An error occurred during sign up');
       setIsLoading(false);
     }
   };
@@ -135,8 +137,11 @@ export default function SignUpPage() {
           email,
           phone,
         });
-      } catch (err: any) {
-        console.error('Error updating user profile:', err.response?.data?.message || err);
+      } catch (err: unknown) {
+        console.error('Error updating user profile:', 
+          (err as any)?.response?.data?.message || 
+          (err as Error)?.message || 
+          'Error updating profile');
       }
 
       toast({
@@ -146,9 +151,11 @@ export default function SignUpPage() {
 
       // Redirect to dashboard
       router.push('/dashboard');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error during verification:', err);
-      setError(err.errors?.[0]?.message || 'Verification failed');
+      // Type assertion for Clerk error structure
+      const clerkError = err as { errors?: Array<{ message: string }> };
+      setError(clerkError.errors?.[0]?.message || 'Verification failed');
       setVerifying(false);
     }
   };

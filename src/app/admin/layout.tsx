@@ -120,7 +120,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Skip redirect for sign-in page
     if (pathname === '/admin/sign-in') {
-      return;
+      return undefined;
     }
     
     console.log('Admin layout redirect check:', {
@@ -149,6 +149,9 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
       
       return () => clearTimeout(redirectTimer);
     }
+    
+    // Return empty cleanup function as default
+    return () => {};
   }, [isLoaded, isSignedIn, isLoading, isAdmin, router, pathname]);
 
   // Show loading state

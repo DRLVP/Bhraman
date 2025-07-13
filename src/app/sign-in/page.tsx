@@ -65,9 +65,11 @@ export default function SignInPage() {
       } else {
         setError('Something went wrong. Please try again.');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Sign in error:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during sign in');
+      // Type assertion for Clerk error structure
+      const clerkError = err as { errors?: Array<{ message: string }> };
+      setError(clerkError.errors?.[0]?.message || 'An error occurred during sign in');
     } finally {
       setIsLoading(false);
     }

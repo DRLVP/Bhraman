@@ -62,7 +62,7 @@ export default function UsersPage() {
         variant: 'destructive',
       });
     }
-  }, [authLoading, isAdmin, fetchUsers, pagination, searchQuery, sortBy]);
+  }, [authLoading, isAdmin, fetchUsers, pagination, searchQuery, sortBy, toast]);
 
   useEffect(() => {
     // Load users when component mounts and isAdmin is available

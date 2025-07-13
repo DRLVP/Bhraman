@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
 import axios from 'axios';
 
@@ -38,7 +38,7 @@ export function useAdminDashboard() {
   /**
    * Fetch dashboard statistics
    */
-  const fetchDashboardStats = async (): Promise<void> => {
+  const fetchDashboardStats = useCallback(async (): Promise<void> => {
     if (!isAdmin) {
       setError('Admin access required');
       setIsLoading(false);
@@ -51,18 +51,22 @@ export function useAdminDashboard() {
 
       const response = await axios.get('/api/admin/dashboard');
       setStats(response.data.data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch dashboard statistics');
+    } catch (err: unknown) {
+      const errorMessage = 
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch dashboard statistics';
+      setError(errorMessage);
       console.error('Error fetching dashboard stats:', err);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isAdmin]);
 
   // Fetch stats on mount
   useEffect(() => {
     fetchDashboardStats();
-  }, [isAdmin, fetchDashboardStats]);
+  }, [fetchDashboardStats]);
 
   return {
     stats,

@@ -161,6 +161,7 @@ function toast({ ...props }: Toast) {
       open: true,
       onOpenChange: (open) => {
         if (!open) {dismiss();}
+        return undefined;
       },
     },
   });
@@ -173,7 +174,7 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [state, setState] = React.useState<State>(memoryState);
+  const [_state, setState] = React.useState<State>(memoryState);
 
   React.useEffect(() => {
     listeners.push(setState);
@@ -186,7 +187,7 @@ function useToast() {
   }, []);
 
   return {
-    ...state,
+    ...memoryState,
     toast,
     dismiss: (toastId?: string) => dispatch({ type: actionTypes.DISMISS_TOAST, toastId }),
   };

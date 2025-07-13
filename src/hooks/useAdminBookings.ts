@@ -113,9 +113,13 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       const response = await axios.get(`/api/admin/bookings?${params.toString()}`);
       setBookings(response.data.data);
       setPagination(response.data.pagination);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching bookings:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to fetch bookings');
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch bookings'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -133,9 +137,13 @@ export function useAdminBookings(): UseAdminBookingsReturn {
 
       const response = await axios.get(`/api/admin/bookings/${id}`);
       return response.data.data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching booking:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to fetch booking');
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch booking'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -162,9 +170,13 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setPagination((prev) => ({ ...prev, total: prev.total + 1 }));
       
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error creating booking:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to create booking');
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to create booking'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -193,9 +205,13 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       );
       
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating booking:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to update booking');
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to update booking'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -219,9 +235,13 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setPagination((prev) => ({ ...prev, total: prev.total - 1 }));
       
       return true;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error deleting booking:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to delete booking');
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to delete booking'
+      );
       return false;
     } finally {
       setIsLoading(false);

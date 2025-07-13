@@ -173,7 +173,7 @@ const BookingForm = ({
 
       // Redirect to booking success page
       router.push(`/dashboard/bookings/success?bookingId=${data.bookingId}`);
-    } catch (err: any) {
+    } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred while booking';
       setError(errorMessage);
       toast({
