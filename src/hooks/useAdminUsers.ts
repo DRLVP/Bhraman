@@ -87,9 +87,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setAdmins(data.data);
       setPagination(data.pagination);
       return data;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error fetching admin users:', err);
-      setError(err.response?.data?.message || 'Failed to fetch admin users');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch admin users');
       return null;
     } finally {
       setIsLoading(false);
@@ -109,9 +109,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       const response = await axios.get(`/api/admin/${id}`);
       const { data } = response.data;
       return data;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(`Error fetching admin user ${id}:`, err);
-      setError(err.response?.data?.message || 'Failed to fetch admin user');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -139,9 +139,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setPagination((prev) => ({ ...prev, total: prev.total + 1 }));
       
       return data;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error creating admin user:', err);
-      setError(err.response?.data?.message || 'Failed to create admin user');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to create admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -172,9 +172,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       );
       
       return updatedAdmin;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(`Error updating admin user ${id}:`, err);
-      setError(err.response?.data?.message || 'Failed to update admin user');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to update admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -198,9 +198,9 @@ export function useAdminUsers(): UseAdminUsersReturn {
       setPagination((prev) => ({ ...prev, total: prev.total - 1 }));
       
       return true;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(`Error deleting admin user ${id}:`, err);
-      setError(err.response?.data?.message || 'Failed to delete admin user');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to delete admin user');
       return false;
     } finally {
       setIsLoading(false);

@@ -119,8 +119,12 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
       const response = await axios.get('/api/admin/home-config');
       setHomeConfig(response.data.data);
       return response.data.data;
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch home config');
+    } catch (err: unknown) {
+      setError(
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to fetch home config'
+      );
       return null;
     } finally {
       setIsLoading(false);
@@ -145,8 +149,11 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
         variant: 'default',
       });
       return response.data.data;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to update home config';
+    } catch (err: unknown) {
+      const errorMessage = 
+        (err as any)?.response?.data?.message || 
+        (err as Error)?.message || 
+        'Failed to update home config';
       setError(errorMessage);
       toast({
         title: 'Update failed',

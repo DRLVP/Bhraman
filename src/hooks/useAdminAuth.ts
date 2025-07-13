@@ -47,8 +47,12 @@ export function useAdminAuth() {
           setAdminData(null);
         }
         
-      } catch (err: any) {
-        setError(err.response?.data || 'Failed to verify admin status');
+      } catch (err: unknown) {
+        setError(
+          (err as any)?.response?.data || 
+          (err as Error)?.message || 
+          'Failed to verify admin status'
+        );
         setAdminData(null);
       } finally {
         setIsLoading(false);

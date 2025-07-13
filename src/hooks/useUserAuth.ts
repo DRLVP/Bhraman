@@ -38,7 +38,7 @@ export const useAuth = () => {
             setUserData(data);
             setRole(data.role || 'user');
           }
-        } catch (error) {
+        } catch (error: unknown) {
           console.error('Error fetching user role:', error);
         } finally {
           setIsLoading(false);

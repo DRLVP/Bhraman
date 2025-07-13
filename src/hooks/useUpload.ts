@@ -36,9 +36,9 @@ export const useUpload = () => {
       
       setProgress(100);
       return response.data;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error uploading file:', err);
-      setError(err.response?.data?.message || 'Failed to upload file');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to upload file');
       return null;
     } finally {
       setIsUploading(false);
@@ -79,9 +79,9 @@ export const useUpload = () => {
       }
 
       return results;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error uploading multiple files:', err);
-      setError(err.response?.data?.message || 'Failed to upload files');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to upload files');
       return results; // Return any successful uploads
     } finally {
       setIsUploading(false);

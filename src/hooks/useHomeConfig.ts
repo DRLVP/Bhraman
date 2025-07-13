@@ -90,9 +90,9 @@ export function useHomeConfig(): UseHomeConfigReturn {
       const response = await axios.get('/api/home-config');
       setHomeConfig(response.data.data);
       return response.data.data;
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Error fetching home config:', err);
-      setError(err.response?.data?.message || 'Failed to fetch home configuration');
+      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch home configuration');
       return null;
     } finally {
       setIsLoading(false);

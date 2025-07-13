@@ -75,10 +75,12 @@ export const useAdminStore = create<AdminState>(
               monthlyStats: data.monthlyStats,
               isLoading: false,
             });
-          } catch (err: any) {
+          } catch (err: unknown) {
             console.error('Error fetching dashboard data:', err);
             set({
-              error: err.response?.data?.message || 'Failed to fetch dashboard data',
+              error: (err as any)?.response?.data?.message || 
+                    (err as Error)?.message || 
+                    'Failed to fetch dashboard data',
               isLoading: false,
             });
           }
