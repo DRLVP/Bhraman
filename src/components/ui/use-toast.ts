@@ -176,7 +176,7 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [_state, setToastState] = React.useState<State>(memoryState);
+  const [, setToastState] = React.useState<State>(memoryState);
 
   React.useEffect(() => {
     listeners.push(setToastState);
