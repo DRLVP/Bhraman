@@ -7,9 +7,9 @@ import PackageForm from '@/components/forms/PackageForm';
 import axios from 'axios';
 
 interface PackageEditPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function EditPackagePage({ params }: PackageEditPageProps) {
