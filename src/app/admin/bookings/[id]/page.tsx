@@ -143,7 +143,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           variant: 'default',
         });
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Error updating booking status:', error);
       toast({
         title: 'Error',
@@ -166,7 +166,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         description: 'Confirmation email sent successfully',
         variant: 'default',
       });
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Error sending confirmation email:', error);
       toast({
         title: 'Error',
@@ -201,7 +201,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           variant: 'default',
         });
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Error updating payment status:', error);
       toast({
         title: 'Error',
@@ -219,7 +219,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     try {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Error formatting date:', error);
       return 'Invalid date';
     }
@@ -236,7 +236,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         minute: '2-digit',
       };
       return new Date(dateString).toLocaleString('en-US', options);
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('Error formatting date/time:', error);
       return 'Invalid date/time';
     }

@@ -111,7 +111,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const handleSignOut = async () => {
     try {
       await signOut();
-    } catch (error: Error | unknown) {
+    } catch (error) {
       console.error('Error signing out:', error);
     }
   };
