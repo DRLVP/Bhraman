@@ -128,6 +128,8 @@ export const reducer = (_state: State, action: Action): State => {
         toasts: _state.toasts.filter((t) => t.id !== action.toastId),
       };
   }
+  // Default case to satisfy consistent-return rule
+  return _state;
 };
 
 const listeners: Array<(state: State) => void> = [];
@@ -160,7 +162,7 @@ function toast({ ...props }: Toast) {
       id,
       open: true,
       onOpenChange: (open) => {
-        if (!open) dismiss();
+        if (!open) { dismiss(); }
         return undefined;
       },
     },
@@ -174,7 +176,7 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [, setToastState] = React.useState<State>(memoryState);
+  const [_state, setToastState] = React.useState<State>(memoryState);
 
   React.useEffect(() => {
     listeners.push(setToastState);
