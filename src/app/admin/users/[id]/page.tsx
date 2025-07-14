@@ -19,9 +19,9 @@ import Image from 'next/image';
 import { getErrorMessage } from '@/lib/errorUtils';
 
 interface UserDetailProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 interface UserDetail {
