@@ -35,7 +35,6 @@ export default function BookPackagePage({ params }: { params: { slug: string } }
       try {
         setIsLoading(true);
         const response = await axios.get(`/api/packages/${slug}`);
-        // Make sure we're accessing the data property from the API response
         setPackageInfo(response.data.data);
       } catch (err: unknown) {
         setError(getErrorMessage(err) || 'Package not found');
