@@ -10,6 +10,26 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
+// Define types for jsPDF-AutoTable plugin
+interface AutoTableOptions {
+  startY: number;
+  head: string[][];
+  body: string[][];
+  theme: string;
+  headStyles: {
+    fillColor: number[];
+    textColor: number[];
+    fontStyle: string;
+  };
+}
+
+interface JsPDFWithAutoTable extends jsPDF {
+  autoTable: (options: AutoTableOptions) => void;
+  lastAutoTable?: {
+    finalY: number;
+  };
+}
+
 // Define the Payment interface
 interface Payment {
   id: string;
@@ -117,8 +137,8 @@ export default function PaymentsPage() {
     doc.text('Package Details', 14, 100);
     
     // Create table for package details
-    // Using type assertion for jsPDF-AutoTable plugin
-    (doc as unknown as { autoTable: Function }).autoTable({
+    // Using the defined interface for type safety
+    (doc as unknown as JsPDFWithAutoTable).autoTable({
       startY: 105,
       head: [['Package', 'Booking ID', 'Amount']],
       body: [
@@ -137,8 +157,8 @@ export default function PaymentsPage() {
     });
     
     // Add total amount
-    // Using type assertion for jsPDF-AutoTable plugin result
-    const finalY = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable?.finalY || 130;
+    // Using the defined interface for type safety
+    const finalY = (doc as unknown as JsPDFWithAutoTable).lastAutoTable?.finalY || 130;
     doc.setFontSize(12);
     doc.setTextColor(40, 40, 40);
     doc.text(`Total Amount: ₹${payment.amount.toLocaleString()}`, pageWidth - 14, finalY + 10, { align: 'right' });

@@ -58,7 +58,7 @@ export default function UsersPage() {
       setError(getErrorMessage(err) || 'Failed to fetch users');
       toast({
         title: 'Error',
-        description: errorMessage,
+        description: getErrorMessage(err) || 'Failed to fetch users',
         variant: 'destructive',
       });
     }

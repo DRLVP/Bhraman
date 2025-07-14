@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-import { getErrorMessage } from '@/lib/errorUtils';
 
 /**
  * User data interface

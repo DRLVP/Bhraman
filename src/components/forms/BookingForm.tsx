@@ -179,7 +179,7 @@ const BookingForm = ({
       toast({
         variant: 'destructive',
         title: 'Booking Failed',
-        description: errorMessage,
+        description: getErrorMessage(err) || 'An error occurred while booking',
       });
     } finally {
       setIsLoading(false);

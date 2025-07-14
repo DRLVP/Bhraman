@@ -72,21 +72,21 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout);
 };
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (_state: State, action: Action): State => {
   switch (action.type) {
     case actionTypes.ADD_TOAST:
       return {
-        ...state,
+        ..._state,
         toasts: [
-          ...state.toasts,
+          ..._state.toasts,
           { ...action.toast, id: action.toast.id || genId() },
         ].slice(0, TOAST_LIMIT),
       };
 
     case actionTypes.UPDATE_TOAST:
       return {
-        ...state,
-        toasts: state.toasts.map((t) =>
+        ..._state,
+        toasts: _state.toasts.map((t) =>
           t.id === action.toast.id ? { ...t, ...action.toast } : t,
         ),
       };
@@ -99,14 +99,14 @@ export const reducer = (state: State, action: Action): State => {
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
-        state.toasts.forEach((toast) => {
+        _state.toasts.forEach((toast) => {
           addToRemoveQueue(toast.id);
         });
       }
 
       return {
-        ...state,
-        toasts: state.toasts.map((t) =>
+        ..._state,
+        toasts: _state.toasts.map((t) =>
           t.id === toastId || toastId === undefined
             ? {
                 ...t,
@@ -119,13 +119,13 @@ export const reducer = (state: State, action: Action): State => {
     case actionTypes.REMOVE_TOAST:
       if (action.toastId === undefined) {
         return {
-          ...state,
+          ..._state,
           toasts: [],
         };
       }
       return {
-        ...state,
-        toasts: state.toasts.filter((t) => t.id !== action.toastId),
+        ..._state,
+        toasts: _state.toasts.filter((t) => t.id !== action.toastId),
       };
   }
 };
@@ -160,7 +160,7 @@ function toast({ ...props }: Toast) {
       id,
       open: true,
       onOpenChange: (open) => {
-        if (!open) {dismiss();}
+        if (!open) dismiss();
         return undefined;
       },
     },
@@ -174,12 +174,12 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  const [_state, setState] = React.useState<State>(memoryState);
+  const [, setToastState] = React.useState<State>(memoryState);
 
   React.useEffect(() => {
-    listeners.push(setState);
+    listeners.push(setToastState);
     return () => {
-      const index = listeners.indexOf(setState);
+      const index = listeners.indexOf(setToastState);
       if (index > -1) {
         listeners.splice(index, 1);
       }
