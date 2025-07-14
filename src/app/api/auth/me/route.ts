@@ -32,7 +32,7 @@ export async function GET() {
     }
 
     if (!clerkUser) {
-      return null;
+      return new NextResponse('User not found', { status: 404 });
     }
     // Return user data
     return NextResponse.json({
