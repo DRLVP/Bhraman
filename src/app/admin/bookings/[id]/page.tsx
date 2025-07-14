@@ -25,9 +25,9 @@ import { useToast } from '@/components/ui/use-toast';
 import Image from 'next/image';
 
 interface BookingDetailProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 interface BookingDetail {
