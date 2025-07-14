@@ -7,7 +7,7 @@ import User from '@/models/User';
 /**
  * Get a specific booking
  */
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the user is authenticated
     const { userId } = await auth();
@@ -17,7 +17,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
     
     // Get the booking ID from the URL
-    const { id } = params;
+    const { id } = await params;
     
     // Connect to MongoDB
     await connectDB();
@@ -57,7 +57,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 /**
  * Cancel a booking
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the user is authenticated
     const { userId } = await auth();
@@ -67,7 +67,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
     
     // Get the booking ID from the URL
-    const { id } = params;
+    const { id } = await params;
     
     // Parse the request body
     const body = await request.json();

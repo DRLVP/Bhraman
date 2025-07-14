@@ -7,7 +7,7 @@ import { generateSlug } from '@/lib/server-utils';
 /**
  * Get a specific package by ID
  */
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -19,7 +19,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     // Get the package by ID
     const packageData = await Package.findById(id);
@@ -38,7 +38,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 /**
  * Update a package
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -53,7 +53,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     // Find the package to update
     const packageToUpdate = await Package.findById(id);
@@ -96,7 +96,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 /**
  * Delete a package
  */
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -108,7 +108,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     // Find the package to delete
     const packageToDelete = await Package.findById(id);

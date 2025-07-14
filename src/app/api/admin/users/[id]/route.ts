@@ -6,7 +6,7 @@ import User from '@/models/User';
 /**
  * Get a specific user by ID
  */
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -18,8 +18,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
     // Connect to MongoDB
     await connectDB();
     
+    // Await params before accessing its properties
+    const { id } = await params;
+    
     // Get the user by ID
-    const user = await User.findById(params.id)
+    const user = await User.findById(id)
       .select('_id clerkId name email phone profileImage role createdAt updatedAt');
     
     if (!user) {
@@ -79,7 +82,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 /**
  * Update a user's role
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -100,9 +103,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     // Connect to MongoDB
     await connectDB();
     
+    // Await params before accessing its properties
+    const { id } = await params;
+    
     // Update the user
     const updatedUser = await User.findByIdAndUpdate(
-      params.id,
+      id,
       { role },
       { new: true },
     ).select('_id name email role');
@@ -124,7 +130,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 /**
  * Delete a user
  */
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -136,8 +142,11 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     // Connect to MongoDB
     await connectDB();
     
+    // Await params before accessing its properties
+    const { id } = await params;
+    
     // Delete the user
-    const deletedUser = await User.findByIdAndDelete(params.id);
+    const deletedUser = await User.findByIdAndDelete(id);
     
     if (!deletedUser) {
       return new NextResponse('User not found', { status: 404 });

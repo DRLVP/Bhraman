@@ -6,7 +6,7 @@ import Booking, { BookingStatus, PaymentStatus } from '@/models/Booking';
 /**
  * Get a specific booking by ID
  */
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -18,7 +18,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    // Await params before accessing its properties
+    const { id } = await params;
     
     // Get the booking by ID and populate related data
     const booking = await Booking.findById(id)
@@ -39,7 +40,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 /**
  * Update a booking
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -54,7 +55,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    // Await params before accessing its properties
+    const { id } = await params;
     
     // Find the booking to update
     const bookingToUpdate = await Booking.findById(id);
@@ -104,7 +106,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 /**
  * Delete a booking
  */
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -116,7 +118,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     
     // Find the booking to delete
     const bookingToDelete = await Booking.findById(id);

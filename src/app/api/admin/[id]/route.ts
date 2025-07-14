@@ -6,7 +6,7 @@ import User from '@/models/User';
 /**
  * Get a specific admin user by ID
  */
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -18,7 +18,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     // Connect to MongoDB
     await connectDB();
     
-    const { id } = params;
+    // Await params before accessing its properties
+    const { id } = await params;
     
     // Get the admin by ID
     const adminUser = await User.findOne({ _id: id, role: 'admin' })
@@ -38,7 +39,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 /**
  * Update an admin user
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     // Check if the current user is an admin
     const admin = await getCurrentAdmin();
@@ -53,8 +54,11 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     // Connect to MongoDB
     await connectDB();
     
+    // Await params before accessing its properties
+    const { id } = await params;
+    
     // Determine which ID to use for finding the document
-    const documentId = body._id || params.id;
+    const documentId = body._id || id;
     
     // Remove _id from body to prevent MongoDB errors
     if (body._id) {
