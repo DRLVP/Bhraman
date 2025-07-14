@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 /**
  * Custom hook for uploading files to Cloudinary
@@ -38,7 +39,7 @@ export const useUpload = () => {
       return response.data;
     } catch (err: unknown) {
       console.error('Error uploading file:', err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to upload file');
+      setError(getErrorMessage(err) || 'Failed to upload file');
       return null;
     } finally {
       setIsUploading(false);
@@ -81,7 +82,7 @@ export const useUpload = () => {
       return results;
     } catch (err: unknown) {
       console.error('Error uploading multiple files:', err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to upload files');
+      setError(getErrorMessage(err) || 'Failed to upload files');
       return results; // Return any successful uploads
     } finally {
       setIsUploading(false);

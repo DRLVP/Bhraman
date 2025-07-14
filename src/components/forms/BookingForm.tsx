@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useUserAuth';
 import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 /**
  * BookingForm props interface
@@ -174,8 +175,7 @@ const BookingForm = ({
       // Redirect to booking success page
       router.push(`/dashboard/bookings/success?bookingId=${data.bookingId}`);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred while booking';
-      setError(errorMessage);
+      setError(getErrorMessage(err) || 'An error occurred while booking');
       toast({
         variant: 'destructive',
         title: 'Booking Failed',

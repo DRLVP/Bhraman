@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 /**
  * User data interface
@@ -38,8 +39,10 @@ export const useAuth = () => {
             setUserData(data);
             setRole(data.role || 'user');
           }
-        } catch (error) {
-          console.error('Error fetching user role:', error);
+        } catch (err: unknown) {
+          console.error('Error fetching user role:', err);
+          // We don't set an error state here as this is a background fetch
+          // and we don't want to show an error to the user
         } finally {
           setIsLoading(false);
         }

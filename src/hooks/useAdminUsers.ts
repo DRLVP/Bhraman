@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Admin user interface
 export interface AdminUser {
@@ -89,7 +90,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return data;
     } catch (err: unknown) {
       console.error('Error fetching admin users:', err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch admin users');
+      setError(getErrorMessage(err) || 'Failed to fetch admin users');
       return null;
     } finally {
       setIsLoading(false);
@@ -111,7 +112,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return data;
     } catch (err: unknown) {
       console.error(`Error fetching admin user ${id}:`, err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch admin user');
+      setError(getErrorMessage(err) || 'Failed to fetch admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -141,7 +142,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return data;
     } catch (err: unknown) {
       console.error('Error creating admin user:', err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to create admin user');
+      setError(getErrorMessage(err) || 'Failed to create admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -174,7 +175,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return updatedAdmin;
     } catch (err: unknown) {
       console.error(`Error updating admin user ${id}:`, err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to update admin user');
+      setError(getErrorMessage(err) || 'Failed to update admin user');
       return null;
     } finally {
       setIsLoading(false);
@@ -200,7 +201,7 @@ export function useAdminUsers(): UseAdminUsersReturn {
       return true;
     } catch (err: unknown) {
       console.error(`Error deleting admin user ${id}:`, err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to delete admin user');
+      setError(getErrorMessage(err) || 'Failed to delete admin user');
       return false;
     } finally {
       setIsLoading(false);

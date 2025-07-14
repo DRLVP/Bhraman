@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Search, RefreshCw, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function UsersPage() {
   const { isAdmin, isLoading: authLoading } = useAdminAuth();
@@ -54,8 +55,7 @@ export default function UsersPage() {
         sort: sortBy,
       });
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch users';
-      setError(errorMessage);
+      setError(getErrorMessage(err) || 'Failed to fetch users');
       toast({
         title: 'Error',
         description: errorMessage,

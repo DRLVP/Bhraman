@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAdminHomeConfig } from '@/hooks/useAdminHomeConfig';
 import ImageUploader from '@/components/shared/ImageUploader';
 import { useToast } from '@/components/ui/use-toast';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function ManageSitePage() {
   const {
@@ -136,10 +137,10 @@ export default function ManageSitePage() {
         default:
           break;
       }
-    } catch (err: Error | unknown) {
+    } catch (err: unknown) {
       toast({
         title: 'Update failed',
-        description: err instanceof Error ? err.message : 'An error occurred while saving changes.',
+        description: getErrorMessage(err) || 'An error occurred while saving changes.',
         variant: 'destructive',
       });
     }

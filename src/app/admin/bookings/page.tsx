@@ -16,6 +16,7 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useAdminBookings, BookingStatus, PaymentStatus } from '@/hooks/useAdminBookings';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function BookingsPage() {
   const router = useRouter();
@@ -35,11 +36,11 @@ export default function BookingsPage() {
   useEffect(() => {
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
     fetchBookings(currentPage, 10, status, undefined, searchQuery)
-      .catch((err: Error | unknown) => {
+      .catch((err: unknown) => {
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: err instanceof Error ? err.message : 'Failed to fetch bookings',
+          description: getErrorMessage(err) || 'Failed to fetch bookings',
         });
       });
   }, [fetchBookings, currentPage, statusFilter, toast, searchQuery]);
@@ -52,11 +53,11 @@ export default function BookingsPage() {
     setCurrentPage(1); // Reset to first page on new search
     const status = statusFilter !== 'all' ? statusFilter as BookingStatus : undefined;
     fetchBookings(1, 10, status, undefined, searchQuery)
-      .catch((err: Error | unknown) => {
+      .catch((err: unknown) => {
         toast({
           variant: 'destructive',
           title: 'Error',
-          description: err instanceof Error ? err.message : 'Failed to fetch bookings',
+          description: getErrorMessage(err) || 'Failed to fetch bookings',
         });
       });
   };

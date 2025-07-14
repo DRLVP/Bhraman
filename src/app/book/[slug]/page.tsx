@@ -10,6 +10,7 @@ import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
 import Image from 'next/image';
 import { IPackage } from '@/models/Package';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function BookPackagePage({ params }: { params: { slug: string } }) {
   // Use React.use() to unwrap params object as recommended by Next.js
@@ -36,11 +37,8 @@ export default function BookPackagePage({ params }: { params: { slug: string } }
         const response = await axios.get(`/api/packages/${slug}`);
         // Make sure we're accessing the data property from the API response
         setPackageInfo(response.data.data);
-      } catch (err: Error | unknown) {
-        setError(
-          (err as { response?: { data?: { message?: string } }; message?: string })?.response?.data?.message || 
-          (err instanceof Error ? err.message : 'Package not found'),
-        );
+      } catch (err: unknown) {
+        setError(getErrorMessage(err) || 'Package not found');
       } finally {
         setIsLoading(false);
       }

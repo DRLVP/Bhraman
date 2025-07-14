@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import Image from 'next/image';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 interface UserDetailProps {
   params: {
@@ -75,9 +76,9 @@ export default function UserDetailPage({ params }: UserDetailProps) {
         }
         
         setUser(responseData.data);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('Error fetching user:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Failed to load user details. Please try again.';
+        const errorMessage = getErrorMessage(error) || 'Failed to load user details. Please try again.';
         setError(errorMessage);
         toast({
           title: 'Error',

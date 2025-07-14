@@ -11,6 +11,7 @@ import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription }
 import { toast } from '@/components/ui/use-toast';
 import { ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function SignUpPage() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -102,9 +103,7 @@ export default function SignUpPage() {
       setIsLoading(false);
     } catch (err: unknown) {
       console.error('Error during sign-up:', err);
-      // Type assertion for Clerk error structure
-      const clerkError = err as { errors?: Array<{ message: string }> };
-      setError(clerkError.errors?.[0]?.message || 'An error occurred during sign up');
+      setError(getErrorMessage(err) || 'An error occurred during sign up');
       setIsLoading(false);
     }
   };
@@ -138,10 +137,9 @@ export default function SignUpPage() {
           phone,
         });
       } catch (err: unknown) {
-        console.error('Error updating user profile:', 
-          (err as any)?.response?.data?.message || 
-          (err as Error)?.message || 
-          'Error updating profile');
+        console.error('Error updating user profile:', err);
+        const errorMessage = getErrorMessage(err) || 'Error updating profile';
+        console.error(errorMessage);
       }
 
       toast({

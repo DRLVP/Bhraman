@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
 import Image from 'next/image';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Define booking interface
 interface Booking {
@@ -106,13 +107,10 @@ export default function BookingsPage() {
           ];
           setBookings(mockBookings);
         }
-      } catch (err: unknown) {
-        const errorMessage = 
-          (err as any)?.response?.data?.message || 
-          (err as Error)?.message || 
-          'Failed to fetch bookings';
-        setError(errorMessage);
+      } catch (err) {
         console.error('Error fetching bookings:', err);
+        setError(getErrorMessage(err) || 'Failed to fetch bookings');
+
       } finally {
         setIsLoading(false);
       }

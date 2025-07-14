@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Dashboard statistics interface
 export interface DashboardStats {
@@ -52,11 +53,7 @@ export function useAdminDashboard() {
       const response = await axios.get('/api/admin/dashboard');
       setStats(response.data.data);
     } catch (err: unknown) {
-      const errorMessage = 
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to fetch dashboard statistics';
-      setError(errorMessage);
+      setError(getErrorMessage(err) || 'Failed to fetch dashboard statistics');
       console.error('Error fetching dashboard stats:', err);
     } finally {
       setIsLoading(false);

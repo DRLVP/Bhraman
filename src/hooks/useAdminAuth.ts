@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 type AdminData = {
   id: string;
@@ -48,11 +49,7 @@ export function useAdminAuth() {
         }
         
       } catch (err: unknown) {
-        setError(
-          (err as any)?.response?.data || 
-          (err as Error)?.message || 
-          'Failed to verify admin status'
-        );
+        setError(getErrorMessage(err) || 'Failed to verify admin status');
         setAdminData(null);
       } finally {
         setIsLoading(false);

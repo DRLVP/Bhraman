@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // User interface
 export interface User {
@@ -116,11 +117,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
 
       return response.data;
     } catch (err: unknown) {
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to fetch users'
-      );
+      setError(getErrorMessage(err) || 'Failed to fetch users');
       return null;
     } finally {
       setIsLoading(false);
@@ -141,11 +138,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
       const response = await axios.get(`/api/admin/users/${id}`);
       return response.data.data;
     } catch (err: unknown) {
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to fetch user'
-      );
+      setError(getErrorMessage(err) || 'Failed to fetch user');
       return null;
     } finally {
       setIsLoading(false);
@@ -177,11 +170,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
 
       return response.data.data;
     } catch (err: unknown) {
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to update user role'
-      );
+      setError(getErrorMessage(err) || 'Failed to update user role');
       return null;
     } finally {
       setIsLoading(false);
@@ -206,11 +195,7 @@ export function useAdminUserManagement(): UseAdminUserManagementReturn {
 
       return true;
     } catch (err: unknown) {
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to delete user'
-      );
+      setError(getErrorMessage(err) || 'Failed to delete user');
       return false;
     } finally {
       setIsLoading(false);

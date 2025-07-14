@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Generate metadata dynamically
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
       keywords: data?.seo?.keywords || ['travel', 'india', 'packages', 'tours'],
     };
   } catch (err: unknown) {
-    console.error('Error generating metadata:', err);
+    console.error('Error generating metadata:', getErrorMessage(err));
     return metadata; // Return default metadata on error
   }
 }

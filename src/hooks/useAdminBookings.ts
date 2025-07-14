@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useAdminAuth } from './useAdminAuth';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Booking status enum (must match the backend enum)
 export enum BookingStatus {
@@ -115,11 +116,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       setPagination(response.data.pagination);
     } catch (err: unknown) {
       console.error('Error fetching bookings:', err);
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to fetch bookings'
-      );
+      setError(getErrorMessage(err) || 'Failed to fetch bookings');
     } finally {
       setIsLoading(false);
     }
@@ -139,11 +136,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       return response.data.data;
     } catch (err: unknown) {
       console.error('Error fetching booking:', err);
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to fetch booking'
-      );
+      setError(getErrorMessage(err) || 'Failed to fetch booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -172,11 +165,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       return data;
     } catch (err: unknown) {
       console.error('Error creating booking:', err);
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to create booking'
-      );
+      setError(getErrorMessage(err) || 'Failed to create booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -207,11 +196,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       return data;
     } catch (err: unknown) {
       console.error('Error updating booking:', err);
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to update booking'
-      );
+      setError(getErrorMessage(err) || 'Failed to update booking');
       return null;
     } finally {
       setIsLoading(false);
@@ -237,11 +222,7 @@ export function useAdminBookings(): UseAdminBookingsReturn {
       return true;
     } catch (err: unknown) {
       console.error('Error deleting booking:', err);
-      setError(
-        (err as any)?.response?.data?.message || 
-        (err as Error)?.message || 
-        'Failed to delete booking'
-      );
+      setError(getErrorMessage(err) || 'Failed to delete booking');
       return false;
     } finally {
       setIsLoading(false);

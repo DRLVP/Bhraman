@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 interface AdminStats {
   totalPackages: number;
@@ -78,9 +79,7 @@ export const useAdminStore = create<AdminState>(
           } catch (err: unknown) {
             console.error('Error fetching dashboard data:', err);
             set({
-              error: (err as any)?.response?.data?.message || 
-                    (err as Error)?.message || 
-                    'Failed to fetch dashboard data',
+              error: getErrorMessage(err) || 'Failed to fetch dashboard data',
               isLoading: false,
             });
           }

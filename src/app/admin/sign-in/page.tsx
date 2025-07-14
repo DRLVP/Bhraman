@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignIn, useSignUp, useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function AdminSignInPage() {
   const { isLoaded: isSignInLoaded, signIn, setActive: setSignInActive } = useSignIn();
@@ -68,9 +69,9 @@ export default function AdminSignInPage() {
         // Sign in failed
         setError('Invalid email or password');
       }
-    } catch (err: Error | unknown) {
+    } catch (err: unknown) {
       console.error('Error signing in:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred during sign in');
+      setError(getErrorMessage(err) || 'An error occurred during sign in');
     } finally {
       setLoading(false);
     }
@@ -102,9 +103,9 @@ export default function AdminSignInPage() {
       setShowVerification(true);
       setError('Please check your email for a verification code');
       setLoading(false);
-    } catch (err: Error | unknown) {
-      console.error('Error during sign-up:', err);
-      setError(err instanceof Error ? err.message : (err as { errors?: Array<{ message: string }> })?.errors?.[0]?.message || 'An error occurred during sign-up');
+    } catch (err: unknown) {
+      console.error('Error signing up:', err);
+      setError(getErrorMessage(err) || 'An error occurred during sign-up');
       setLoading(false);
     }
   };
@@ -148,18 +149,18 @@ export default function AdminSignInPage() {
 
           // Redirect to admin dashboard
           router.push('/admin');
-        } catch (adminError: Error | unknown) {
+        } catch (adminError: unknown) {
           console.error('Error registering as admin:', adminError);
-          setError(adminError instanceof Error ? adminError.message : 'Failed to register as admin. Please contact support.');
+          setError(getErrorMessage(adminError) || 'Failed to register as admin. Please contact support.');
           setLoading(false);
         }
       } else {
         setError('Verification failed. Please try again.');
         setLoading(false);
       }
-    } catch (err: Error | unknown) {
-      console.error('Error during verification:', err);
-      setError(err instanceof Error ? err.message : (err as { errors?: Array<{ message: string }> })?.errors?.[0]?.message || 'An error occurred during verification');
+    } catch (err: unknown) {
+      console.error('Error verifying:', err);
+      setError(getErrorMessage(err) || 'An error occurred during verification');
       setLoading(false);
     }
   };

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { IPackage } from '@/models/Package';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 /**
  * Package store state interface
@@ -78,7 +79,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
     } catch (error) {
       console.error('Error fetching packages:', error);
       set({ 
-        error: error instanceof Error ? error.message : 'Failed to fetch packages', 
+        error: getErrorMessage(error) || 'Failed to fetch packages', 
         isLoading: false, 
       });
     }
@@ -93,7 +94,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
     } catch (error) {
       console.error('Error fetching featured packages:', error);
       set({ 
-        error: error instanceof Error ? error.message : 'Failed to fetch featured packages', 
+        error: getErrorMessage(error) || 'Failed to fetch featured packages', 
         isLoading: false, 
       });
     }
@@ -111,7 +112,7 @@ const usePackageStore = create<PackageState>((set, get) => ({
     } catch (error) {
       console.error(`Error fetching package with slug ${slug}:`, error);
       set({ 
-        packageError: error instanceof Error ? error.message : 'Failed to fetch package', 
+        packageError: getErrorMessage(error) || 'Failed to fetch package', 
         isLoadingPackage: false, 
       });
       return null;

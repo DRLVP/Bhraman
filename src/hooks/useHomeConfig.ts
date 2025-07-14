@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Define interfaces for the home config sections
 interface SiteSettings {
@@ -92,7 +93,7 @@ export function useHomeConfig(): UseHomeConfigReturn {
       return response.data.data;
     } catch (err: unknown) {
       console.error('Error fetching home config:', err);
-      setError((err as any).response?.data?.message || (err as Error).message || 'Failed to fetch home configuration');
+      setError(getErrorMessage(err) || 'Failed to fetch home configuration');
       return null;
     } finally {
       setIsLoading(false);

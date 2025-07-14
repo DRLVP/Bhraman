@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import { getErrorMessage } from '@/lib/errorUtils';
 import { 
   ArrowLeft, 
   Calendar, 
@@ -109,10 +110,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         }
       } catch (err: unknown) {
         console.error('Error fetching booking:', err);
-        const errorMessage = err instanceof Error ? 
-          err.message : 
-          (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to load booking details. Please try again.';
-        setError(errorMessage);
+        setError(getErrorMessage(err) || 'Failed to load booking details. Please try again.');
       } finally {
         setIsLoading(false);
       }

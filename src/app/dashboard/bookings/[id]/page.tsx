@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import useAuth from '@/hooks/useUserAuth';
 import axios from 'axios';
 import Image from 'next/image';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 // Define booking interface
 interface Booking {
@@ -79,10 +80,7 @@ export default function BookingDetailsPage({ params }: { params: { id: string } 
           throw new Error('Invalid booking data structure');
         }
       } catch (err: unknown) {
-        const errorMessage = err instanceof Error 
-          ? err.message 
-          : (err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'An error occurred while fetching booking details';
-        setError(errorMessage);
+        setError(getErrorMessage(err) || 'An error occurred while fetching booking details');
         console.error('Error fetching booking details:', err);
       } finally {
         setIsLoading(false);

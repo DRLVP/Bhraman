@@ -18,6 +18,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useAdminPackages } from '@/hooks/useAdminPackages';
 import Image from 'next/image';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 
 export default function PackagesPage() {
@@ -97,7 +98,7 @@ export default function PackagesPage() {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to update featured status',
+        description: getErrorMessage(error) || 'Failed to update featured status',
       });
     }
   };
@@ -128,7 +129,7 @@ export default function PackagesPage() {
               toast({
                 variant: 'destructive',
                 title: 'Error',
-                description: error instanceof Error ? error.message : 'Failed to delete package',
+                description: getErrorMessage(error) || 'Failed to delete package',
               });
             } finally {
               setIsDeleting(null);

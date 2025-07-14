@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { ArrowLeft, Loader2 } from 'lucide-react';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export default function SignInPage() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -67,9 +68,7 @@ export default function SignInPage() {
       }
     } catch (err: unknown) {
       console.error('Sign in error:', err);
-      // Type assertion for Clerk error structure
-      const clerkError = err as { errors?: Array<{ message: string }> };
-      setError(clerkError.errors?.[0]?.message || 'An error occurred during sign in');
+      setError(getErrorMessage(err) || 'An error occurred during sign in');
     } finally {
       setIsLoading(false);
     }
