@@ -47,7 +47,7 @@ interface Booking {
   __v: number;
 }
 
-export default function BookingDetailsPage({ params }: { params: { id: string } }) {
+export default function BookingDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   // Unwrap params with React.use()
   const unwrappedParams = use(params);
   const { isSignedIn, isLoaded } = useAuth();

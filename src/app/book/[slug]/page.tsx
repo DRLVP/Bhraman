@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { IPackage } from '@/models/Package';
 import { getErrorMessage } from '@/lib/errorUtils';
 
-export default function BookPackagePage({ params }: { params: { slug: string } }) {
+export default function BookPackagePage({ params }: { params: Promise<{ slug: string }> }) {
   // Use React.use() to unwrap params object as recommended by Next.js
   const { slug } = use(params);
   const router = useRouter();
