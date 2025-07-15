@@ -121,7 +121,7 @@ export default function BookPackagePage({ params }: { params: Promise<{ slug: st
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Booking Information</h2>
           <BookingForm 
-            packageId={packageInfo._id} 
+            packageId={packageInfo._id ? packageInfo._id.toString() : ''} 
             packageName={packageInfo.title}
             price={packageInfo.price}
             discountedPrice={packageInfo.discountedPrice}
