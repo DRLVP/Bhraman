@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAdminHomeConfig } from '@/hooks/useAdminHomeConfig';
+import { useAdminHomeConfig, ContactSection } from '@/hooks/useAdminHomeConfig';
 import ImageUploader from '@/components/shared/ImageUploader';
 import { useToast } from '@/components/ui/use-toast';
 import { getErrorMessage } from '@/lib/errorUtils';
@@ -51,13 +51,13 @@ export default function ManageSitePage() {
     image: '',
   });
 
-  const [contactSection, setContactSection] = useState({
+  const [contactSection, setContactSection] = useState<ContactSection>({
     heading: '',
     subheading: '',
     email: '',
     phone: '',
     address: '',
-    workingHours: '',
+    workingHours: undefined,
   });
 
   const [seo, setSeo] = useState({
