@@ -20,7 +20,7 @@ import {
   CreditCard,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAdminBookings, PaymentStatus } from '@/hooks/useAdminBookings';
+import { useAdminBookings, PaymentStatus, BookingStatus } from '@/hooks/useAdminBookings';
 import { useToast } from '@/components/ui/use-toast';
 import Image from 'next/image';
 
@@ -43,7 +43,7 @@ interface BookingDetail {
   startDate: string;
   numberOfPeople: number;
   totalAmount: number;
-  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  status: BookingStatus;
   paymentStatus: PaymentStatus;
   paymentId?: string;
   paymentMethod?: string;
@@ -94,8 +94,8 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             startDate: bookingData.startDate || new Date().toISOString(),
             numberOfPeople: bookingData.numberOfPeople || 0,
             totalAmount: bookingData.totalAmount || 0,
-            status: bookingData.status || 'pending',
-            paymentStatus: bookingData.paymentStatus || 'pending',
+            status: bookingData.status || BookingStatus.PENDING,
+            paymentStatus: bookingData.paymentStatus || PaymentStatus.PENDING,
             paymentId: bookingData.paymentId || '',
             paymentMethod: 'Cash', // Default payment method since we don't have Razorpay
             contactInfo: bookingData.contactInfo || { name: '', email: '', phone: '' },
@@ -119,7 +119,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     fetchBookingData();
   }, [id]);
 
-  const updateBookingStatus = async (status: 'pending' | 'confirmed' | 'cancelled' | 'completed') => {
+  const updateBookingStatus = async (status: BookingStatus) => {
     if (!booking) {return;}
     
     setIsUpdating(true);
@@ -244,19 +244,19 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
     if (!status) {return 'bg-gray-100 text-gray-800';}
     
     switch (status) {
-      case 'pending':
+      case BookingStatus.PENDING:
         return 'bg-yellow-100 text-yellow-800';
-      case 'confirmed':
+      case BookingStatus.CONFIRMED:
         return 'bg-blue-100 text-blue-800';
-      case 'cancelled':
+      case BookingStatus.CANCELLED:
         return 'bg-red-100 text-red-800';
-      case 'completed':
+      case BookingStatus.COMPLETED:
         return 'bg-green-100 text-green-800';
-      case 'paid':
+      case PaymentStatus.COMPLETED:
         return 'bg-green-100 text-green-800';
-      case 'refunded':
+      case PaymentStatus.REFUNDED:
         return 'bg-purple-100 text-purple-800';
-      case 'failed':
+      case PaymentStatus.FAILED:
         return 'bg-red-100 text-red-800';
       default:
         return 'bg-gray-100 text-gray-800';
@@ -309,10 +309,10 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
         </div>
         
         <div className="flex flex-wrap gap-2">
-          {booking.status === 'pending' && (
+          {booking.status === BookingStatus.PENDING && (
             <>
               <Button
-                  onClick={() => updateBookingStatus('confirmed')}
+                  onClick={() => updateBookingStatus(BookingStatus.CONFIRMED)}
                   disabled={isUpdating}
                   className="flex items-center gap-1 cursor-pointer"
                 >
@@ -321,7 +321,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => updateBookingStatus('cancelled')}
+                  onClick={() => updateBookingStatus(BookingStatus.CANCELLED)}
                   disabled={isUpdating}
                   className="flex items-center gap-1 text-red-500 border-red-200 hover:bg-red-50 cursor-pointer"
                 >
@@ -331,10 +331,10 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
             </>
           )}
           
-          {booking.status === 'confirmed' && (
+          {booking.status === BookingStatus.CONFIRMED && (
             <>
               <Button
-                  onClick={() => updateBookingStatus('completed')}
+                  onClick={() => updateBookingStatus(BookingStatus.COMPLETED)}
                   disabled={isUpdating}
                   className="flex items-center gap-1 cursor-pointer"
                 >
@@ -354,7 +354,7 @@ export default function BookingDetailPage({ params }: BookingDetailProps) {
           )}
           
           {/* Complete Payment Button - Show when payment is pending */}
-          {booking.paymentStatus === 'pending' && (
+          {booking.paymentStatus === PaymentStatus.PENDING && (
             <Button
               onClick={completePayment}
               disabled={isUpdating}
