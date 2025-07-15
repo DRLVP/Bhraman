@@ -52,7 +52,7 @@ export async function GET() {
     const packages = await Package.find({ _id: { $in: packageIds } }).lean();
     
     // Create a map of package IDs to package titles for quick lookup
-    const packageMap = {};
+    const packageMap: Record<string, string> = {};
     packages.forEach((pkg) => {
       packageMap[pkg._id.toString()] = pkg.title;
     });
