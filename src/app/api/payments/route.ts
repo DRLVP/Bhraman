@@ -3,7 +3,7 @@ import { auth } from '@clerk/nextjs/server';
 import connectDB from '@/lib/db';
 import Booking, { PaymentStatus } from '@/models/Booking';
 import User from '@/models/User';
-import Package from '@/models/Package';
+import Package, { IPackage } from '@/models/Package';
 
 /**
  * Get all payments for the current user
@@ -49,7 +49,7 @@ export async function GET() {
     const packageIds = bookings.map((booking) => booking.packageId);
     
     // Fetch all packages in a single query
-    const packages = await Package.find({ _id: { $in: packageIds } }).lean();
+    const packages = await Package.find({ _id: { $in: packageIds } }).lean() as unknown as IPackage[];
     
     // Create a map of package IDs to package titles for quick lookup
     const packageMap: Record<string, string> = {};
