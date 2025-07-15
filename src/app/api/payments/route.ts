@@ -54,7 +54,8 @@ export async function GET() {
     // Create a map of package IDs to package titles for quick lookup
     const packageMap: Record<string, string> = {};
     packages.forEach((pkg) => {
-      packageMap[pkg._id.toString()] = pkg.title;
+      const id = pkg._id as unknown as { toString(): string };
+      packageMap[id.toString()] = pkg.title;
     });
     
     // Transform bookings into payment records
