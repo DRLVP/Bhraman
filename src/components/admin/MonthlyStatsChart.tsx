@@ -9,10 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartData,
-  ChartOptions,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 
 // Register ChartJS components
 ChartJS.register(
@@ -55,7 +53,7 @@ export default function MonthlyStatsChart({ monthlyStats }: MonthlyStatsChartPro
     }
   });
 
-  const data: ChartData<'bar'> = {
+  const data = {
     labels,
     datasets: [
       {
@@ -78,7 +76,7 @@ export default function MonthlyStatsChart({ monthlyStats }: MonthlyStatsChartPro
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -120,7 +118,7 @@ export default function MonthlyStatsChart({ monthlyStats }: MonthlyStatsChartPro
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 h-[400px]">
-      <Bar ref={chartRef} data={data} options={options} />
+      <Chart type='bar' ref={chartRef} data={data} options={options} />
     </div>
   );
 }

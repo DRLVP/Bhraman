@@ -40,7 +40,7 @@ interface PackageFormProps {
     inclusions: string[];
     exclusions: string[];
     itinerary: ItineraryItem[];
-    featured: boolean;
+    featured?: boolean;
     maxGroupSize: number;
   };
   isEditing?: boolean;
@@ -59,7 +59,7 @@ const packageFormSchema = z.object({
   price: z.number().min(0, { message: 'Price must be a positive number' }),
   discountedPrice: z.number().optional(),
   maxGroupSize: z.number().min(1, { message: 'Group size must be at least 1' }),
-  featured: z.boolean().default(false),
+  featured: z.boolean().optional().default(false),
   images: z.array(z.string()).min(1, { message: 'At least one image is required' }),
   inclusions: z.array(z.string()),
   exclusions: z.array(z.string()),
@@ -73,7 +73,23 @@ const packageFormSchema = z.object({
   ).min(1, { message: 'At least one itinerary item is required' }),
 });
 
-type PackageFormValues = z.infer<typeof packageFormSchema>;
+// Define the form values type explicitly to match the schema
+interface PackageFormValues {
+  title: string;
+  slug: string;
+  description: string;
+  shortDescription: string;
+  duration: number;
+  location: string;
+  price: number;
+  discountedPrice?: number;
+  maxGroupSize: number;
+  featured?: boolean;
+  images: string[];
+  inclusions: string[];
+  exclusions: string[];
+  itinerary: ItineraryItem[];
+}
 
 /**
  * PackageForm component for creating and editing travel packages
