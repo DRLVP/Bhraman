@@ -39,9 +39,9 @@ interface AdminState {
   resetError: () => void;
 }
 
-export const useAdminStore = create<AdminState>(
-  devtools(
-    persist(
+export const useAdminStore = create<AdminState>()(  
+  persist(
+    devtools(
       (set) => ({
         // Initial state
         stats: {
@@ -89,13 +89,16 @@ export const useAdminStore = create<AdminState>(
       }),
       {
         name: 'admin-store',
-        // Only persist specific parts of the state
-        partialize: (state) => ({
-          stats: state.stats,
-          recentBookings: state.recentBookings,
-          monthlyStats: state.monthlyStats,
-        }),
       },
     ),
+    {
+      name: 'admin-store',
+      // Only persist specific parts of the state
+      partialize: (state) => ({
+        stats: state.stats,
+        recentBookings: state.recentBookings,
+        monthlyStats: state.monthlyStats,
+      } as unknown as AdminState),
+    },
   ),
 );

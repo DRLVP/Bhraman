@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Calendar, Users } from 'lucide-react';
@@ -41,7 +41,17 @@ const mockBookingData = {
   customerPhone: '+91 9876543210',
 };
 
-export default function BookingSuccessPage() {
+// Loading component for Suspense fallback
+function BookingSuccessLoading() {
+  return (
+    <div className="flex justify-center items-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+  );
+}
+
+// Main booking success content component
+function BookingSuccessContent() {
   const searchParams = useSearchParams();
   const [bookingData, setBookingData] = useState<BookingSuccessData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -230,5 +240,14 @@ export default function BookingSuccessPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// Main page component wrapped with Suspense
+export default function BookingSuccessPage() {
+  return (
+    <Suspense fallback={<BookingSuccessLoading />}>
+      <BookingSuccessContent />
+    </Suspense>
   );
 }

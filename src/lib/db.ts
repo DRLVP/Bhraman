@@ -12,7 +12,7 @@ if (!MONGODB_URI) {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached: {
+const cached: {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
   isConnecting: boolean;
@@ -26,15 +26,8 @@ let cached: {
   lastErrorTime: null,
 };
 
-if (!cached) {
-  cached = (global as { mongoose?: typeof cached }).mongoose = {
-    conn: null,
-    promise: null,
-    isConnecting: false,
-    connectionAttempts: 0,
-    lastErrorTime: null,
-  };
-}
+// Ensure mongoose is set in the global object
+(global as { mongoose?: typeof cached }).mongoose = cached;
 
 /**
  * Connect to MongoDB with improved error handling and connection management

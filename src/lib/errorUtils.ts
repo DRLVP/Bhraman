@@ -21,7 +21,7 @@ export function isError(error: unknown): error is Error {
 export function getErrorMessage(error: unknown): string {
   if (isAxiosError(error)) {
     // Handle Axios errors
-    return error.response?.data?.message || error.message || 'An error occurred with the request';
+    return (error.response?.data as { message?: string })?.message || error.message || 'An error occurred with the request';
   } else if (isApiError(error)) {
     // Handle API errors
     return `${error.message} (Status: ${error.statusCode})`;
