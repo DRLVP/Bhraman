@@ -87,7 +87,7 @@ export default function SignUpPage() {
         lastName,
         emailAddress: email,
         phoneNumber: phone,
-        password
+        password,
       });
 
       // Send email verification code
@@ -111,6 +111,8 @@ export default function SignUpPage() {
     e.preventDefault();
     setError('');
     setVerifying(true);
+
+    if (!signUp) return;
 
     try {
       // Attempt to verify the email code
