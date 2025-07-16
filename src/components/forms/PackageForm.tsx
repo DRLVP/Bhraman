@@ -157,7 +157,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
         form.setValue('images', newImages);
       }
     } catch (err) {
-      setError(err);
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -265,7 +265,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
         handleItineraryChange(index, 'image', result.secure_url);
       }
     } catch (err) {
-      setError(`Failed to upload itinerary image:: ${err}`);
+      setError(`Failed to upload itinerary image: ${err instanceof Error ? err.message : 'An unknown error occurred'}`);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -317,7 +317,7 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
       const errorMessage = 
         axios.isAxiosError(err) && err.response?.data?.message
           ? err.response.data.message
-          : 'An error occurred while saving';
+          : err instanceof Error ? err.message : 'An error occurred while saving';
       
       setError(errorMessage);
       
@@ -348,7 +348,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="text"
               id="title"
-              name="title"
               required
               {...form.register('title')}
               onChange={handleTitleChange}
@@ -363,7 +362,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="text"
               id="slug"
-              name="slug"
               required
               {...form.register('slug')}
               className="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"
@@ -377,7 +375,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="text"
               id="location"
-              name="location"
               required
               {...form.register('location')}
               className="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"
@@ -391,7 +388,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="number"
               id="duration"
-              name="duration"
               required
               min={1}
               {...form.register('duration', { valueAsNumber: true })}
@@ -406,7 +402,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="number"
               id="price"
-              name="price"
               required
               min={0}
               {...form.register('price', { valueAsNumber: true })}
@@ -421,7 +416,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="number"
               id="discountedPrice"
-              name="discountedPrice"
               min={0}
               {...form.register('discountedPrice', { valueAsNumber: true })}
               className="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary"
@@ -435,7 +429,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="number"
               id="maxGroupSize"
-              name="maxGroupSize"
               required
               min={1}
               {...form.register('maxGroupSize', { valueAsNumber: true })}
@@ -447,7 +440,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
             <input
               type="checkbox"
               id="featured"
-              name="featured"
               {...form.register('featured')}
               className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
             />
@@ -463,7 +455,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
           </label>
           <textarea
             id="shortDescription"
-            name="shortDescription"
             required
             rows={2}
             {...form.register('shortDescription')}
@@ -477,7 +468,6 @@ const PackageForm = ({ initialData, isEditing = false }: PackageFormProps = {}) 
           </label>
           <textarea
             id="description"
-            name="description"
             required
             rows={6}
             {...form.register('description')}

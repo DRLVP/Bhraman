@@ -172,32 +172,47 @@ export function useAdminHomeConfig(): UseAdminHomeConfigReturn {
 
   // Section-specific update functions
   const updateSiteSettings = useCallback(async (siteSettingsData: Partial<SiteSettings>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ siteSettings: siteSettingsData });
-  }, [updateHomeConfig]);
+    // Ensure we're not replacing the entire siteSettings object with a partial one
+    return updateHomeConfig({ 
+      siteSettings: homeConfig ? { ...homeConfig.siteSettings, ...siteSettingsData } : siteSettingsData as SiteSettings, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateHeroSection = useCallback(async (heroData: Partial<HeroSection>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ heroSection: heroData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      heroSection: homeConfig ? { ...homeConfig.heroSection, ...heroData } : heroData as HeroSection, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateFeaturedPackagesSection = useCallback(async (featuredData: Partial<FeaturedPackagesSection>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ featuredPackagesSection: featuredData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      featuredPackagesSection: homeConfig ? { ...homeConfig.featuredPackagesSection, ...featuredData } : featuredData as FeaturedPackagesSection, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateTestimonialsSection = useCallback(async (testimonialsData: Partial<TestimonialsSection>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ testimonialsSection: testimonialsData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      testimonialsSection: homeConfig ? { ...homeConfig.testimonialsSection, ...testimonialsData } : testimonialsData as TestimonialsSection, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateAboutSection = useCallback(async (aboutData: Partial<AboutSection>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ aboutSection: aboutData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      aboutSection: homeConfig ? { ...homeConfig.aboutSection, ...aboutData } : aboutData as AboutSection, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateContactSection = useCallback(async (contactData: Partial<ContactSection>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ contactSection: contactData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      contactSection: homeConfig ? { ...homeConfig.contactSection, ...contactData } : contactData as ContactSection, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   const updateSEO = useCallback(async (seoData: Partial<SEO>): Promise<HomeConfig | null> => {
-    return updateHomeConfig({ seo: seoData });
-  }, [updateHomeConfig]);
+    return updateHomeConfig({ 
+      seo: homeConfig ? { ...homeConfig.seo, ...seoData } : seoData as SEO, 
+    });
+  }, [updateHomeConfig, homeConfig]);
 
   // Testimonial-specific functions
   const addTestimonial = useCallback(async (testimonial: Omit<Testimonial, 'id'>): Promise<HomeConfig | null> => {

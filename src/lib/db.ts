@@ -18,7 +18,13 @@ let cached: {
   isConnecting: boolean;
   connectionAttempts: number;
   lastErrorTime: number | null;
-} = (global as { mongoose?: typeof cached }).mongoose;
+} = (global as { mongoose?: typeof cached }).mongoose || {
+  conn: null,
+  promise: null,
+  isConnecting: false,
+  connectionAttempts: 0,
+  lastErrorTime: null,
+};
 
 if (!cached) {
   cached = (global as { mongoose?: typeof cached }).mongoose = {
