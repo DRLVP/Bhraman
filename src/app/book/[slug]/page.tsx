@@ -124,7 +124,7 @@ export default function BookPackagePage({ params }: { params: Promise<{ slug: st
             packageId={packageInfo._id ? packageInfo._id.toString() : ''} 
             packageName={packageInfo.title}
             price={packageInfo.price}
-            discountedPrice={packageInfo.discountedPrice}
+            discountedPrice={packageInfo.discountedPrice || undefined}
             maxGroupSize={packageInfo.maxGroupSize}
           />
         </div>

@@ -87,8 +87,7 @@ export default function SignUpPage() {
         lastName,
         emailAddress: email,
         phoneNumber: phone,
-        password,
-        captchaToken: true, // Enable smart captcha verification
+        password
       });
 
       // Send email verification code

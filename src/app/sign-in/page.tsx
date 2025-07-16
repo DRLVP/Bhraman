@@ -23,7 +23,7 @@ export default function SignInPage() {
   const [redirectUrl, setRedirectUrl] = useState('');
   
   // Captcha reference
-  const [setCaptchaRef] = useState<HTMLDivElement | null>(null);
+  const captchaRef = React.useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Get the redirect URL from the query parameters
@@ -103,7 +103,7 @@ export default function SignInPage() {
               {/* Clerk Captcha Element */}
               <div 
                 id="clerk-captcha" 
-                ref={setCaptchaRef} 
+                ref={captchaRef} 
                 className="mt-4"
                 data-cl-theme="auto"
                 data-cl-size="normal"

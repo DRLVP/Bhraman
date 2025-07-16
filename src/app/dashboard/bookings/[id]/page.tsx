@@ -308,7 +308,7 @@ export default function BookingDetailsPage({ params }: { params: Promise<{ id: s
                 <div>
                   <p className="text-sm font-medium text-gray-500">Payment Status</p>
                   <p className="mt-1">
-                    <Badge variant={booking.paymentStatus === 'completed' ? 'success' : booking.paymentStatus === 'pending' ? 'outline' : 'destructive'} className="ml-2">
+                    <Badge variant={booking.paymentStatus === 'completed' ? 'default' : booking.paymentStatus === 'pending' ? 'outline' : 'destructive'} className="ml-2">
                       {booking.paymentStatus.charAt(0).toUpperCase() + booking.paymentStatus.slice(1)}
                     </Badge>
                   </p>
