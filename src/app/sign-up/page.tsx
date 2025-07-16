@@ -112,7 +112,9 @@ export default function SignUpPage() {
     setError('');
     setVerifying(true);
 
-    if (!signUp) return;
+    if (!signUp) {
+      return;
+    };
 
     try {
       // Attempt to verify the email code
