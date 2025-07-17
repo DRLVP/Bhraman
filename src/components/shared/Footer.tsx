@@ -7,7 +7,7 @@ import { useHomeConfig } from '@/hooks/useHomeConfig';
  */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { homeConfig, isLoading } = useHomeConfig();
+  const { homeConfig } = useHomeConfig();
   
   // Function to render the appropriate icon based on platform name
   const renderSocialIcon = (iconName: string) => {
