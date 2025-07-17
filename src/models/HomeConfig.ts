@@ -71,10 +71,20 @@ interface ISEO {
 }
 
 /**
+ * Social Media Link interface
+ */
+interface ISocialMediaLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+/**
  * Site settings interface
  */
 interface ISiteSettings {
   logo: string;
+  socialMediaLinks?: ISocialMediaLink[];
 }
 
 /**
@@ -102,6 +112,22 @@ const HomeConfigSchema = new Schema<IHomeConfig>(
         type: String,
         default: '',
       },
+      socialMediaLinks: [
+        {
+          platform: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
+          icon: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
     },
     heroSection: {
       heading: {

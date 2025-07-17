@@ -6,9 +6,17 @@ import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import { getErrorMessage } from '@/lib/errorUtils';
 
+// Social Media Link interface
+interface SocialMediaLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
 // Site settings interface
 interface SiteSettings {
   logo: string;
+  socialMediaLinks?: SocialMediaLink[];
 }
 
 // Hero section interface

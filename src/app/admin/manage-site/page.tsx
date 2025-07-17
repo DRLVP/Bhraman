@@ -30,6 +30,11 @@ export default function ManageSitePage() {
   // State for each section
   const [siteSettings, setSiteSettings] = useState({
     logo: '',
+    socialMediaLinks: [] as Array<{
+      platform: string;
+      url: string;
+      icon: string;
+    }>,
   });
 
   const [heroSection, setHeroSection] = useState({
@@ -167,6 +172,7 @@ export default function ManageSitePage() {
       <Tabs defaultValue="siteSettings">
         <TabsList className="mb-6 flex flex-wrap">
           <TabsTrigger value="siteSettings">Site Settings</TabsTrigger>
+          <TabsTrigger value="socialMediaLinks">Social Media Links</TabsTrigger>
           <TabsTrigger value="heroSection">Hero Section</TabsTrigger>
           <TabsTrigger value="featuredPackagesSection">Featured Packages</TabsTrigger>
           <TabsTrigger value="aboutSection">About Section</TabsTrigger>
@@ -193,6 +199,99 @@ export default function ManageSitePage() {
                 </div>
                 
                 <Button onClick={() => handleSave('siteSettings')}>Save Settings</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Social Media Links */}
+        <TabsContent value="socialMediaLinks">
+          <Card>
+            <CardHeader>
+              <CardTitle>Social Media Links</CardTitle>
+              <CardDescription>Configure social media links for your website</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  {siteSettings.socialMediaLinks.map((link, index) => (
+                    <div key={index} className="flex items-center space-x-4 p-4 border rounded-md">
+                      <div className="flex-1">
+                        <div className="mb-2">
+                          <label className="block text-sm font-medium mb-1">Platform</label>
+                          <Input
+                            value={link.platform}
+                            onChange={(e) => {
+                              const updatedLinks = [...siteSettings.socialMediaLinks];
+                              updatedLinks[index].platform = e.target.value;
+                              setSiteSettings({ ...siteSettings, socialMediaLinks: updatedLinks });
+                            }}
+                            placeholder="e.g. Facebook, Twitter, Instagram"
+                          />
+                        </div>
+                        <div className="mb-2">
+                          <label className="block text-sm font-medium mb-1">URL</label>
+                          <Input
+                            value={link.url}
+                            onChange={(e) => {
+                              const updatedLinks = [...siteSettings.socialMediaLinks];
+                              updatedLinks[index].url = e.target.value;
+                              setSiteSettings({ ...siteSettings, socialMediaLinks: updatedLinks });
+                            }}
+                            placeholder="https://"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Icon</label>
+                          <select
+                            className="w-full p-2 border rounded-md"
+                            value={link.icon}
+                            onChange={(e) => {
+                              const updatedLinks = [...siteSettings.socialMediaLinks];
+                              updatedLinks[index].icon = e.target.value;
+                              setSiteSettings({ ...siteSettings, socialMediaLinks: updatedLinks });
+                            }}
+                          >
+                            <option value="">Select an icon</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Twitter">Twitter</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                          </select>
+                        </div>
+                      </div>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => {
+                          const updatedLinks = [...siteSettings.socialMediaLinks];
+                          updatedLinks.splice(index, 1);
+                          setSiteSettings({ ...siteSettings, socialMediaLinks: updatedLinks });
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSiteSettings({
+                      ...siteSettings,
+                      socialMediaLinks: [
+                        ...siteSettings.socialMediaLinks,
+                        { platform: '', url: '', icon: '' }
+                      ]
+                    });
+                  }}
+                >
+                  Add Social Media Link
+                </Button>
+                
+                <Button onClick={() => handleSave('siteSettings')}>Save Social Media Links</Button>
               </div>
             </CardContent>
           </Card>

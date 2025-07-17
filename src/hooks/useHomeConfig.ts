@@ -5,8 +5,15 @@ import axios from 'axios';
 import { getErrorMessage } from '@/lib/errorUtils';
 
 // Define interfaces for the home config sections
+interface SocialMediaLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
 interface SiteSettings {
   logo: string;
+  socialMediaLinks?: SocialMediaLink[];
 }
 
 interface HeroSection {

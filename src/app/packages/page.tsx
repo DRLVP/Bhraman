@@ -75,7 +75,7 @@ export default function PackagesPage() {
               />
             </div>
             <Button 
-              className="md:w-auto"
+              className="md:w-auto cursor-pointer"
               onClick={() => fetchPackages()}
             >
               Search
@@ -86,7 +86,7 @@ export default function PackagesPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
               <select 
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer"
                 value={filters.duration || 'Any Duration'}
                 onChange={(e) => handleFilterChange('duration', e.target.value)}
               >
@@ -98,7 +98,7 @@ export default function PackagesPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
               <select 
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer"
                 value={filters.priceRange || 'Any Price'}
                 onChange={(e) => handleFilterChange('priceRange', e.target.value)}
               >
@@ -115,6 +115,7 @@ export default function PackagesPage() {
               variant="outline" 
               size="sm" 
               onClick={resetFilters}
+              className="cursor-pointer"
             >
               Reset Filters
             </Button>
@@ -205,12 +206,12 @@ export default function PackagesPage() {
                   
                   <div className="flex gap-3">
                     <Link href={`/packages/${pkg.slug}`} className="flex-1">
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full cursor-pointer">
                         View Details
                       </Button>
                     </Link>
                     <Link href={`/book/${pkg.slug}`} className="flex-1">
-                      <Button className="w-full">
+                      <Button className="w-full cursor-pointer">
                         Book Now
                       </Button>
                     </Link>
@@ -228,7 +229,7 @@ export default function PackagesPage() {
               <button 
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Previous
               </button>
@@ -251,7 +252,7 @@ export default function PackagesPage() {
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`px-3 py-2 border ${currentPage === pageNum ? 'border-primary bg-primary-50 text-primary' : 'border-gray-300 bg-white text-gray-500'} text-sm font-medium hover:bg-gray-50`}
+                    className={`px-3 py-2 border ${currentPage === pageNum ? 'border-primary bg-primary-50 text-primary' : 'border-gray-300 bg-white text-gray-500'} text-sm font-medium hover:bg-gray-50 cursor-pointer`}
                   >
                     {pageNum}
                   </button>
@@ -261,7 +262,7 @@ export default function PackagesPage() {
               <button 
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Next
               </button>

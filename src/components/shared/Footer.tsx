@@ -1,16 +1,36 @@
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube, Linkedin } from 'lucide-react';
+import { useHomeConfig } from '@/hooks/useHomeConfig';
 
 /**
  * Footer component
  */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { homeConfig, isLoading } = useHomeConfig();
+  
+  // Function to render the appropriate icon based on platform name
+  const renderSocialIcon = (iconName: string) => {
+    switch (iconName.toLowerCase()) {
+      case 'facebook':
+        return <Facebook size={20} />;
+      case 'instagram':
+        return <Instagram size={20} />;
+      case 'twitter':
+        return <Twitter size={20} />;
+      case 'youtube':
+        return <Youtube size={20} />;
+      case 'linkedin':
+        return <Linkedin size={20} />;
+      default:
+        return <Facebook size={20} />;
+    }
+  };
 
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Brand and description */}
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="text-2xl font-bold mb-4 block">
@@ -20,30 +40,49 @@ const Footer = () => {
               Discover the beauty of North East India with our curated travel experiences.
             </p>
             <div className="flex space-x-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Twitter size={20} />
-              </a>
+              {homeConfig?.siteSettings?.socialMediaLinks && homeConfig.siteSettings.socialMediaLinks.length > 0 ? (
+                // Render dynamic social media links
+                homeConfig.siteSettings.socialMediaLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors"
+                    aria-label={link.platform}
+                  >
+                    {renderSocialIcon(link.icon)}
+                  </a>
+                ))
+              ) : (
+                // Fallback to default social media links if none are configured
+                <>
+                  <a
+                    href="https://facebook.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    <Facebook size={20} />
+                  </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    <Instagram size={20} />
+                  </a>
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    <Twitter size={20} />
+                  </a>
+                </>
+              )}
             </div>
           </div>
 
@@ -69,33 +108,6 @@ const Footer = () => {
               <li>
                 <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
                   Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Popular destinations */}
-          <div className="col-span-1">
-            <h3 className="text-lg font-semibold mb-4">Popular Destinations</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/packages?location=sikkim" className="text-gray-400 hover:text-white transition-colors">
-                  Sikkim
-                </Link>
-              </li>
-              <li>
-                <Link href="/packages?location=assam" className="text-gray-400 hover:text-white transition-colors">
-                  Assam
-                </Link>
-              </li>
-              <li>
-                <Link href="/packages?location=meghalaya" className="text-gray-400 hover:text-white transition-colors">
-                  Meghalaya
-                </Link>
-              </li>
-              <li>
-                <Link href="/packages?location=arunachal-pradesh" className="text-gray-400 hover:text-white transition-colors">
-                  Arunachal Pradesh
                 </Link>
               </li>
             </ul>

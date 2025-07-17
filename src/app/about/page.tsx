@@ -1,9 +1,12 @@
+"use client";
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 
 
 export default function AboutPage() {
+  const router = useRouter();
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Hero Section */}
@@ -192,10 +195,10 @@ export default function AboutPage() {
           Explore our curated travel packages and begin your adventure with Bhraman today. Let us help you create memories that will last a lifetime.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 cursor-pointer" onClick={() => router.push('/packages')}>
             Browse Packages
           </Button>
-          <Button size="lg" variant="outline">
+          <Button size="lg" variant="outline" className="cursor-pointer" onClick={() => router.push('/contact')}>
             Contact Us
           </Button>
         </div>

@@ -62,7 +62,7 @@ function SignInForm() {
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
-          router.push('/dashboard');
+          router.push('/');
         }
       } else {
         setError('Something went wrong. Please try again.');
