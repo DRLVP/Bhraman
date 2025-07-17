@@ -171,7 +171,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Sidebar for desktop */}
         <aside className="hidden md:flex md:flex-col md:w-64 bg-white border-r border-gray-200 shadow-sm">
           <div className="p-4 border-b border-gray-200">
-            <h1 className="text-xl font-bold text-primary">Bhraman Admin</h1>
+            <h1 className="text-xl font-bold text-primary">Budh Bhraman Admin</h1>
           </div>
           <nav className="flex-1 overflow-y-auto p-4 space-y-2">
             <SidebarItem
