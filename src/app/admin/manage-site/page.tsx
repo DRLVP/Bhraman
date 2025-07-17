@@ -48,6 +48,7 @@ export default function ManageSitePage() {
   const [featuredPackagesSection, setFeaturedPackagesSection] = useState({
     heading: '',
     subheading: '',
+    packageIds: [] as string[],
   });
 
   const [aboutSection, setAboutSection] = useState({
@@ -78,12 +79,40 @@ export default function ManageSitePage() {
 
   useEffect(() => {
     if (homeConfig) {
-      setSiteSettings(homeConfig.siteSettings);
-      setHeroSection(homeConfig.heroSection);
-      setFeaturedPackagesSection(homeConfig.featuredPackagesSection);
-      setAboutSection(homeConfig.aboutSection);
-      setContactSection(homeConfig.contactSection);
-      setSeo(homeConfig.seo);
+      setSiteSettings({
+        logo: homeConfig.siteSettings.logo || '',
+        socialMediaLinks: homeConfig.siteSettings.socialMediaLinks || [],
+      });
+      setHeroSection({
+        heading: homeConfig.heroSection.heading || '',
+        subheading: homeConfig.heroSection.subheading || '',
+        backgroundImage: homeConfig.heroSection.backgroundImage || '',
+        ctaText: homeConfig.heroSection.ctaText || '',
+        ctaLink: homeConfig.heroSection.ctaLink || '',
+      });
+      setFeaturedPackagesSection({
+        heading: homeConfig.featuredPackagesSection.heading || '',
+        subheading: homeConfig.featuredPackagesSection.subheading || '',
+        packageIds: homeConfig.featuredPackagesSection.packageIds || [],
+      });
+      setAboutSection({
+        heading: homeConfig.aboutSection.heading || '',
+        content: homeConfig.aboutSection.content || '',
+        image: homeConfig.aboutSection.image || '',
+      });
+      setContactSection({
+        heading: homeConfig.contactSection.heading || '',
+        subheading: homeConfig.contactSection.subheading || '',
+        email: homeConfig.contactSection.email || '',
+        phone: homeConfig.contactSection.phone || '',
+        address: homeConfig.contactSection.address || '',
+        workingHours: homeConfig.contactSection.workingHours,
+      });
+      setSeo({
+        title: homeConfig.seo.title || '',
+        description: homeConfig.seo.description || '',
+        keywords: homeConfig.seo.keywords || [],
+      });
     }
   }, [homeConfig]);
 
