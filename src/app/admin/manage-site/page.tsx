@@ -283,8 +283,8 @@ export default function ManageSitePage() {
                       ...siteSettings,
                       socialMediaLinks: [
                         ...siteSettings.socialMediaLinks,
-                        { platform: '', url: '', icon: '' }
-                      ]
+                        { platform: '', url: '', icon: '', }
+                      ],
                     });
                   }}
                 >
